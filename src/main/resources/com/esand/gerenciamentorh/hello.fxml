@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<FlowPane prefHeight="641.0" prefWidth="1004.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.HelloController">
+    <children>
+        <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="72.0" prefWidth="1132.0" />
+      <VBox prefHeight="517.0" prefWidth="120.0">
+         <children>
+            <Button id="showCadastrar" mnemonicParsing="false" onAction="#showCadastrar" text="Cadastrar" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
+        <Pane fx:id="contentPane" prefHeight="226.0" prefWidth="308.0">
+        </Pane>
+    </children>
+</FlowPane>

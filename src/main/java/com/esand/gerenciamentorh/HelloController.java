@@ -1,35 +1,40 @@
 package com.esand.gerenciamentorh;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-import java.sql.*;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class HelloController {
+
     @FXML
-    private TextField nomeField;
-    @FXML
-    private TextField sobrenomeField;
-    @FXML
-    private TextField cpfField;
-    @FXML
-    private TextField salarioField;
+    private Pane contentPane;
 
     @FXML
     public void initialize() {
+        assert contentPane != null : "fx:id=\"contentPane\" was not injected: check your FXML file 'hello.fxml'.";
         createTable();
     }
 
     @FXML
-    protected void onSalvarButtonClick() {
-        String nome = nomeField.getText();
-        String sobrenome = sobrenomeField.getText();
-        String cpf = cpfField.getText();
-        double salario = Double.parseDouble(salarioField.getText());
+    public void showCadastrar() {
+        loadFXML("cadastro.fxml");
+    }
 
-        insertFuncionario(nome, sobrenome, cpf, salario);
-        exibirFuncionarios();
+    private void loadFXML(String fxml) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxml));
+            Pane pane = fxmlLoader.load();
+            contentPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void createTable() {
@@ -53,49 +58,6 @@ public class HelloController {
         ) {
             stmt.executeUpdate(createFuncionarioTable);
             stmt.executeUpdate(createBeneficioTable);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void insertFuncionario(String nome, String sobrenome, String cpf, double salario) {
-        String insertFuncionarioQuery =
-                "INSERT INTO funcionario (nome, sobrenome, cpf, salario) VALUES (?, ?, ?, ?)";
-
-        try (Connection conn = DBConnect.connect();
-             PreparedStatement pstmt = conn.prepareStatement(insertFuncionarioQuery)
-        ) {
-            pstmt.setString(1, nome);
-            pstmt.setString(2, sobrenome);
-            pstmt.setString(3, cpf);
-            pstmt.setDouble(4, salario);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void exibirFuncionarios() {
-        String selectFuncionariosQuery = "SELECT * FROM funcionario";
-
-        try (Connection conn = DBConnect.connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(selectFuncionariosQuery)
-        ) {
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String nome = rs.getString("nome");
-                String sobrenome = rs.getString("sobrenome");
-                String cpf = rs.getString("cpf");
-                double salario = rs.getDouble("salario");
-
-                System.out.println("ID: " + id);
-                System.out.println("Nome: " + nome);
-                System.out.println("Sobrenome: " + sobrenome);
-                System.out.println("CPF: " + cpf);
-                System.out.println("Salário: " + salario);
-                System.out.println("------------------------");
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

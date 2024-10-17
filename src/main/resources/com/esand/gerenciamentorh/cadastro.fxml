@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="TOP_CENTER" prefHeight="261.0" prefWidth="295.0" spacing="15.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.CadastroController">
+    <children>
+        <VBox alignment="TOP_CENTER" layoutX="31.0" layoutY="14.0" prefHeight="199.0" prefWidth="221.0" spacing="10.0">
+            <children>
+                <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="68.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="132.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="Nome" />
+                        <TextField fx:id="nomeField" GridPane.columnIndex="1" />
+                        <Label text="Sobrenome" GridPane.rowIndex="1" />
+                        <TextField fx:id="sobrenomeField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Cpf" GridPane.rowIndex="2" />
+                        <TextField fx:id="cpfField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Salário" GridPane.rowIndex="3" />
+                        <TextField fx:id="salarioField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    </children>
+                </GridPane>
+                <Button fx:id="salvarButton" mnemonicParsing="false" onAction="#onSalvarButtonClick" text="Salvar" />
+            </children>
+        </VBox>
+    </children>
+</VBox>
