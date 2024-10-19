@@ -7,9 +7,10 @@
 <FlowPane prefHeight="641.0" prefWidth="1004.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.HelloController">
     <children>
         <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="72.0" prefWidth="1132.0" />
-      <VBox prefHeight="517.0" prefWidth="120.0">
+      <VBox prefHeight="517.0" prefWidth="120.0" spacing="20.0">
          <children>
             <Button id="showCadastrar" mnemonicParsing="false" onAction="#showCadastrar" text="Cadastrar" />
+            <Button id="showVisualizar" layoutX="30.0" layoutY="30.0" mnemonicParsing="false" onAction="#showVisualizar" text="Visualizar" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

@@ -27,6 +27,11 @@ public class HelloController {
         loadFXML("cadastro.fxml");
     }
 
+    @FXML
+    public void showVisualizar() {
+        loadFXML("visualizar.fxml");
+    }
+
     private void loadFXML(String fxml) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxml));

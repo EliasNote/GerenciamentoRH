@@ -19,14 +19,13 @@ public class CadastroController {
     private TextField salarioField;
 
     @FXML
-    protected void onSalvarButtonClick() {
+    protected void salvar() {
         String nome = nomeField.getText();
         String sobrenome = sobrenomeField.getText();
         String cpf = cpfField.getText();
         double salario = Double.parseDouble(salarioField.getText());
 
         insertFuncionario(nome, sobrenome, cpf, salario);
-        exibirFuncionarios();
     }
 
     public void insertFuncionario(String nome, String sobrenome, String cpf, double salario) {
@@ -53,31 +52,5 @@ public class CadastroController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    public void exibirFuncionarios() {
-        String selectFuncionariosQuery = "SELECT * FROM funcionario";
-
-        try (Connection conn = DBConnect.connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(selectFuncionariosQuery)
-        ) {
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String nome = rs.getString("nome");
-                String sobrenome = rs.getString("sobrenome");
-                String cpf = rs.getString("cpf");
-                double salario = rs.getDouble("salario");
-
-                System.out.println("ID: " + id);
-                System.out.println("Nome: " + nome);
-                System.out.println("Sobrenome: " + sobrenome);
-                System.out.println("CPF: " + cpf);
-                System.out.println("Salário: " + salario);
-                System.out.println("------------------------");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }

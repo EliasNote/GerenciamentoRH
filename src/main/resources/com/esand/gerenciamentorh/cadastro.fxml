@@ -30,7 +30,7 @@
                         <TextField fx:id="salarioField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                     </children>
                 </GridPane>
-                <Button fx:id="salvarButton" mnemonicParsing="false" onAction="#onSalvarButtonClick" text="Salvar" />
+                <Button mnemonicParsing="false" onAction="#salvar" text="Salvar" />
             </children>
         </VBox>
     </children>
