@@ -3,9 +3,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="231.0" prefWidth="292.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.VisualizarController">
+<AnchorPane prefHeight="675.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.VisualizarController">
    <children>
-      <Button layoutX="120.0" layoutY="103.0" mnemonicParsing="false" onAction="#exibir" text="Exibir" />
+      <TableView fx:id="tableView" layoutX="13.0" layoutY="145.0" prefHeight="520.0" prefWidth="934.0">
+        <columns>
+            <TableColumn fx:id="idColumn" prefWidth="115.0" text="Registro" />
+           <TableColumn fx:id="nomeColumn" prefWidth="115.0" text="Nome" />
+           <TableColumn fx:id="sobrenomeColumn" prefWidth="153.0" text="Sobrenome" />
+           <TableColumn fx:id="cpfColumn" prefWidth="117.0" text="CPF" />
+           <TableColumn fx:id="salarioColumn" prefWidth="125.0" text="Salário" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

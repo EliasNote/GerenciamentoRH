@@ -1,6 +1,12 @@
 package com.esand.gerenciamentorh;
 
+import com.esand.gerenciamentorh.entity.Funcionario;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,33 +16,50 @@ import java.sql.Statement;
 public class VisualizarController {
 
     @FXML
-    protected void exibir() {
-        exibirFuncionarios();
+    private TableView<Funcionario> tableView;
+    @FXML
+    private TableColumn<Funcionario, Long> idColumn;
+    @FXML
+    private TableColumn<Funcionario, String> nomeColumn;
+    @FXML
+    private TableColumn<Funcionario, String> sobrenomeColumn;
+    @FXML
+    private TableColumn<Funcionario, String> cpfColumn;
+    @FXML
+    private TableColumn<Funcionario, Double> salarioColumn;
+
+    private ObservableList<Funcionario> funcionarios = FXCollections.observableArrayList();
+
+    public void initialize() {
+//        inicializarDados();
     }
 
-    public void exibirFuncionarios() {
-        String selectFuncionariosQuery = "SELECT * FROM funcionario";
-
-        try (Connection conn = DBConnect.connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(selectFuncionariosQuery)
-        ) {
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String nome = rs.getString("nome");
-                String sobrenome = rs.getString("sobrenome");
-                String cpf = rs.getString("cpf");
-                double salario = rs.getDouble("salario");
-
-                System.out.println("ID: " + id);
-                System.out.println("Nome: " + nome);
-                System.out.println("Sobrenome: " + sobrenome);
-                System.out.println("CPF: " + cpf);
-                System.out.println("Salário: " + salario);
-                System.out.println("------------------------");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void inicializarDados() {
+//        String selectFuncionariosQuery = "SELECT * FROM funcionario";
+//
+//        try (Connection conn = DBConnect.connect();
+//             Statement stmt = conn.createStatement();
+//             ResultSet query = stmt.executeQuery(selectFuncionariosQuery)) {
+//            while (query.next()) {
+//                Long id = query.getLong("id");
+//                String nome = query.getString("nome");
+//                String sobrenome = query.getString("sobrenome");
+//                String cpf = query.getString("cpf");
+//                double salario = query.getDouble("salario");
+//
+//                funcionarios.add(new Funcionario(id, nome, sobrenome, cpf, salario));
+//            }
+//
+//            idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+//            nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
+//            sobrenomeColumn.setCellValueFactory(new PropertyValueFactory<>("sobrenome"));
+//            cpfColumn.setCellValueFactory(new PropertyValueFactory<>("cpf"));
+//            salarioColumn.setCellValueFactory(new PropertyValueFactory<>("salario"));
+//
+//            tableView.setItems(funcionarios);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
+

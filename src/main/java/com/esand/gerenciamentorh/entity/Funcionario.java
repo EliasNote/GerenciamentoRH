@@ -8,21 +8,27 @@ public class Funcionario {
     private String nome;
     private String sobrenome;
     private String cpf;
+    private Departamento departamento;
     private Double salario;
     private List<Beneficio> beneficios = new ArrayList<>();
-    private List<Double> avaliacoes;
 
     public Funcionario() {
     }
 
-    public Funcionario(Long id, String nome, String sobrenome, String cpf, Double salario, List<Beneficio> beneficios, List<Double> avaliacoes) {
+    public enum Departamento {
+        RH,
+        PRODUCAO,
+        GERENCIA
+    }
+
+    public Funcionario(Long id, String nome, String sobrenome, Departamento departamento, String cpf, Double salario, List<Beneficio> beneficios) {
         this.id = id;
         this.nome = nome;
         this.sobrenome = sobrenome;
+        this.departamento = departamento;
         this.cpf = cpf;
         this.salario = salario;
         this.beneficios = beneficios;
-        this.avaliacoes = avaliacoes;
     }
 
     public Long getId() {
@@ -49,6 +55,14 @@ public class Funcionario {
         this.sobrenome = sobrenome;
     }
 
+    public Departamento getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
+    }
+
     public String getCpf() {
         return cpf;
     }
@@ -71,13 +85,5 @@ public class Funcionario {
 
     public void setBeneficios(List<Beneficio> beneficios) {
         this.beneficios = beneficios;
-    }
-
-    public List<Double> getAvaliacoes() {
-        return avaliacoes;
-    }
-
-    public void setAvaliacoes(List<Double> avaliacoes) {
-        this.avaliacoes = avaliacoes;
     }
 }
