@@ -1,17 +1,11 @@
 package com.esand.gerenciamentorh;
 
-import com.esand.gerenciamentorh.entity.Funcionario;
+import com.esand.gerenciamentorh.entidades.Funcionario;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class VisualizarController {
 

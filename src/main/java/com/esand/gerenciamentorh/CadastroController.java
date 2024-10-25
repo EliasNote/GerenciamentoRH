@@ -31,7 +31,7 @@ public class CadastroController {
     public void insertFuncionario(String nome, String sobrenome, String cpf, double salario) {
         String insertFuncionarioQuery = "INSERT INTO funcionario (nome, sobrenome, cpf, salario) VALUES (?, ?, ?, ?)";
 
-        try (Connection conn = DBConnect.connect();
+        try (Connection conn = DataBaseManager.connect();
              PreparedStatement pstmt = conn.prepareStatement(insertFuncionarioQuery)) {
             pstmt.setString(1, nome);
             pstmt.setString(2, sobrenome);
