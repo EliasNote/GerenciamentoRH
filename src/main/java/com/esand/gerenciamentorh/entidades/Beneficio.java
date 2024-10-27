@@ -1,10 +1,22 @@
-package com.esand.gerenciamentorh.entity;
+package com.esand.gerenciamentorh.entidades;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Beneficio {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String tipo;
     private String descricao;
     private Double valor;
+
+    @ManyToOne
+    @JoinColumn(name = "funcionario_id")
+    private Funcionario funcionario;
+
+    public Beneficio() {
+    }
 
     public Beneficio(Long id, String tipo, String descricao, Double valor) {
         this.id = id;
@@ -43,5 +55,13 @@ public class Beneficio {
 
     public void setValor(Double valor) {
         this.valor = valor;
+    }
+
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
     }
 }

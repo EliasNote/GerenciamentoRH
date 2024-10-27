@@ -1,4 +1,4 @@
-package com.esand.gerenciamentorh.entity;
+package com.esand.gerenciamentorh.entidades;
 
 public class Avaliacao {
     private Double pontuacao;

@@ -1,15 +1,22 @@
-package com.esand.gerenciamentorh.entity;
+package com.esand.gerenciamentorh.entidades;
+
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Funcionario {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String sobrenome;
     private String cpf;
+    @Enumerated(EnumType.STRING)
     private Departamento departamento;
     private Double salario;
+    @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Beneficio> beneficios = new ArrayList<>();
 
     public Funcionario() {
@@ -21,12 +28,12 @@ public class Funcionario {
         GERENCIA
     }
 
-    public Funcionario(Long id, String nome, String sobrenome, Departamento departamento, String cpf, Double salario, List<Beneficio> beneficios) {
+    public Funcionario(Long id, String nome, String sobrenome, String cpf, Departamento departamento, Double salario, List<Beneficio> beneficios) {
         this.id = id;
         this.nome = nome;
         this.sobrenome = sobrenome;
-        this.departamento = departamento;
         this.cpf = cpf;
+        this.departamento = departamento;
         this.salario = salario;
         this.beneficios = beneficios;
     }

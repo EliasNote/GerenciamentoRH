@@ -1,17 +1,16 @@
 package com.esand.gerenciamentorh;
 
-import com.esand.gerenciamentorh.entity.Funcionario;
+import com.esand.gerenciamentorh.database.DataBase;
+import com.esand.gerenciamentorh.entidades.Funcionario;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class VisualizarController {
 
@@ -31,35 +30,39 @@ public class VisualizarController {
     private ObservableList<Funcionario> funcionarios = FXCollections.observableArrayList();
 
     public void initialize() {
-//        inicializarDados();
+        inicializarDados();
     }
 
-//    public void inicializarDados() {
-//        String selectFuncionariosQuery = "SELECT * FROM funcionario";
-//
-//        try (Connection conn = DBConnect.connect();
-//             Statement stmt = conn.createStatement();
-//             ResultSet query = stmt.executeQuery(selectFuncionariosQuery)) {
-//            while (query.next()) {
-//                Long id = query.getLong("id");
-//                String nome = query.getString("nome");
-//                String sobrenome = query.getString("sobrenome");
-//                String cpf = query.getString("cpf");
-//                double salario = query.getDouble("salario");
-//
-//                funcionarios.add(new Funcionario(id, nome, sobrenome, cpf, salario));
-//            }
-//
-//            idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-//            nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
-//            sobrenomeColumn.setCellValueFactory(new PropertyValueFactory<>("sobrenome"));
-//            cpfColumn.setCellValueFactory(new PropertyValueFactory<>("cpf"));
-//            salarioColumn.setCellValueFactory(new PropertyValueFactory<>("salario"));
-//
-//            tableView.setItems(funcionarios);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-}
+    public void inicializarDados() {
+        EntityManager em = DataBase.getEntityManager();
 
+        try {
+            // Usar uma consulta JPQL para buscar todos os funcionários
+            TypedQuery<Funcionario> query = em.createQuery("SELECT f FROM Funcionario f", Funcionario.class);
+            funcionarios.addAll(query.getResultList());
+
+            // Configurar as colunas da tabela
+            idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+            nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
+            sobrenomeColumn.setCellValueFactory(new PropertyValueFactory<>("sobrenome"));
+            cpfColumn.setCellValueFactory(new PropertyValueFactory<>("cpf"));
+            salarioColumn.setCellValueFactory(new PropertyValueFactory<>("salario"));
+
+            // Definir os itens da tabela
+            tableView.setItems(funcionarios);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorMessage("Erro ao carregar dados", "Ocorreu um erro ao carregar os funcionários: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+
+    private void showErrorMessage(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+}

@@ -1,11 +1,15 @@
 package com.esand.gerenciamentorh;
 
+import com.esand.gerenciamentorh.database.DataBase;
+import com.esand.gerenciamentorh.entidades.Funcionario;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 
-import java.sql.*;
+import static com.esand.gerenciamentorh.Utils.showErrorMessage;
 
 public class CadastroController {
 
@@ -29,28 +33,36 @@ public class CadastroController {
     }
 
     public void insertFuncionario(String nome, String sobrenome, String cpf, double salario) {
-        String insertFuncionarioQuery = "INSERT INTO funcionario (nome, sobrenome, cpf, salario) VALUES (?, ?, ?, ?)";
+        Funcionario funcionario = new Funcionario(
+                null,
+                nome,
+                sobrenome,
+                cpf,
+                Funcionario.Departamento.PRODUCAO,
+                salario,
+                null
+        );
 
-        try (Connection conn = DBConnect.connect();
-             PreparedStatement pstmt = conn.prepareStatement(insertFuncionarioQuery)) {
-            pstmt.setString(1, nome);
-            pstmt.setString(2, sobrenome);
-            pstmt.setString(3, cpf);
-            pstmt.setDouble(4, salario);
-            pstmt.executeUpdate();
-        } catch (JdbcSQLIntegrityConstraintViolationException e) {
-            showErrorMessage("Erro de Integridade", "O CPF " + cpf + " já está cadastrado.");
-        } catch (SQLException e) {
-            showErrorMessage("Erro SQL", "Ocorreu um erro ao inserir o funcionário: " + e.getMessage());
+        EntityManager em = DataBase.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+
+        try {
+            transaction.begin();
+            em.persist(funcionario);
+            transaction.commit();
+//            showSuccessMessage("Funcionário cadastrado com sucesso!");
+        } catch (PersistenceException e) {
+            if (e.getCause() instanceof PersistenceException) {
+                showErrorMessage("Erro de Integridade " + " O CPF " + cpf + " já está cadastrado.");
+            } else {
+                showErrorMessage("Erro ao Inserir " + " Ocorreu um erro ao inserir o funcionário: " + e.getMessage());
+            }
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
             e.printStackTrace();
+        } finally {
+            em.close();
         }
-    }
-
-    private void showErrorMessage(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

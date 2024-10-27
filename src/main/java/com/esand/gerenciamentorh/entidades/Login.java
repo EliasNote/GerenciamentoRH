@@ -1,9 +1,17 @@
-package com.esand.gerenciamentorh.entity;
+package com.esand.gerenciamentorh.entidades;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Login {
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String cpf;
     private String senha;
+
+    public Login() {
+    }
 
     public Login(long id, String cpf, String senha) {
         this.id = id;
@@ -33,5 +41,14 @@ public class Login {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    @Override
+    public String toString() {
+        return "Login{" +
+                "id=" + id +
+                ", cpf='" + cpf + '\'' +
+                ", senha='" + senha + '\'' +
+                '}';
     }
 }
