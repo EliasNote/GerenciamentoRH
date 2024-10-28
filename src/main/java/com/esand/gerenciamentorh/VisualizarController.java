@@ -37,18 +37,15 @@ public class VisualizarController {
         EntityManager em = DataBase.getEntityManager();
 
         try {
-            // Usar uma consulta JPQL para buscar todos os funcionários
             TypedQuery<Funcionario> query = em.createQuery("SELECT f FROM Funcionario f", Funcionario.class);
             funcionarios.addAll(query.getResultList());
 
-            // Configurar as colunas da tabela
             idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
             nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
             sobrenomeColumn.setCellValueFactory(new PropertyValueFactory<>("sobrenome"));
             cpfColumn.setCellValueFactory(new PropertyValueFactory<>("cpf"));
             salarioColumn.setCellValueFactory(new PropertyValueFactory<>("salario"));
 
-            // Definir os itens da tabela
             tableView.setItems(funcionarios);
         } catch (Exception e) {
             e.printStackTrace();

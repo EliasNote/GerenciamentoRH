@@ -13,6 +13,8 @@ import java.io.IOException;
 
 public class Utils {
 
+    private static final String PATH = "/com/esand/gerenciamentorh/";
+
     public static void showErrorMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("ERRO");
@@ -23,7 +25,7 @@ public class Utils {
 
     public static void loadChildrenFXML(Pane contentPane, String fxml) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Utils.class.getResource("/" + fxml));
+            FXMLLoader fxmlLoader = new FXMLLoader(Utils.class.getResource(PATH + fxml));
             Pane pane = fxmlLoader.load();
             contentPane.getChildren().setAll(pane);
         } catch (IOException e) {
@@ -33,7 +35,7 @@ public class Utils {
 
     public static void loadFXML(String fxml, TextField textField) {
         try {
-            FXMLLoader loader = new FXMLLoader(Utils.class.getResource("/com/esand/gerenciamentorh/" + fxml));
+            FXMLLoader loader = new FXMLLoader(Utils.class.getResource(PATH + fxml));
 
             Parent root = loader.load();
 
