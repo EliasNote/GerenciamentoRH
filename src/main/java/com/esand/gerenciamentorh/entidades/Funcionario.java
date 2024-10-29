@@ -16,7 +16,7 @@ public class Funcionario {
     @Enumerated(EnumType.STRING)
     private Departamento departamento;
     private Double salario;
-    @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "funcionario")
     private List<Beneficio> beneficios = new ArrayList<>();
 
     public Funcionario() {

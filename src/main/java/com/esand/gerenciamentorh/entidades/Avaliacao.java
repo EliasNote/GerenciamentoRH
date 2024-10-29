@@ -1,5 +1,8 @@
 package com.esand.gerenciamentorh.entidades;
 
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public class Avaliacao {
     private Double pontuacao;
     private String comentarios;
