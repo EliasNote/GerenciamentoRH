@@ -2,6 +2,7 @@ package com.esand.gerenciamentorh.entidades;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +16,11 @@ public class Funcionario {
     private String cpf;
     @Enumerated(EnumType.STRING)
     private Departamento departamento;
+    private String cargo;
     private Double salario;
     @OneToMany(mappedBy = "funcionario")
     private List<Beneficio> beneficios = new ArrayList<>();
+    private LocalDate dataAdmissao = LocalDate.now();
 
     public Funcionario() {
     }
@@ -28,12 +31,13 @@ public class Funcionario {
         GERENCIA
     }
 
-    public Funcionario(Long id, String nome, String sobrenome, String cpf, Departamento departamento, Double salario, List<Beneficio> beneficios) {
+    public Funcionario(Long id, String nome, String sobrenome, String cpf, Departamento departamento, String cargo, Double salario, List<Beneficio> beneficios) {
         this.id = id;
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.cpf = cpf;
         this.departamento = departamento;
+        this.cargo = cargo;
         this.salario = salario;
         this.beneficios = beneficios;
     }
@@ -62,6 +66,14 @@ public class Funcionario {
         this.sobrenome = sobrenome;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
     public Departamento getDepartamento() {
         return departamento;
     }
@@ -70,12 +82,12 @@ public class Funcionario {
         this.departamento = departamento;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getCargo() {
+        return cargo;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
     }
 
     public Double getSalario() {
@@ -92,5 +104,13 @@ public class Funcionario {
 
     public void setBeneficios(List<Beneficio> beneficios) {
         this.beneficios = beneficios;
+    }
+
+    public LocalDate getDataAdmissao() {
+        return dataAdmissao;
+    }
+
+    public void setDataAdmissao(LocalDate dataAdmissao) {
+        this.dataAdmissao = dataAdmissao;
     }
 }

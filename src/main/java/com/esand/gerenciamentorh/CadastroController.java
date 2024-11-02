@@ -20,24 +20,28 @@ public class CadastroController {
     private TextField cpfField;
     @FXML
     private TextField salarioField;
+    @FXML
+    private TextField cargoField;
 
     @FXML
     protected void salvar() {
         String nome = nomeField.getText();
         String sobrenome = sobrenomeField.getText();
         String cpf = cpfField.getText();
+        String cargo = cpfField.getText();
         double salario = Double.parseDouble(salarioField.getText());
 
-        insertFuncionario(nome, sobrenome, cpf, salario);
+        insertFuncionario(nome, sobrenome, cpf, cargo, salario);
     }
 
-    public void insertFuncionario(String nome, String sobrenome, String cpf, double salario) {
+    public void insertFuncionario(String nome, String sobrenome, String cpf, String cargo, double salario) {
         Funcionario funcionario = new Funcionario(
                 null,
                 nome,
                 sobrenome,
                 cpf,
                 Funcionario.Departamento.PRODUCAO,
+                cargo,
                 salario,
                 null
         );

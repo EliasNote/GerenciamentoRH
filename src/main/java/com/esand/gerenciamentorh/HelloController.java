@@ -24,4 +24,9 @@ public class HelloController {
     public void showVisualizar() {
         loadChildrenFXML(contentPane,"visualizar.fxml");
     }
+
+    @FXML
+    public void showPagamento() {
+        loadChildrenFXML(contentPane,"pagamento.fxml");
+    }
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="675.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.PagamentoController">
+   <children>
+      <Label layoutX="21.0" layoutY="31.0" text="Competência" />
+      <DatePicker fx:id="competenciaData" layoutX="95.0" layoutY="27.0" prefHeight="25.0" prefWidth="83.0" />
+      <Button fx:id="competenciaButton" layoutX="185.0" layoutY="27.0" mnemonicParsing="false" text="Atual" />
+      <TableView fx:id="tabelaFolha" layoutX="255.0" layoutY="249.0" prefHeight="343.0" prefWidth="683.0">
+        <columns>
+           <TableColumn fx:id="camposColuna" prefWidth="382.0" text="Campos" />
+           <TableColumn fx:id="proventosColuna" minWidth="0.0" prefWidth="150.0" text="Proventos" />
+           <TableColumn fx:id="descontosColuna" minWidth="0.0" prefWidth="150.0" text="Descontos" />
+        </columns>
+      </TableView>
+      <TextField fx:id="nome" editable="false" layoutX="384.0" layoutY="69.0" prefHeight="25.0" prefWidth="526.0" />
+      <Label layoutX="271.0" layoutY="73.0" text="Nome" />
+      <TextField fx:id="cpf" editable="false" layoutX="384.0" layoutY="100.0" prefHeight="25.0" prefWidth="178.0" />
+      <Label layoutX="271.0" layoutY="104.0" text="CPF" />
+      <TextField fx:id="cargo" editable="false" layoutX="384.0" layoutY="132.0" prefHeight="25.0" prefWidth="178.0" />
+      <Label layoutX="271.0" layoutY="136.0" text="Cargo" />
+      <TextField fx:id="departamento" editable="false" layoutX="384.0" layoutY="163.0" prefHeight="25.0" prefWidth="178.0" />
+      <Label layoutX="271.0" layoutY="167.0" text="Departamento" />
+      <TextField fx:id="dataAdmissao" editable="false" layoutX="384.0" layoutY="194.0" prefHeight="25.0" prefWidth="136.0" />
+      <Label layoutX="271.0" layoutY="198.0" text="Data de Admissão" />
+      <ListView fx:id="listaNomes" layoutX="21.0" layoutY="62.0" prefHeight="530.0" prefWidth="223.0" />
+      <Button fx:id="calcularButton" layoutX="411.0" layoutY="607.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="123.0" text="Calcular">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <ComboBox layoutX="760.0" layoutY="100.0" prefWidth="150.0" promptText="Benefícios" />
+
+
+   </children>
+</AnchorPane>
