@@ -4,6 +4,7 @@ module com.esand.gerenciamentorh {
     requires com.h2database;
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
+    requires static lombok;
 
     opens com.esand.gerenciamentorh to javafx.fxml;
     opens com.esand.gerenciamentorh.entidades to org.hibernate.orm.core, javafx.base;

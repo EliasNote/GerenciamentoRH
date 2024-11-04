@@ -1,5 +1,6 @@
 package com.esand.gerenciamentorh.database;
 
+import com.esand.gerenciamentorh.dao.LoginDao;
 import com.esand.gerenciamentorh.entidades.Login;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -12,73 +13,22 @@ public class DataBase {
         return emf.createEntityManager();
     }
 
-    public static void inicializar() {
+    private LoginDao loginDao = new LoginDao();
+
+    public DataBase() {
         inicializarAdmin();
-
     }
 
-    private static void inicializarAdmin() {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
+    private void inicializarAdmin() {
+        if (!loginDao.existsByCpf("admin")) {
+            Login login = new Login();
+            login.setCpf("admin");
+            login.setSenha("admin");
 
-            if (!adminExiste(em)) {
-                inserirLoginAdmin(em);
-            }
-
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-        } finally {
-            em.close();
+            loginDao.save(login);
         }
     }
 
-    private static boolean adminExiste(EntityManager em) {
-        String query = "SELECT COUNT(l) FROM Login l WHERE l.cpf = :cpf";
-        Long count;
-        try {
-            count = em.createQuery(query, Long.class)
-                    .setParameter("cpf", "admin")
-                    .getSingleResult();
-        } catch (Exception e) {
-            return false;
-        }
-        return count > 0;
-    }
-
-    private static void inserirLoginAdmin(EntityManager em) {
-        Login login = new Login();
-        login.setCpf("admin");
-        login.setSenha("admin");
-
-        em.persist(login);
-    }
-
-    private static void inicializarBeneficios() {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-
-            if (!adminExiste(em)) {
-                inserirLoginAdmin(em);
-            }
-
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-        } finally {
-            em.close();
-        }
-    }
-
-    private static void beneficiosExiste() {
-
+    private void inicializarBeneficios() {
     }
 }

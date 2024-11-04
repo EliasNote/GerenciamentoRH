@@ -8,6 +8,8 @@ import jakarta.persistence.PersistenceException;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
+import java.time.LocalDate;
+
 import static com.esand.gerenciamentorh.Utils.showErrorMessage;
 
 public class CadastroController {
@@ -43,7 +45,8 @@ public class CadastroController {
                 Funcionario.Departamento.PRODUCAO,
                 cargo,
                 salario,
-                null
+                null,
+                LocalDate.now()
         );
 
         EntityManager em = DataBase.getEntityManager();
