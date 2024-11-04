@@ -12,12 +12,17 @@ public class DataBase {
         return emf.createEntityManager();
     }
 
-    public static void inicializarAdmin() {
+    public static void inicializar() {
+        inicializarAdmin();
+
+    }
+
+    private static void inicializarAdmin() {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
 
-            if (!adminExists(em)) {
+            if (!adminExiste(em)) {
                 inserirLoginAdmin(em);
             }
 
@@ -32,7 +37,7 @@ public class DataBase {
         }
     }
 
-    private static boolean adminExists(EntityManager em) {
+    private static boolean adminExiste(EntityManager em) {
         String query = "SELECT COUNT(l) FROM Login l WHERE l.cpf = :cpf";
         Long count;
         try {
@@ -51,5 +56,29 @@ public class DataBase {
         login.setSenha("admin");
 
         em.persist(login);
+    }
+
+    private static void inicializarBeneficios() {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            if (!adminExiste(em)) {
+                inserirLoginAdmin(em);
+            }
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+        } finally {
+            em.close();
+        }
+    }
+
+    private static void beneficiosExiste() {
+
     }
 }

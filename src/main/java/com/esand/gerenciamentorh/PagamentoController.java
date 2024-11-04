@@ -1,6 +1,7 @@
 package com.esand.gerenciamentorh;
 
 import com.esand.gerenciamentorh.database.DataBase;
+import com.esand.gerenciamentorh.dto.FolhaPagamentoDto;
 import com.esand.gerenciamentorh.entidades.Funcionario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -20,17 +21,17 @@ import static com.esand.gerenciamentorh.Utils.showErrorMessage;
 public class PagamentoController {
 
     @FXML
-    public TableColumn camposColuna;
+    public TableColumn<FolhaPagamentoDto, String> camposColuna;
     @FXML
-    public TableColumn proventosColuna;
+    public TableColumn<FolhaPagamentoDto, String> proventosColuna;
     @FXML
-    public TableColumn descontosColuna;
+    public TableColumn<FolhaPagamentoDto, String> descontosColuna;
     @FXML
     private DatePicker competenciaData;
     @FXML
     private Button competenciaButton;
     @FXML
-    private TableView<String> tabelaFolha;
+    private TableView<FolhaPagamentoDto> tabelaFolha;
     @FXML
     private TextField nome;
     @FXML
@@ -46,15 +47,17 @@ public class PagamentoController {
     @FXML
     private Button calcularButton;
 
-    private ObservableList<String[]> listaFolha;
+    private ObservableList<FolhaPagamentoDto> listaFolha = FXCollections.observableArrayList();
 
     public void initialize() {
-        camposColuna.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()[0]));
-        proventosColuna.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()[1]));
-        descontosColuna.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()[2]));
+        camposColuna.setCellValueFactory(new PropertyValueFactory<FolhaPagamentoDto, String>("campos"));
+        proventosColuna.setCellValueFactory(new PropertyValueFactory<FolhaPagamentoDto, String>("proventos"));
+        descontosColuna.setCellValueFactory(new PropertyValueFactory<FolhaPagamentoDto, String>("descontos"));
 
         carregarTodosEmpregados();
     }
+
+
 
     public void carregarTodosEmpregados() {
         EntityManager em = DataBase.getEntityManager();
@@ -83,6 +86,7 @@ public class PagamentoController {
 
     }
 
+
     private void carregarFuncionario(String cpf) {
         EntityManager em = DataBase.getEntityManager();
         Funcionario funcionario = null;
@@ -91,6 +95,7 @@ public class PagamentoController {
             TypedQuery<Funcionario> query = em.createQuery("SELECT f FROM Funcionario f WHERE f.cpf = :cpf", Funcionario.class);
             query.setParameter("cpf", cpf);
             funcionario = query.getSingleResult();
+            carregarCampoFolha(funcionario);
 
             nome.setText(funcionario.getNome());
             this.cpf.setText(funcionario.getCpf());
@@ -108,19 +113,30 @@ public class PagamentoController {
         }
     }
 
-    private void carregarCampoFolha() {
+    private void carregarCampoFolha(Funcionario funcionario) {
         EntityManager em = DataBase.getEntityManager();
-        Funcionario funcionario = null;
 
         try {
-            TypedQuery<Funcionario> query = em.createQuery("SELECT f FROM Funcionario f WHERE f.cpf = :cpf", Funcionario.class);
-            query.setParameter("cpf", cpf);
-            funcionario = query.getSingleResult();
+            listaFolha.add(new FolhaPagamentoDto(
+                    "Salário bruto",
+                    funcionario.getSalario().toString(),
+                    "0,00"
+            ));
 
-        } catch (NoResultException e) {
-            showErrorMessage("Nenhum funcionário encontrado com o CPF: " + cpf);
+            if (!funcionario.getBeneficios().isEmpty()) {
+                funcionario.getBeneficios().forEach(x -> {
+                    listaFolha.add(new FolhaPagamentoDto(
+                            x.getTipo(),
+                            x.getValor().toString(),
+                            "0,00"
+
+                    ));
+                });
+            }
+
+            tabelaFolha.setItems(listaFolha);
         } catch (Exception e) {
-            e.printStackTrace();
+            showErrorMessage("Erro ao carregar dados da folha: " + e.getMessage());
         } finally {
             em.close();
         }

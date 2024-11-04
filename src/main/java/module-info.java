@@ -7,6 +7,7 @@ module com.esand.gerenciamentorh {
 
     opens com.esand.gerenciamentorh to javafx.fxml;
     opens com.esand.gerenciamentorh.entidades to org.hibernate.orm.core, javafx.base;
+    opens com.esand.gerenciamentorh.dto to org.hibernate.orm.core, javafx.base;
     opens com.esand.gerenciamentorh.database to javafx.fxml;
 
 

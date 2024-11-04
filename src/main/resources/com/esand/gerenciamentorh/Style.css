@@ -1,3 +1,7 @@
 .menuButton:hover {
     -fx-background-color: #BEC6FF;
 }
+
+.tableColumn {
+    -fx-alignment: CENTER;
+}

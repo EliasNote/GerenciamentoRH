@@ -11,9 +11,9 @@
       <Button fx:id="competenciaButton" layoutX="185.0" layoutY="27.0" mnemonicParsing="false" text="Atual" />
       <TableView fx:id="tabelaFolha" layoutX="255.0" layoutY="249.0" prefHeight="343.0" prefWidth="683.0">
         <columns>
-           <TableColumn fx:id="camposColuna" prefWidth="382.0" text="Campos" />
-           <TableColumn fx:id="proventosColuna" minWidth="0.0" prefWidth="150.0" text="Proventos" />
-           <TableColumn fx:id="descontosColuna" minWidth="0.0" prefWidth="150.0" text="Descontos" />
+           <TableColumn fx:id="camposColuna" editable="false" prefWidth="370.0" sortable="false" styleClass="tableColumn" text="Campos" />
+           <TableColumn fx:id="proventosColuna" editable="false" minWidth="0.0" prefWidth="155.0" sortable="false" styleClass="tableColumn" text="Proventos" />
+           <TableColumn fx:id="descontosColuna" editable="false" minWidth="0.0" prefWidth="155.0" sortable="false" styleClass="tableColumn" text="Descontos" />
         </columns>
       </TableView>
       <TextField fx:id="nome" editable="false" layoutX="384.0" layoutY="69.0" prefHeight="25.0" prefWidth="526.0" />
@@ -32,7 +32,6 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <ComboBox layoutX="760.0" layoutY="100.0" prefWidth="150.0" promptText="Benefícios" />
 
 
    </children>

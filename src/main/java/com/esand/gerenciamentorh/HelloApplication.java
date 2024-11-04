@@ -12,7 +12,7 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        DataBase.inicializarAdmin();
+        DataBase.inicializar();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Gerenciamento de Funcionários");
