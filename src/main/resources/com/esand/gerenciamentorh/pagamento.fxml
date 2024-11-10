@@ -7,7 +7,6 @@
 <AnchorPane prefHeight="675.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.PagamentoController">
    <children>
       <Label layoutX="21.0" layoutY="31.0" text="Competência" />
-      <DatePicker fx:id="competenciaData" layoutX="95.0" layoutY="27.0" prefHeight="25.0" prefWidth="83.0" />
       <Button fx:id="competenciaButton" layoutX="185.0" layoutY="27.0" mnemonicParsing="false" text="Atual" />
       <TableView fx:id="tabelaFolha" layoutX="255.0" layoutY="249.0" prefHeight="343.0" prefWidth="683.0">
         <columns>
@@ -32,6 +31,14 @@
             <Font size="14.0" />
          </font>
       </Button>
+      <Label layoutX="647.0" layoutY="136.0" text="Horas Extras" />
+      <Label layoutX="648.0" layoutY="167.0" text="Horas Faltas" />
+      <Spinner fx:id="hora1" editable="true" layoutX="722.0" layoutY="132.0" prefHeight="25.0" prefWidth="77.0" />
+      <Spinner fx:id="hora2" editable="true" layoutX="722.0" layoutY="163.0" prefHeight="25.0" prefWidth="77.0" />
+      <Spinner fx:id="minuto1" editable="true" layoutX="806.0" layoutY="132.0" prefHeight="25.0" prefWidth="77.0" />
+      <Spinner fx:id="minuto2" editable="true" layoutX="806.0" layoutY="163.0" prefHeight="25.0" prefWidth="77.0" />
+      <Label layoutX="745.0" layoutY="113.0" text="Horas" />
+      <Label layoutX="829.0" layoutY="113.0" text="Minutos" />
 
 
    </children>

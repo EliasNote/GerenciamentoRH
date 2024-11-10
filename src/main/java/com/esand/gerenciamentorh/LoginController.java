@@ -1,11 +1,8 @@
 package com.esand.gerenciamentorh;
 
 import com.esand.gerenciamentorh.dao.LoginDao;
-import com.esand.gerenciamentorh.database.DataBase;
-import com.esand.gerenciamentorh.entidades.Login;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
 import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import static com.esand.gerenciamentorh.Utils.loadFXML;
@@ -19,7 +16,7 @@ public class LoginController {
     private TextField CPF;
 
     @FXML
-    private TextField Senha;
+    private PasswordField Senha;
 
     @FXML
     public void logar() {

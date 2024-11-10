@@ -27,7 +27,7 @@
                   <Label prefHeight="17.0" prefWidth="23.0" text="CPF" />
                   <Label text="Senha" GridPane.rowIndex="1" />
                   <TextField fx:id="CPF" GridPane.columnIndex="1" />
-                  <TextField fx:id="Senha" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <PasswordField fx:id="Senha" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <Button mnemonicParsing="false" onAction="#logar" prefHeight="30.0" prefWidth="85.0" text="Acessar" />

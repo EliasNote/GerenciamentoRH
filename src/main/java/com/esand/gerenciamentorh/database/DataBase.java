@@ -20,12 +20,12 @@ public class DataBase {
     }
 
     private void inicializarAdmin() {
-        if (!loginDao.existsByCpf("admin")) {
+        if (!loginDao.existePorCpf("admin")) {
             Login login = new Login();
             login.setCpf("admin");
             login.setSenha("admin");
 
-            loginDao.save(login);
+            loginDao.salvar(login);
         }
     }
 

@@ -27,10 +27,10 @@
                         <TextField fx:id="sobrenomeField" minHeight="26.0" minWidth="381.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="Cpf" GridPane.rowIndex="2" />
                         <TextField fx:id="cpfField" minWidth="149.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="Salário" GridPane.rowIndex="4" />
-                        <TextField fx:id="salarioField" minWidth="151.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <Label layoutX="10.0" layoutY="104.0" text="Cargo" GridPane.rowIndex="3" />
                         <TextField fx:id="cargoField" layoutX="105.0" layoutY="100.0" minWidth="149.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Salário" GridPane.rowIndex="4" />
+                        <TextField fx:id="salarioField" minWidth="151.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                     </children>
                 </GridPane>
             </children>

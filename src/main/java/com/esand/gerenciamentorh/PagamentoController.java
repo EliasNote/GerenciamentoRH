@@ -1,19 +1,24 @@
 package com.esand.gerenciamentorh;
 
 import com.esand.gerenciamentorh.database.DataBase;
-import com.esand.gerenciamentorh.dto.FolhaPagamentoDto;
+import com.esand.gerenciamentorh.dto.CampoDto;
+import com.esand.gerenciamentorh.dto.Campos;
 import com.esand.gerenciamentorh.entidades.Funcionario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.util.converter.DateTimeStringConverter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 
 import static com.esand.gerenciamentorh.Utils.showErrorMessage;
@@ -21,17 +26,17 @@ import static com.esand.gerenciamentorh.Utils.showErrorMessage;
 public class PagamentoController {
 
     @FXML
-    public TableColumn<FolhaPagamentoDto, String> camposColuna;
+    public TableColumn<CampoDto, String> camposColuna;
     @FXML
-    public TableColumn<FolhaPagamentoDto, String> proventosColuna;
+    public TableColumn<CampoDto, String> proventosColuna;
     @FXML
-    public TableColumn<FolhaPagamentoDto, String> descontosColuna;
+    public TableColumn<CampoDto, String> descontosColuna;
     @FXML
     private DatePicker competenciaData;
     @FXML
     private Button competenciaButton;
     @FXML
-    private TableView<FolhaPagamentoDto> tabelaFolha;
+    private TableView<CampoDto> tabelaFolha;
     @FXML
     private TextField nome;
     @FXML
@@ -46,15 +51,37 @@ public class PagamentoController {
     private ListView<HBox> listaNomes;
     @FXML
     private Button calcularButton;
+    @FXML
+    private Spinner<Integer> hora1;
+    @FXML
+    private Spinner<Integer> hora2;
+    @FXML
+    private Spinner<Integer> minuto1;
+    @FXML
+    private Spinner<Integer> minuto2;
 
-    private ObservableList<FolhaPagamentoDto> listaFolha = FXCollections.observableArrayList();
+    private ObservableList<CampoDto> listaFolha = FXCollections.observableArrayList();
 
-    public void initialize() {
-        camposColuna.setCellValueFactory(new PropertyValueFactory<FolhaPagamentoDto, String>("campos"));
-        proventosColuna.setCellValueFactory(new PropertyValueFactory<FolhaPagamentoDto, String>("proventos"));
-        descontosColuna.setCellValueFactory(new PropertyValueFactory<FolhaPagamentoDto, String>("descontos"));
+    public void initialize() throws Exception {
+        camposColuna.setCellValueFactory(new PropertyValueFactory<CampoDto, String>("campos"));
+        proventosColuna.setCellValueFactory(new PropertyValueFactory<CampoDto, String>("proventos"));
+        descontosColuna.setCellValueFactory(new PropertyValueFactory<CampoDto, String>("descontos"));
+
+        iniciarSpinners();
 
         carregarTodosEmpregados();
+    }
+
+    public void iniciarSpinners() {
+        SpinnerValueFactory<Integer> hora1Factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0);
+        SpinnerValueFactory<Integer> hora2Factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0);
+        SpinnerValueFactory<Integer> minuto1Factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0);
+        SpinnerValueFactory<Integer> minuto2Factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0);
+
+        hora1.setValueFactory(hora1Factory);
+        hora2.setValueFactory(hora2Factory);
+        minuto1.setValueFactory(minuto1Factory);
+        minuto2.setValueFactory(minuto2Factory);
     }
 
 
@@ -72,9 +99,14 @@ public class PagamentoController {
                 Label nomeLabel = new Label(funcionario.getNome() + " " + funcionario.getSobrenome());
                 Button selecionarButton = new Button("Selecionar");
 
+                nomeLabel.setMaxWidth(135);
+
                 selecionarButton.setOnAction(e -> carregarFuncionario(funcionario.getCpf()));
 
-                hBox.getChildren().addAll(nomeLabel, selecionarButton);
+                Region spacer = new Region();
+                HBox.setHgrow(spacer, Priority.ALWAYS);
+
+                hBox.getChildren().addAll(nomeLabel, spacer, selecionarButton);
                 listaNomes.getItems().add(hBox);
             }
 
@@ -92,12 +124,13 @@ public class PagamentoController {
         Funcionario funcionario = null;
 
         try {
+            listaFolha.clear();
             TypedQuery<Funcionario> query = em.createQuery("SELECT f FROM Funcionario f WHERE f.cpf = :cpf", Funcionario.class);
             query.setParameter("cpf", cpf);
             funcionario = query.getSingleResult();
             carregarCampoFolha(funcionario);
 
-            nome.setText(funcionario.getNome());
+            nome.setText(funcionario.getNome() + " " + funcionario.getSobrenome());
             this.cpf.setText(funcionario.getCpf());
             departamento.setText(funcionario.getDepartamento().toString());
             cargo.setText(funcionario.getCargo());
@@ -117,28 +150,43 @@ public class PagamentoController {
         EntityManager em = DataBase.getEntityManager();
 
         try {
-            listaFolha.add(new FolhaPagamentoDto(
-                    "Salário bruto",
-                    funcionario.getSalario().toString(),
-                    "0,00"
-            ));
-
-            if (!funcionario.getBeneficios().isEmpty()) {
-                funcionario.getBeneficios().forEach(x -> {
-                    listaFolha.add(new FolhaPagamentoDto(
-                            x.getTipo(),
-                            x.getValor().toString(),
-                            "0,00"
-
-                    ));
-                });
-            }
-
+            gerarCampos(funcionario);
             tabelaFolha.setItems(listaFolha);
         } catch (Exception e) {
             showErrorMessage("Erro ao carregar dados da folha: " + e.getMessage());
         } finally {
             em.close();
         }
+    }
+
+    private void gerarCampos(Funcionario funcionario) {
+        listaFolha.add(new CampoDto(
+                Campos.SALARIO_BRUTO.getDescricao(),
+                funcionario.getSalario().toString(),
+                "0,00"
+            )
+        );
+
+        if (!funcionario.getBeneficios().isEmpty()) {
+            funcionario.getBeneficios().forEach(x -> {
+                listaFolha.add(new CampoDto(
+                        x.getTipo(),
+                        x.getValor().toString(),
+                        "0,00"
+                ));
+            });
+        }
+
+        listaFolha.add(new CampoDto(
+                Campos.HORAS_EXTRAS.getDescricao(),
+                "0,00",
+                "0,00"
+        ));
+
+        listaFolha.add(new CampoDto(
+                Campos.HORAS_FALTAS.getDescricao(),
+                "0,00",
+                "0,00"
+        ));
     }
 }

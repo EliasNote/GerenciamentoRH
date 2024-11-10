@@ -8,7 +8,7 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 
 public class LoginDao {
-    public Login save(Login login) {
+    public Login salvar(Login login) {
         EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
@@ -28,13 +28,13 @@ public class LoginDao {
         }
     }
 
-    public boolean existsByCpf(String cpf) {
+    public boolean existePorCpf(String cpf) {
         EntityManager em = DataBase.getEntityManager();
         String query = "SELECT COUNT(l) FROM Login l WHERE l.cpf = :cpf";
         Long count;
         try {
             count = em.createQuery(query, Long.class)
-                    .setParameter("cpf", "admin")
+                    .setParameter("cpf", cpf)
                     .getSingleResult();
         } catch (Exception e) {
             return false;
