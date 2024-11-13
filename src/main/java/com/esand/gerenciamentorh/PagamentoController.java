@@ -9,6 +9,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -68,8 +69,30 @@ public class PagamentoController {
         descontosColuna.setCellValueFactory(new PropertyValueFactory<CampoDto, String>("descontos"));
 
         iniciarSpinners();
-
         carregarTodosEmpregados();
+    }
+
+    public void salvarHoras() {
+        listaFolha.removeIf(campo ->
+                campo.getCampos().equals(Campos.HORAS_EXTRAS.getDescricao()) ||
+                campo.getCampos().equals(Campos.HORAS_FALTAS.getDescricao())
+        );
+
+        if (hora1.getValue() > 0 || minuto1.getValue() > 0) {
+            listaFolha.add(new CampoDto(
+                    Campos.HORAS_EXTRAS.getDescricao(),
+                    hora1.getValue().toString(),
+                    minuto1.getValue().toString()
+            ));
+        }
+
+        if (hora2.getValue() > 0 || minuto2.getValue() > 0) {
+            listaFolha.add(new CampoDto(
+                    Campos.HORAS_FALTAS.getDescricao(),
+                    hora2.getValue().toString(),
+                    minuto2.getValue().toString()
+            ));
+        }
     }
 
     public void iniciarSpinners() {
@@ -124,7 +147,10 @@ public class PagamentoController {
         Funcionario funcionario = null;
 
         try {
-            listaFolha.clear();
+            listaFolha.removeIf(campo ->
+                    campo.getCampos().equals(Campos.SALARIO_BRUTO.getDescricao())
+            );
+
             TypedQuery<Funcionario> query = em.createQuery("SELECT f FROM Funcionario f WHERE f.cpf = :cpf", Funcionario.class);
             query.setParameter("cpf", cpf);
             funcionario = query.getSingleResult();
@@ -176,17 +202,5 @@ public class PagamentoController {
                 ));
             });
         }
-
-        listaFolha.add(new CampoDto(
-                Campos.HORAS_EXTRAS.getDescricao(),
-                "0,00",
-                "0,00"
-        ));
-
-        listaFolha.add(new CampoDto(
-                Campos.HORAS_FALTAS.getDescricao(),
-                "0,00",
-                "0,00"
-        ));
     }
 }

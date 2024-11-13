@@ -31,14 +31,15 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Label layoutX="647.0" layoutY="136.0" text="Horas Extras" />
-      <Label layoutX="648.0" layoutY="167.0" text="Horas Faltas" />
-      <Spinner fx:id="hora1" editable="true" layoutX="722.0" layoutY="132.0" prefHeight="25.0" prefWidth="77.0" />
-      <Spinner fx:id="hora2" editable="true" layoutX="722.0" layoutY="163.0" prefHeight="25.0" prefWidth="77.0" />
-      <Spinner fx:id="minuto1" editable="true" layoutX="806.0" layoutY="132.0" prefHeight="25.0" prefWidth="77.0" />
-      <Spinner fx:id="minuto2" editable="true" layoutX="806.0" layoutY="163.0" prefHeight="25.0" prefWidth="77.0" />
-      <Label layoutX="745.0" layoutY="113.0" text="Horas" />
-      <Label layoutX="829.0" layoutY="113.0" text="Minutos" />
+      <Label layoutX="676.0" layoutY="136.0" text="Horas Extras" />
+      <Label layoutX="677.0" layoutY="167.0" text="Horas Faltas" />
+      <Spinner fx:id="hora1" editable="true" layoutX="751.0" layoutY="132.0" prefHeight="25.0" prefWidth="60.0" />
+      <Spinner fx:id="hora2" editable="true" layoutX="751.0" layoutY="163.0" prefHeight="25.0" prefWidth="60.0" />
+      <Spinner fx:id="minuto1" editable="true" layoutX="812.0" layoutY="132.0" prefHeight="25.0" prefWidth="60.0" />
+      <Spinner fx:id="minuto2" editable="true" layoutX="812.0" layoutY="163.0" prefHeight="25.0" prefWidth="60.0" />
+      <Label layoutX="765.0" layoutY="113.0" prefHeight="17.0" prefWidth="32.0" text="Horas" />
+      <Label layoutX="820.0" layoutY="113.0" text="Minutos" />
+      <Button fx:id="horasButton" layoutX="788.0" layoutY="194.0" mnemonicParsing="false" onAction="#salvarHoras" text="Salvar" />
 
 
    </children>

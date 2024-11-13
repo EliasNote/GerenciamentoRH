@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -19,7 +22,6 @@ public class Beneficio {
     private String descricao;
     private Double valor;
 
-    @ManyToOne
-    @JoinColumn(name = "funcionario_id")
-    private Funcionario funcionario;
+    @ManyToMany(mappedBy = "beneficios")
+    private List<Funcionario> funcionario = new ArrayList<>();;
 }

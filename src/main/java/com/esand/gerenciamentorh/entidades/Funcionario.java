@@ -21,12 +21,18 @@ public class Funcionario {
     private Long id;
     private String nome;
     private String sobrenome;
+    @Column(unique = true)
     private String cpf;
     @Enumerated(EnumType.STRING)
     private Departamento departamento;
     private String cargo;
     private Double salario;
-    @OneToMany(mappedBy = "funcionario")
+    @ManyToMany
+    @JoinTable(
+            name = "funcionario_beneficio",
+            joinColumns = @JoinColumn(name = "funcionario_id"),
+            inverseJoinColumns = @JoinColumn(name = "beneficio_id")
+    )
     private List<Beneficio> beneficios = new ArrayList<>();
     private LocalDate dataAdmissao = LocalDate.now();
 
