@@ -4,6 +4,7 @@ import com.esand.gerenciamentorh.database.DataBase;
 import com.esand.gerenciamentorh.entidades.Beneficio;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 
 import java.util.ArrayList;
@@ -45,5 +46,29 @@ public class BeneficioDao {
         } finally {
             em.close();
         }
+    }
+
+    public Beneficio buscarPorNome(String nome) {
+        EntityManager em = DataBase.getEntityManager();
+        Beneficio beneficio = null;
+
+        try {
+            em.getTransaction().begin();
+            TypedQuery<Beneficio> query = em.createQuery("SELECT b FROM Beneficio b WHERE b.tipo = :nome", Beneficio.class);
+            query.setParameter("nome", nome);
+            beneficio = query.getSingleResult();
+            em.getTransaction().commit();
+        } catch (NoResultException e) {
+            System.out.println("Nenhum benefício encontrado com o nome: " + nome);
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+        } finally {
+            em.close();
+        }
+
+        return beneficio;
     }
 }

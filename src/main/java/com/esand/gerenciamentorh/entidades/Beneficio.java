@@ -18,6 +18,7 @@ public class Beneficio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String tipo;
     private String descricao;
     private Double valor;

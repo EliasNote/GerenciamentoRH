@@ -1,8 +1,11 @@
 package com.esand.gerenciamentorh;
 
+import com.esand.gerenciamentorh.dao.BeneficioDao;
+import com.esand.gerenciamentorh.dao.FuncionarioDao;
 import com.esand.gerenciamentorh.database.DataBase;
 import com.esand.gerenciamentorh.dto.CampoDto;
 import com.esand.gerenciamentorh.dto.Campos;
+import com.esand.gerenciamentorh.entidades.Beneficio;
 import com.esand.gerenciamentorh.entidades.Funcionario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -21,6 +24,7 @@ import javafx.util.converter.DateTimeStringConverter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import static com.esand.gerenciamentorh.Utils.showErrorMessage;
 
@@ -62,6 +66,8 @@ public class PagamentoController {
     private Spinner<Integer> minuto2;
 
     private ObservableList<CampoDto> listaFolha = FXCollections.observableArrayList();
+    private BeneficioDao beneficioDao = new BeneficioDao();
+    private FuncionarioDao funcionarioDao = new FuncionarioDao();
 
     public void initialize() throws Exception {
         camposColuna.setCellValueFactory(new PropertyValueFactory<CampoDto, String>("campos"));
@@ -73,10 +79,7 @@ public class PagamentoController {
     }
 
     public void salvarHoras() {
-        listaFolha.removeIf(campo ->
-                campo.getCampos().equals(Campos.HORAS_EXTRAS.getDescricao()) ||
-                campo.getCampos().equals(Campos.HORAS_FALTAS.getDescricao())
-        );
+        removerCampos(true);
 
         if (hora1.getValue() > 0 || minuto1.getValue() > 0) {
             listaFolha.add(new CampoDto(
@@ -110,12 +113,9 @@ public class PagamentoController {
 
 
     public void carregarTodosEmpregados() {
-        EntityManager em = DataBase.getEntityManager();
-        ObservableList<Funcionario> funcionarios = FXCollections.observableArrayList();
-
-        try {
-            TypedQuery<Funcionario> query = em.createQuery("SELECT f FROM Funcionario f", Funcionario.class);
-            funcionarios.addAll(query.getResultList());
+        try (EntityManager em = DataBase.getEntityManager()) {
+            ObservableList<Funcionario> funcionarios = FXCollections.observableArrayList();
+            funcionarios.addAll(funcionarioDao.buscarTodos());
 
             for (Funcionario funcionario : funcionarios) {
                 HBox hBox = new HBox();
@@ -135,26 +135,17 @@ public class PagamentoController {
 
         } catch (Exception e) {
             throw new RuntimeException(e);
-        } finally {
-            em.close();
         }
 
     }
 
 
     private void carregarFuncionario(String cpf) {
-        EntityManager em = DataBase.getEntityManager();
-        Funcionario funcionario = null;
+        try (EntityManager em = DataBase.getEntityManager()) {
+            Funcionario funcionario;
 
-        try {
-            listaFolha.removeIf(campo ->
-                    campo.getCampos().equals(Campos.SALARIO_BRUTO.getDescricao())
-            );
-
-            TypedQuery<Funcionario> query = em.createQuery("SELECT f FROM Funcionario f WHERE f.cpf = :cpf", Funcionario.class);
-            query.setParameter("cpf", cpf);
-            funcionario = query.getSingleResult();
-            carregarCampoFolha(funcionario);
+            funcionario = funcionarioDao.carregarFuncionarioComBeneficios(cpf);
+            carregarCampos(funcionario);
 
             nome.setText(funcionario.getNome() + " " + funcionario.getSobrenome());
             this.cpf.setText(funcionario.getCpf());
@@ -167,31 +158,20 @@ public class PagamentoController {
             showErrorMessage("Nenhum funcionário encontrado com o CPF: " + cpf);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            em.close();
         }
     }
 
-    private void carregarCampoFolha(Funcionario funcionario) {
-        EntityManager em = DataBase.getEntityManager();
+    private void carregarCampos(Funcionario funcionario) {
+        removerCampos(false);
 
-        try {
-            gerarCampos(funcionario);
-            tabelaFolha.setItems(listaFolha);
-        } catch (Exception e) {
-            showErrorMessage("Erro ao carregar dados da folha: " + e.getMessage());
-        } finally {
-            em.close();
-        }
-    }
-
-    private void gerarCampos(Funcionario funcionario) {
         listaFolha.add(new CampoDto(
-                Campos.SALARIO_BRUTO.getDescricao(),
-                funcionario.getSalario().toString(),
-                "0,00"
-            )
+                        Campos.SALARIO_BRUTO.getDescricao(),
+                        funcionario.getSalario().toString(),
+                        "0,00"
+                )
         );
+
+        funcionario.getBeneficios().forEach(x -> System.out.println(x.getTipo()));
 
         if (!funcionario.getBeneficios().isEmpty()) {
             funcionario.getBeneficios().forEach(x -> {
@@ -200,6 +180,29 @@ public class PagamentoController {
                         x.getValor().toString(),
                         "0,00"
                 ));
+            });
+        }
+
+        tabelaFolha.setItems(listaFolha);
+    }
+
+    private void removerCampos(Boolean verificar) {
+        List<Beneficio> beneficios = beneficioDao.buscarTodos();
+
+        if (verificar) {
+            listaFolha.removeIf(campo ->
+                    campo.getCampos().equals(Campos.HORAS_EXTRAS.getDescricao()) ||
+                            campo.getCampos().equals(Campos.HORAS_FALTAS.getDescricao())
+            );
+        } else {
+            listaFolha.removeIf(campo ->
+                    campo.getCampos().equals(Campos.SALARIO_BRUTO.getDescricao())
+            );
+
+            beneficios.forEach(beneficio -> {
+                listaFolha.removeIf(campo ->
+                        campo.getCampos().equals(beneficio.getTipo())
+                );
             });
         }
     }

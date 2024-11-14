@@ -2,29 +2,19 @@ package com.esand.gerenciamentorh;
 
 import com.esand.gerenciamentorh.dao.BeneficioDao;
 import com.esand.gerenciamentorh.dao.FuncionarioDao;
-import com.esand.gerenciamentorh.dao.LoginDao;
-import com.esand.gerenciamentorh.database.DataBase;
 import com.esand.gerenciamentorh.entidades.Beneficio;
 import com.esand.gerenciamentorh.entidades.Funcionario;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.PersistenceException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.esand.gerenciamentorh.Utils.showErrorMessage;
-
 public class CadastroController {
     @FXML
-    private ComboBox<String> beneficios;
-    @FXML
-    private ListView<String> beneficiosSelecionados;
+    private ListView<CheckBox> beneficios;
     @FXML
     private Label errorLabel;
     @FXML
@@ -46,11 +36,9 @@ public class CadastroController {
     public void initialize() {
         List<Beneficio> beneficiosBanco = beneficioDao.buscarTodos();
 
-        ObservableList<String> beneficiosCombo = FXCollections.observableArrayList();
-        beneficiosBanco.forEach(beneficio -> beneficiosCombo.add(beneficio.getTipo()));
+        beneficiosBanco.forEach(beneficio -> lista.add(new CheckBox(beneficio.getTipo())));
 
-        beneficios.setItems(beneficiosCombo);
-        beneficios.setPromptText("Selecione um benefício");
+        beneficios.setItems(lista);
     }
 
     @FXML
@@ -58,7 +46,7 @@ public class CadastroController {
         String nome = nomeField.getText();
         String sobrenome = sobrenomeField.getText();
         String cpf = cpfField.getText();
-        String cargo = cpfField.getText();
+        String cargo = cargoField.getText();
         Double salario;
 
         if (nome.isEmpty() || sobrenome.isEmpty() || cpf.isEmpty() || cargo.isEmpty() || salarioField.getText().trim().isEmpty()) {
@@ -73,10 +61,16 @@ public class CadastroController {
             return;
         }
 
-        insertFuncionario(nome, sobrenome, cpf, cargo, salario);
+        List<Beneficio> beneficiosSelecionados = this.beneficios.getItems().stream()
+                .filter(CheckBox::isSelected)
+                .map(x -> beneficioDao.buscarPorNome(x.getText()))
+                .toList();
+
+        insertFuncionario(nome, sobrenome, cpf, cargo, salario, beneficiosSelecionados);
     }
 
-    public void insertFuncionario(String nome, String sobrenome, String cpf, String cargo, Double salario) {
+
+    public void insertFuncionario(String nome, String sobrenome, String cpf, String cargo, Double salario, List<Beneficio> beneficios) {
         Funcionario funcionario = new Funcionario(
                 null,
                 nome,
@@ -85,9 +79,11 @@ public class CadastroController {
                 Funcionario.Departamento.PRODUCAO,
                 cargo,
                 salario,
-                null,
+                beneficios,
                 LocalDate.now()
         );
+
+        funcionario.getBeneficios().forEach(x -> System.out.println(x.getTipo()));
 
         if (funcionarioDao.existePorCpf(cpf)) {
             errorLabel.setText("Funcionário com esse CPF já está cadastrado");
@@ -95,9 +91,5 @@ public class CadastroController {
         }
 
         funcionarioDao.salvar(funcionario);
-    }
-
-    @FXML
-    public void selecionar() {
     }
 }
