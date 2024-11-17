@@ -21,7 +21,7 @@ public class BeneficioDao {
             transaction.commit();
             return beneficio;
         } catch (Exception e) {
-            if (transaction.isActive()) {
+            if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
             e.printStackTrace();
@@ -36,13 +36,12 @@ public class BeneficioDao {
         List<Beneficio> beneficios = new ArrayList<>();
 
         try {
-            em.getTransaction().begin();
             TypedQuery<Beneficio> query = em.createQuery("SELECT f FROM Beneficio f", Beneficio.class);
             beneficios.addAll(query.getResultList());
             return beneficios;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return beneficios;
         } finally {
             em.close();
         }
@@ -53,18 +52,13 @@ public class BeneficioDao {
         Beneficio beneficio = null;
 
         try {
-            em.getTransaction().begin();
             TypedQuery<Beneficio> query = em.createQuery("SELECT b FROM Beneficio b WHERE b.tipo = :nome", Beneficio.class);
             query.setParameter("nome", nome);
             beneficio = query.getSingleResult();
-            em.getTransaction().commit();
         } catch (NoResultException e) {
             System.out.println("Nenhum benefício encontrado com o nome: " + nome);
         } catch (Exception e) {
             e.printStackTrace();
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
         } finally {
             em.close();
         }

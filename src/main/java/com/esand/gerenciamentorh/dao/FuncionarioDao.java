@@ -7,6 +7,7 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.esand.gerenciamentorh.Utils.showErrorMessage;
@@ -22,7 +23,7 @@ public class FuncionarioDao {
             transaction.commit();
             return funcionario;
         } catch (Exception e) {
-            if (transaction.isActive()) {
+            if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
             e.printStackTrace();
@@ -32,18 +33,24 @@ public class FuncionarioDao {
         }
     }
 
-    public boolean existePorCpf(String cpf) {
+    public Funcionario buscarPorCpf(String cpf) {
         EntityManager em = DataBase.getEntityManager();
-        String query = "SELECT COUNT(l) FROM Funcionario l WHERE l.cpf = :cpf";
-        Long count;
+        Funcionario funcionario = null;
+
         try {
-            count = em.createQuery(query, Long.class)
-                    .setParameter("cpf", cpf)
-                    .getSingleResult();
+            TypedQuery<Funcionario> query = em.createQuery(
+                    "SELECT f FROM Funcionario f WHERE f.cpf = :cpf",
+                    Funcionario.class
+            );
+            query.setParameter("cpf", cpf);
+            funcionario = query.getSingleResult();
         } catch (Exception e) {
-            return false;
+            e.printStackTrace();
+        } finally {
+            em.close();
         }
-        return count > 0;
+
+        return funcionario;
     }
 
     public Funcionario carregarFuncionarioComBeneficios(String cpf) {
@@ -51,7 +58,10 @@ public class FuncionarioDao {
         Funcionario funcionario = null;
 
         try {
-            TypedQuery<Funcionario> query = em.createQuery("SELECT f FROM Funcionario f LEFT JOIN FETCH f.beneficios WHERE f.cpf = :cpf", Funcionario.class);
+            TypedQuery<Funcionario> query = em.createQuery(
+                "SELECT DISTINCT f FROM Funcionario f LEFT JOIN FETCH f.beneficios WHERE f.cpf = :cpf", 
+                Funcionario.class
+            );
             query.setParameter("cpf", cpf);
             funcionario = query.getSingleResult();
         } catch (NoResultException e) {
@@ -67,10 +77,13 @@ public class FuncionarioDao {
 
     public List<Funcionario> buscarTodos() {
         EntityManager em = DataBase.getEntityManager();
-        List<Funcionario> funcionarios = null;
+        List<Funcionario> funcionarios = new ArrayList<>();
 
         try {
-            TypedQuery<Funcionario> query = em.createQuery("SELECT f FROM Funcionario f LEFT JOIN FETCH f.beneficios", Funcionario.class);
+            TypedQuery<Funcionario> query = em.createQuery(
+                "SELECT DISTINCT f FROM Funcionario f LEFT JOIN FETCH f.beneficios", 
+                Funcionario.class
+            );
             funcionarios = query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();

@@ -6,17 +6,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.YearMonth;
+
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FolhaPagamento {
+public class Pagamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private YearMonth competencia;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "funcionario_id", nullable = false)
     private Funcionario funcionario;
 

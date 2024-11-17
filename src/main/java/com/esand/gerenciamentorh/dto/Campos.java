@@ -6,7 +6,10 @@ import lombok.Getter;
 public enum Campos {
     SALARIO_BRUTO("Salário Bruto"),
     HORAS_EXTRAS("Horas Extras"),
-    HORAS_FALTAS("Horas Faltas");
+    HORAS_FALTAS("Horas Faltas"),
+    INSS("INSS"),
+    FGTS("FGTS"),
+    TOTAL("Total");
 
     private final String descricao;
 

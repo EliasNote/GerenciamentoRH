@@ -8,7 +8,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DataBase {
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("gerenciamentoRh");
@@ -26,7 +28,7 @@ public class DataBase {
     }
 
     private void inicializarAdmin() {
-        if (!loginDao.existePorCpf("admin")) {
+        if (loginDao.buscarUltimoId() == null) {
             Login login = new Login();
             login.setCpf("admin");
             login.setSenha("admin");
@@ -34,7 +36,6 @@ public class DataBase {
             loginDao.salvar(login);
         }
     }
-
 
     private void inicializarBeneficios() {
         if (beneficioDao.buscarTodos().isEmpty()) {

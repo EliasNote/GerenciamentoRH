@@ -12,7 +12,7 @@ import javafx.scene.control.*;
 import java.time.LocalDate;
 import java.util.List;
 
-public class CadastroController {
+public class CadastroFuncionarioController {
     @FXML
     private ListView<CheckBox> beneficios;
     @FXML
@@ -80,12 +80,12 @@ public class CadastroController {
                 cargo,
                 salario,
                 beneficios,
-                LocalDate.now()
+                LocalDate.now(),
+                null
         );
 
-        funcionario.getBeneficios().forEach(x -> System.out.println(x.getTipo()));
 
-        if (funcionarioDao.existePorCpf(cpf)) {
+        if (funcionarioDao.buscarPorCpf(cpf) != null) {
             errorLabel.setText("Funcionário com esse CPF já está cadastrado");
             return;
         }

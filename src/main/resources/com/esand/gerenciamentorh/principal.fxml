@@ -17,9 +17,10 @@
                             </font>
                         </Text>
                     </children></Pane>
-                <Button id="showCadastrar" minHeight="38.0" minWidth="200.0" mnemonicParsing="false" onAction="#showCadastrar" styleClass="menuButton" text="Cadastrar" />
-                <Button id="showVisualizar" layoutX="30.0" layoutY="30.0" minHeight="38.0" minWidth="200.0" mnemonicParsing="false" onAction="#showVisualizar" styleClass="menuButton" text="Visualizar" />
-            <Button id="showPagamento" layoutX="30.0" layoutY="220.0" minHeight="38.0" minWidth="200.0" mnemonicParsing="false" onAction="#showPagamento" styleClass="menuButton" text="Folha de Pagamento" />
+                <Button minHeight="38.0" minWidth="200.0" mnemonicParsing="false" onAction="#showCadastrar" styleClass="menuButton" text="Cadastrar" />
+                <Button layoutX="30.0" layoutY="30.0" minHeight="38.0" minWidth="200.0" mnemonicParsing="false" onAction="#showVisualizar" styleClass="menuButton" text="Visualizar" />
+            <Button layoutX="30.0" layoutY="220.0" minHeight="38.0" minWidth="200.0" mnemonicParsing="false" onAction="#showPagamento" styleClass="menuButton" text="Folha de Pagamento" />
+            <Button layoutX="30.0" layoutY="163.0" minHeight="38.0" minWidth="200.0" mnemonicParsing="false" onAction="#showAcesso" styleClass="menuButton" text="Acesso" />
             </children>
             <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

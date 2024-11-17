@@ -1,5 +1,6 @@
 package com.esand.gerenciamentorh;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 
@@ -10,18 +11,19 @@ public class HelloController {
     @FXML
     private Pane contentPane;
 
-    @FXML
     public void showCadastrar() {
-        loadChildrenFXML(contentPane,"cadastro.fxml");
+        loadChildrenFXML(contentPane,"cadastroFuncionario.fxml");
     }
 
-    @FXML
     public void showVisualizar() {
         loadChildrenFXML(contentPane,"visualizar.fxml");
     }
 
-    @FXML
     public void showPagamento() {
         loadChildrenFXML(contentPane,"pagamento.fxml");
+    }
+
+    public void showAcesso() {
+        loadChildrenFXML(contentPane,"cadastroAcesso.fxml");
     }
 }

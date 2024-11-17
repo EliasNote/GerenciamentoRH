@@ -1,13 +1,10 @@
 package com.esand.gerenciamentorh;
 
-import com.esand.gerenciamentorh.database.DataBase;
+import com.esand.gerenciamentorh.dao.FuncionarioDao;
 import com.esand.gerenciamentorh.entidades.Funcionario;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -28,38 +25,21 @@ public class VisualizarController {
     private TableColumn<Funcionario, Double> salarioColumn;
 
     private ObservableList<Funcionario> funcionarios = FXCollections.observableArrayList();
+    private FuncionarioDao funcionarioDao = new FuncionarioDao();
 
     public void initialize() {
         inicializarDados();
     }
 
     public void inicializarDados() {
-        EntityManager em = DataBase.getEntityManager();
+        funcionarios.addAll(funcionarioDao.buscarTodos());
 
-        try {
-            TypedQuery<Funcionario> query = em.createQuery("SELECT f FROM Funcionario f", Funcionario.class);
-            funcionarios.addAll(query.getResultList());
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        sobrenomeColumn.setCellValueFactory(new PropertyValueFactory<>("sobrenome"));
+        cpfColumn.setCellValueFactory(new PropertyValueFactory<>("cpf"));
+        salarioColumn.setCellValueFactory(new PropertyValueFactory<>("salario"));
 
-            idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-            nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
-            sobrenomeColumn.setCellValueFactory(new PropertyValueFactory<>("sobrenome"));
-            cpfColumn.setCellValueFactory(new PropertyValueFactory<>("cpf"));
-            salarioColumn.setCellValueFactory(new PropertyValueFactory<>("salario"));
-
-            tableView.setItems(funcionarios);
-        } catch (Exception e) {
-            e.printStackTrace();
-            showErrorMessage("Erro ao carregar dados", "Ocorreu um erro ao carregar os funcionários: " + e.getMessage());
-        } finally {
-            em.close();
-        }
-    }
-
-    private void showErrorMessage(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        tableView.setItems(funcionarios);
     }
 }
