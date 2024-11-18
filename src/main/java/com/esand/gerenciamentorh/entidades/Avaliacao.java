@@ -1,17 +1,25 @@
 package com.esand.gerenciamentorh.entidades;
 
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Embeddable
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 public class Avaliacao {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
     private Double pontuacao;
-    private String comentarios;
+    private String observacao;
+
+    @OneToOne(mappedBy = "avaliacao")
+    private Pagamento pagamento;
 }

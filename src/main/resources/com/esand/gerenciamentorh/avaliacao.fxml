@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="240.0" prefWidth="351.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.AvaliacaoController">
+   <children>
+      <Spinner fx:id="nota" editable="true" layoutX="14.0" layoutY="72.0" prefHeight="26.0" prefWidth="72.0" />
+      <Label layoutX="36.0" layoutY="47.0" text="Nota" />
+      <Label layoutX="139.0" layoutY="14.0" text="Avaliação">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="observacao" layoutX="100.0" layoutY="72.0" prefHeight="115.0" prefWidth="237.0" />
+      <Label layoutX="187.0" layoutY="47.0" text="Observação" />
+      <Button layoutX="151.0" layoutY="199.0" mnemonicParsing="false" onAction="#salvar" text="Salvar" />
+   </children>
+</AnchorPane>

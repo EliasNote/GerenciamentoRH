@@ -27,6 +27,7 @@ public class Pagamento {
     private Double horasExtras;
     private Double horasFaltas;
 
-    @Embedded
+    @OneToOne
+    @JoinColumn(name = "avaliacao_id")
     private Avaliacao avaliacao;
 }

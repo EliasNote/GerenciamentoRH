@@ -25,15 +25,15 @@
       <TextField fx:id="dataAdmissao" editable="false" layoutX="384.0" layoutY="194.0" prefHeight="25.0" prefWidth="136.0" />
       <Label layoutX="271.0" layoutY="198.0" text="Data de Admissão" />
       <ListView fx:id="listaNomes" layoutX="21.0" layoutY="62.0" prefHeight="530.0" prefWidth="223.0" />
-      <Label layoutX="676.0" layoutY="136.0" text="Horas Extras" />
-      <Label layoutX="677.0" layoutY="167.0" text="Horas Faltas" />
-      <Spinner fx:id="horaExtra" editable="true" layoutX="751.0" layoutY="132.0" prefHeight="25.0" prefWidth="60.0" />
-      <Spinner fx:id="horaFalta" editable="true" layoutX="751.0" layoutY="163.0" prefHeight="25.0" prefWidth="60.0" />
-      <Spinner fx:id="minutoExtra" editable="true" layoutX="812.0" layoutY="132.0" prefHeight="25.0" prefWidth="60.0" />
-      <Spinner fx:id="minutoFalta" editable="true" layoutX="812.0" layoutY="163.0" prefHeight="25.0" prefWidth="60.0" />
-      <Label layoutX="765.0" layoutY="113.0" prefHeight="17.0" prefWidth="32.0" text="Horas" />
-      <Label layoutX="820.0" layoutY="113.0" text="Minutos" />
-      <Button layoutX="788.0" layoutY="194.0" mnemonicParsing="false" onAction="#salvarHoras" text="Salvar" />
+      <Label layoutX="713.0" layoutY="136.0" text="Horas Extras" />
+      <Label layoutX="714.0" layoutY="167.0" text="Horas Faltas" />
+      <Spinner fx:id="horaExtra" editable="true" layoutX="788.0" layoutY="132.0" prefHeight="25.0" prefWidth="60.0" />
+      <Spinner fx:id="horaFalta" editable="true" layoutX="788.0" layoutY="163.0" prefHeight="25.0" prefWidth="60.0" />
+      <Spinner fx:id="minutoExtra" editable="true" layoutX="849.0" layoutY="132.0" prefHeight="25.0" prefWidth="60.0" />
+      <Spinner fx:id="minutoFalta" editable="true" layoutX="849.0" layoutY="163.0" prefHeight="25.0" prefWidth="60.0" />
+      <Label layoutX="802.0" layoutY="113.0" prefHeight="17.0" prefWidth="32.0" text="Horas" />
+      <Label layoutX="857.0" layoutY="113.0" text="Minutos" />
+      <Button layoutX="825.0" layoutY="194.0" mnemonicParsing="false" onAction="#salvarHoras" text="Salvar" />
       <Spinner fx:id="mes" editable="true" layoutX="110.0" layoutY="28.0" prefHeight="26.0" prefWidth="54.0" />
       <Spinner fx:id="ano" editable="true" layoutX="164.0" layoutY="28.0" prefHeight="26.0" prefWidth="72.0" />
       <Label layoutX="126.0" layoutY="7.0" text="Mes" />
@@ -46,5 +46,6 @@
       <Label layoutX="677.0" layoutY="609.0" text="Salário Líquido:" />
       <Label fx:id="salarioLiquido" layoutX="767.0" layoutY="609.0" />
       <Label fx:id="salvarLabel" layoutX="430.0" layoutY="643.0" />
+      <Button layoutX="605.0" layoutY="132.0" mnemonicParsing="false" onAction="#abrirAvaliacoes" text="Avaliação" />
    </children>
 </AnchorPane>

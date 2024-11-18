@@ -49,13 +49,13 @@ public class CadastroFuncionarioController {
         String cargo = cargoField.getText();
         Double salario;
 
-        if (nome.isEmpty() || sobrenome.isEmpty() || cpf.isEmpty() || cargo.isEmpty() || salarioField.getText().trim().isEmpty()) {
+        if (nome.isEmpty() || sobrenome.isEmpty() || cpf.isEmpty() || cargo.isEmpty() || salarioField.getText().isEmpty()) {
             errorLabel.setText("Todas as informações devem ser preenchidas");
             return;
         }
 
         try {
-            salario = Double.parseDouble(salarioField.getText().trim());
+            salario = Double.parseDouble(salarioField.getText());
         } catch (NumberFormatException e) {
             errorLabel.setText("Salário deve ser um número válido");
             return;
@@ -66,11 +66,6 @@ public class CadastroFuncionarioController {
                 .map(x -> beneficioDao.buscarPorNome(x.getText()))
                 .toList();
 
-        insertFuncionario(nome, sobrenome, cpf, cargo, salario, beneficiosSelecionados);
-    }
-
-
-    public void insertFuncionario(String nome, String sobrenome, String cpf, String cargo, Double salario, List<Beneficio> beneficios) {
         Funcionario funcionario = new Funcionario(
                 null,
                 nome,
@@ -79,7 +74,7 @@ public class CadastroFuncionarioController {
                 Funcionario.Departamento.PRODUCAO,
                 cargo,
                 salario,
-                beneficios,
+                beneficiosSelecionados,
                 LocalDate.now(),
                 null
         );

@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -33,22 +34,35 @@ public class Utils {
         }
     }
 
-    public static void loadFXML(String fxml, TextField textField) {
+    public static void loadFXML(String fxml, Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(Utils.class.getResource(PATH + fxml));
-
             Parent root = loader.load();
 
-            Stage stage = (Stage) textField.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
             centerStage(stage);
             stage.show();
-
         } catch (RuntimeException e) {
             showErrorMessage("Erro ao carregar a interface." + e.getMessage());
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static void loadModal(String fxml, String title) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Utils.class.getResource("/com/esand/gerenciamentorh/" + fxml)); // Certifique-se de que o caminho está correto
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle(title);
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorMessage("Erro ao abrir a janela: " + e.getMessage());
         }
     }
 
