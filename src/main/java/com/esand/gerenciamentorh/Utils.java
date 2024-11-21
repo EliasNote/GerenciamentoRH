@@ -50,22 +50,6 @@ public class Utils {
         }
     }
 
-    public static void loadModal(String fxml, String title) {
-        try {
-            FXMLLoader loader = new FXMLLoader(Utils.class.getResource("/com/esand/gerenciamentorh/" + fxml)); // Certifique-se de que o caminho está correto
-            Parent root = loader.load();
-
-            Stage stage = new Stage();
-            stage.setTitle(title);
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showErrorMessage("Erro ao abrir a janela: " + e.getMessage());
-        }
-    }
-
     private static void centerStage(Stage stage) {
         double screenWidth = Screen.getPrimary().getBounds().getWidth();
         double screenHeight = Screen.getPrimary().getBounds().getHeight();

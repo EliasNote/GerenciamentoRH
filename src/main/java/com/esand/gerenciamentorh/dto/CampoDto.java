@@ -9,6 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CampoDto {
     private String campos;
+    private String informado;
     private String proventos;
     private String descontos;
 }

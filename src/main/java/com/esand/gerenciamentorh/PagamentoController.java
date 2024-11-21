@@ -28,11 +28,12 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.esand.gerenciamentorh.Utils.loadFXML;
-import static com.esand.gerenciamentorh.Utils.loadModal;
 
 public class PagamentoController {
     @FXML
     private TableColumn<CampoDto, String> camposColuna;
+    @FXML
+    private TableColumn<CampoDto, String> informadoColuna;
     @FXML
     private TableColumn<CampoDto, String> proventosColuna;
     @FXML
@@ -79,6 +80,7 @@ public class PagamentoController {
 
     public void initialize() throws Exception {
         camposColuna.setCellValueFactory(new PropertyValueFactory<>("campos"));
+        informadoColuna.setCellValueFactory(new PropertyValueFactory<>("informado"));
         proventosColuna.setCellValueFactory(new PropertyValueFactory<>("proventos"));
         descontosColuna.setCellValueFactory(new PropertyValueFactory<>("descontos"));
 
@@ -87,21 +89,28 @@ public class PagamentoController {
     }
 
     public void salvarHoras() {
+        Funcionario funcionario = funcionarioDao.buscarPorCpf(cpf.getText());
+
         removerCampos(true);
 
         if (horaExtra.getValue() > 0 || minutoExtra.getValue() > 0) {
             listaFolha.add(new CampoDto(
                     Campos.HORAS_EXTRAS.getDescricao(),
-                    horaExtra.getValue().toString(),
-                    minutoExtra.getValue().toString()
+                    horaExtra.getValue().toString() + ":" + minutoExtra.getValue().toString(),
+                    String.format("%,.2f",
+                            ((funcionario.getSalario() / 220) * horaExtra.getValue() + (minutoExtra.getValue() / 60.0)) * 1.5),
+                    String.format("%,.2f", 0.00)
             ));
         }
 
         if (horaFalta.getValue() > 0 || minutoFalta.getValue() > 0) {
             listaFolha.add(new CampoDto(
                     Campos.HORAS_FALTAS.getDescricao(),
-                    horaFalta.getValue().toString(),
-                    minutoFalta.getValue().toString()
+                    horaFalta.getValue().toString() + ":" + minutoFalta.getValue().toString(),
+                    String.format("%,.2f", 0.00),
+                    String.format("%,.2f",
+                            (funcionario.getSalario() / 220) * horaFalta.getValue() + (minutoFalta.getValue() / 60.0))
+
             ));
         }
 
@@ -158,7 +167,6 @@ public class PagamentoController {
 
         nome.setText(funcionario.getNome() + " " + funcionario.getSobrenome());
         this.cpf.setText(funcionario.getCpf());
-        departamento.setText(funcionario.getDepartamento().toString());
         cargo.setText(funcionario.getCargo());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String dataFormatada = funcionario.getDataAdmissao().format(formatter);
@@ -171,6 +179,7 @@ public class PagamentoController {
 
         listaFolha.add(new CampoDto(
                         Campos.SALARIO_BRUTO.getDescricao(),
+                        "220:00",
                         String.format("%,.2f", funcionario.getSalario()),
                         String.format("%,.2f", 0.00)
                 )
@@ -180,6 +189,7 @@ public class PagamentoController {
             funcionario.getBeneficios().forEach(x -> {
                 listaFolha.add(new CampoDto(
                         x.getTipo(),
+                        String.format("%,.2f", x.getValor()),
                         String.format("%,.2f", x.getValor()),
                         String.format("%,.2f", 0.00)
                 ));
@@ -236,6 +246,7 @@ public class PagamentoController {
 
         listaFolha.add(new CampoDto(
                         Campos.TOTAL.getDescricao(),
+                        String.format("%,.2f", proventos - descontos),
                         String.format("%,.2f", proventos),
                         String.format("%,.2f", descontos)
                 )
@@ -273,7 +284,9 @@ public class PagamentoController {
     }
 
     public void abrirAvaliacoes() {
-        Stage stage = new Stage();
-        loadFXML("avaliacao.fxml", stage);
+        if (!nome.getText().isEmpty()) {
+            Stage stage = new Stage();
+            loadFXML("avaliacao.fxml", stage);
+        }
     }
 }

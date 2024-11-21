@@ -17,15 +17,7 @@ public class AvaliacaoController {
     }
 
     public void salvar() {
-        // Obtendo os valores do Spinner e do Label
-        Double notaValue = nota.getValue(); // Obtém o valor do Spinner
-        String observacaoValue = observacao.getText(); // Obtém o texto do Label
-
-        // Imprimindo os valores
-        System.out.println("-------------------------------------" + notaValue + "---" + observacaoValue + "------------------------");
-
-        // Armazenando os valores na classe PagamentoController
-        PagamentoController.avaliacaoNota = notaValue;
-        PagamentoController.avaliacaoObservacao = observacaoValue;
+        PagamentoController.avaliacaoNota = nota.getValue();
+        PagamentoController.avaliacaoObservacao = observacao.getText();
     }
 }

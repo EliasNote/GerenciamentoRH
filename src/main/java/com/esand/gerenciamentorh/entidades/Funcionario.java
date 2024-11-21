@@ -23,8 +23,6 @@ public class Funcionario {
     private String sobrenome;
     @Column(unique = true)
     private String cpf;
-    @Enumerated(EnumType.STRING)
-    private Departamento departamento;
     private String cargo;
     private Double salario = 0.00;
     @ManyToMany
@@ -37,10 +35,4 @@ public class Funcionario {
     private LocalDate dataAdmissao = LocalDate.now();
     @OneToMany(mappedBy = "funcionario")
     private List<Pagamento> pagamentos = new ArrayList<>();
-
-    public enum Departamento {
-        RH,
-        PRODUCAO,
-        GERENCIA
-    }
 }

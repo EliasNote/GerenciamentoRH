@@ -71,7 +71,6 @@ public class CadastroFuncionarioController {
                 nome,
                 sobrenome,
                 cpf,
-                Funcionario.Departamento.PRODUCAO,
                 cargo,
                 salario,
                 beneficiosSelecionados,
