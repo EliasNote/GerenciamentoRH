@@ -47,8 +47,6 @@ public class PagamentoController {
     @FXML
     private TextField cargo;
     @FXML
-    private TextField departamento;
-    @FXML
     private TextField dataAdmissao;
     @FXML
     private ListView<HBox> listaNomes;
@@ -75,8 +73,8 @@ public class PagamentoController {
     private PagamentoDao pagamentoDao = new PagamentoDao();
     private AvaliacaoDao avaliacaoDao = new AvaliacaoDao();
     private static final NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
-    public static Double avaliacaoNota;
-    public static String avaliacaoObservacao;
+    protected static Double avaliacaoNota;
+    protected static String avaliacaoObservacao;
 
     public void initialize() throws Exception {
         camposColuna.setCellValueFactory(new PropertyValueFactory<>("campos"));
@@ -117,7 +115,7 @@ public class PagamentoController {
         calcularTotal();
     }
 
-    public void iniciarSpinners() {
+    private void iniciarSpinners() {
         SpinnerValueFactory<Integer> horaExtra = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0);
         SpinnerValueFactory<Integer> horaFalta = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0);
         SpinnerValueFactory<Integer> minutoExtra = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0);
@@ -137,7 +135,7 @@ public class PagamentoController {
 
 
 
-    public void carregarTodosEmpregados() {
+    private void carregarTodosEmpregados() {
         ObservableList<Funcionario> funcionarios = FXCollections.observableArrayList();
         funcionarios.addAll(funcionarioDao.buscarTodos());
 
@@ -285,8 +283,7 @@ public class PagamentoController {
 
     public void abrirAvaliacoes() {
         if (!nome.getText().isEmpty()) {
-            Stage stage = new Stage();
-            loadFXML("avaliacao.fxml", stage);
+            loadFXML("avaliacao.fxml", new Stage());
         }
     }
 }

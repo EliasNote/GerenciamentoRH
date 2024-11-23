@@ -4,10 +4,15 @@ import com.esand.gerenciamentorh.dao.FuncionarioDao;
 import com.esand.gerenciamentorh.entidades.Funcionario;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+
+import static com.esand.gerenciamentorh.Utils.loadFXML;
 
 public class VisualizarController {
 
@@ -29,6 +34,7 @@ public class VisualizarController {
 
     public void initialize() {
         inicializarDados();
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
     public void inicializarDados() {
@@ -41,5 +47,24 @@ public class VisualizarController {
         salarioColumn.setCellValueFactory(new PropertyValueFactory<>("salario"));
 
         tableView.setItems(funcionarios);
+    }
+
+    public void editar() {
+        EditarController.funcionario = tableView.getSelectionModel().getSelectedItem();
+        EditarController.visualizarController = this;
+        loadFXML("editar.fxml", new Stage());
+        tableView.refresh();
+    }
+
+    public void excluir() {
+        Funcionario funcionario = tableView.getSelectionModel().getSelectedItem();
+        funcionarioDao.excluirPorCpf(funcionario.getCpf());
+        funcionarios.remove(funcionario);
+    }
+
+    public void atualizarTabela() {
+        funcionarios.clear();
+        funcionarios.addAll(funcionarioDao.buscarTodos());
+        tableView.refresh();
     }
 }

@@ -11,9 +11,8 @@ public class AvaliacaoController {
     @FXML
     private TextArea observacao;
 
-    @FXML
     public void initialize() {
-        nota.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10, 5, 0.5));
+        nota.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10, 0, 1));
     }
 
     public void salvar() {

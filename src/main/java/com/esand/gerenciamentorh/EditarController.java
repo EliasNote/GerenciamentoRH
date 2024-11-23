@@ -9,14 +9,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-public class CadastroFuncionarioController {
-    @FXML
-    private ListView<CheckBox> beneficios;
-    @FXML
-    private Label errorLabel;
+public class EditarController {
     @FXML
     private TextField nomeField;
     @FXML
@@ -24,20 +20,24 @@ public class CadastroFuncionarioController {
     @FXML
     private TextField cpfField;
     @FXML
+    private TextField cargoField;
+    @FXML
     private TextField salarioField;
     @FXML
-    private TextField cargoField;
+    private Label errorLabel;
+    @FXML
+    private ListView<CheckBox> beneficios;
+
+    protected static Funcionario funcionario;
+    protected static VisualizarController visualizarController;
 
     private FuncionarioDao funcionarioDao = new FuncionarioDao();
     private BeneficioDao beneficioDao = new BeneficioDao();
     private ObservableList<CheckBox> lista = FXCollections.observableArrayList();
 
     public void initialize() {
-        List<Beneficio> beneficiosBanco = beneficioDao.buscarTodos();
-
-        beneficiosBanco.forEach(beneficio -> lista.add(new CheckBox(beneficio.getTipo())));
-
-        beneficios.setItems(lista);
+        carregarFuncionario();
+        carregarBeneficios();
     }
 
     public void salvar() {
@@ -66,24 +66,43 @@ public class CadastroFuncionarioController {
                 .map(x -> beneficioDao.buscarPorNome(x.getText()))
                 .toList();
 
-        Funcionario funcionario = new Funcionario(
-                null,
-                nome,
-                sobrenome,
-                cpf,
-                cargo,
-                salario,
-                beneficiosSelecionados,
-                LocalDate.now(),
-                null
+        Funcionario funcionario = funcionarioDao.buscarPorCpf(cpf);
+
+        funcionario.setNome(nome);
+        funcionario.setSobrenome(sobrenome);
+        funcionario.setCpf(cpf);
+        funcionario.setCargo(cargo);
+        funcionario.setSalario(salario);
+        funcionario.setBeneficios(beneficiosSelecionados);
+
+        funcionarioDao.atualizar(funcionario);
+
+        visualizarController.atualizarTabela();
+    }
+
+    private void carregarFuncionario() {
+        nomeField.setText(funcionario.getNome());
+        sobrenomeField.setText(funcionario.getSobrenome());
+        cpfField.setText(funcionario.getCpf());
+        cargoField.setText(funcionario.getCargo());
+        salarioField.setText(funcionario.getSalario().toString());
+    }
+
+    private void carregarBeneficios() {
+        List<Beneficio> beneficiosBanco = beneficioDao.buscarTodos();
+        List<String> beneficiosFuncionario = new ArrayList<>();
+        funcionario.getBeneficios().forEach(x ->
+                beneficiosFuncionario.add(x.getTipo())
         );
 
+        beneficiosBanco.forEach(beneficio -> {
+            CheckBox checkBox = new CheckBox(beneficio.getTipo());
+            if (beneficiosFuncionario.contains(checkBox.getText())) {
+                checkBox.setSelected(true);
+            }
+            lista.add(checkBox);
+        });
 
-        if (funcionarioDao.buscarPorCpf(cpf) != null) {
-            errorLabel.setText("Funcionário com esse CPF já está cadastrado");
-            return;
-        }
-
-        funcionarioDao.salvar(funcionario);
+        beneficios.setItems(lista);
     }
 }

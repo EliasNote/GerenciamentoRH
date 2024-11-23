@@ -1,6 +1,7 @@
 package com.esand.gerenciamentorh.dao;
 
 import com.esand.gerenciamentorh.database.DataBase;
+import com.esand.gerenciamentorh.entidades.Avaliacao;
 import com.esand.gerenciamentorh.entidades.Funcionario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -44,6 +45,7 @@ public class FuncionarioDao {
             );
             query.setParameter("cpf", cpf);
             funcionario = query.getSingleResult();
+        } catch (NoResultException e) {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -75,6 +77,24 @@ public class FuncionarioDao {
         return funcionario;
     }
 
+    public Funcionario atualizar(Funcionario funcionario) {
+        EntityManager em = DataBase.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+
+        try {
+            transaction.begin();
+            Funcionario funcionarioAtualizado = em.merge(funcionario);
+            transaction.commit();
+            return funcionarioAtualizado;
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public List<Funcionario> buscarTodos() {
         EntityManager em = DataBase.getEntityManager();
         List<Funcionario> funcionarios = new ArrayList<>();
@@ -92,5 +112,33 @@ public class FuncionarioDao {
         }
 
         return funcionarios;
+    }
+
+    public void excluirPorCpf(String cpf) {
+        EntityManager em = DataBase.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+
+        try {
+            transaction.begin();
+            TypedQuery<Funcionario> query = em.createQuery(
+                    "SELECT f FROM Funcionario f WHERE f.cpf = :cpf",
+                    Funcionario.class
+            );
+            query.setParameter("cpf", cpf);
+            Funcionario funcionario = query.getSingleResult();
+            if (funcionario != null) {
+                em.remove(funcionario);
+                transaction.commit();
+            }
+        } catch (NoResultException e) {
+            showErrorMessage("Nenhum funcionário encontrado com o CPF: " + cpf);
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
     }
 }
