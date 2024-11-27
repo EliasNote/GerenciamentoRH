@@ -65,4 +65,29 @@ public class BeneficioDao {
 
         return beneficio;
     }
+
+    public void excluirPorTipo(String tipo) {
+        EntityManager em = DataBase.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+
+        try {
+            transaction.begin();
+            TypedQuery<Beneficio> query = em.createQuery("SELECT b FROM Beneficio b WHERE b.tipo = :tipo", Beneficio.class);
+            query.setParameter("tipo", tipo);
+            Beneficio beneficio = query.getSingleResult();
+            if (beneficio != null) {
+                em.remove(beneficio);
+            }
+            transaction.commit();
+        } catch (NoResultException e) {
+            System.out.println("Nenhum benefício encontrado com o tipo: " + tipo);
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
 }

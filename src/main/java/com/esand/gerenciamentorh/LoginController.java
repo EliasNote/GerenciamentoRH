@@ -18,7 +18,6 @@ public class LoginController {
 
     @FXML
     private PasswordField Senha;
-
     public void logar() {
         if (loginDao.autenticar(CPF.getText(), Senha.getText())) {
             Stage stage = (Stage) CPF.getScene().getWindow();

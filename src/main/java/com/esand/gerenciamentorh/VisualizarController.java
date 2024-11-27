@@ -17,7 +17,7 @@ import static com.esand.gerenciamentorh.Utils.loadFXML;
 public class VisualizarController {
 
     @FXML
-    private TableView<Funcionario> tableView;
+    private TableView<Funcionario> tabela;
     @FXML
     private TableColumn<Funcionario, Long> idColumn;
     @FXML
@@ -33,11 +33,6 @@ public class VisualizarController {
     private FuncionarioDao funcionarioDao = new FuncionarioDao();
 
     public void initialize() {
-        inicializarDados();
-        tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-    }
-
-    public void inicializarDados() {
         funcionarios.addAll(funcionarioDao.buscarTodos());
 
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -46,18 +41,22 @@ public class VisualizarController {
         cpfColumn.setCellValueFactory(new PropertyValueFactory<>("cpf"));
         salarioColumn.setCellValueFactory(new PropertyValueFactory<>("salario"));
 
-        tableView.setItems(funcionarios);
+        tabela.setItems(funcionarios);
+    }
+
+    public void inicializarDados() {
+
     }
 
     public void editar() {
-        EditarController.funcionario = tableView.getSelectionModel().getSelectedItem();
+        EditarController.funcionario = tabela.getSelectionModel().getSelectedItem();
         EditarController.visualizarController = this;
         loadFXML("editar.fxml", new Stage());
-        tableView.refresh();
+        tabela.refresh();
     }
 
     public void excluir() {
-        Funcionario funcionario = tableView.getSelectionModel().getSelectedItem();
+        Funcionario funcionario = tabela.getSelectionModel().getSelectedItem();
         funcionarioDao.excluirPorCpf(funcionario.getCpf());
         funcionarios.remove(funcionario);
     }
@@ -65,6 +64,6 @@ public class VisualizarController {
     public void atualizarTabela() {
         funcionarios.clear();
         funcionarios.addAll(funcionarioDao.buscarTodos());
-        tableView.refresh();
+        tabela.refresh();
     }
 }

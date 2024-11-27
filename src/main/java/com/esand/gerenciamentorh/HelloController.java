@@ -23,6 +23,10 @@ public class HelloController {
         loadChildrenFXML(contentPane,"pagamento.fxml");
     }
 
+    public void showBeneficios() {
+        loadChildrenFXML(contentPane,"beneficio.fxml");
+    }
+
     public void showAcesso() {
         loadChildrenFXML(contentPane,"cadastroAcesso.fxml");
     }
