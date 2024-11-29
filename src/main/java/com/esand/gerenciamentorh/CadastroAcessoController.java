@@ -22,7 +22,7 @@ public class CadastroAcessoController {
         loginDao.salvar(new Login(null, cpf.getText(), senha.getText()));
     }
 
-    public void remover(ActionEvent actionEvent) {
+    public void remover() {
         loginDao.removerPorCpf(cpfRemocao.getText());
     }
 }

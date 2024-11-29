@@ -47,16 +47,37 @@ public class BeneficioDao {
         }
     }
 
-    public Beneficio buscarPorNome(String nome) {
+    public Beneficio atualizar(Beneficio beneficio) {
+        EntityManager em = DataBase.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+
+        try {
+            transaction.begin();
+            Beneficio beneficioAtualizado = em.merge(beneficio);
+            transaction.commit();
+            return beneficioAtualizado;
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
+
+    public Beneficio buscarPorTipo(String tipo) {
         EntityManager em = DataBase.getEntityManager();
         Beneficio beneficio = null;
 
         try {
-            TypedQuery<Beneficio> query = em.createQuery("SELECT b FROM Beneficio b WHERE b.tipo = :nome", Beneficio.class);
-            query.setParameter("nome", nome);
+            TypedQuery<Beneficio> query = em.createQuery("SELECT b FROM Beneficio b WHERE b.tipo = :tipo", Beneficio.class);
+            query.setParameter("tipo", tipo);
             beneficio = query.getSingleResult();
         } catch (NoResultException e) {
-            System.out.println("Nenhum benefício encontrado com o nome: " + nome);
+            System.out.println("Nenhum benefício encontrado com o tipo: " + tipo);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

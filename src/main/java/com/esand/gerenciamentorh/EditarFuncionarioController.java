@@ -12,7 +12,7 @@ import javafx.scene.control.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditarController {
+public class EditarFuncionarioController {
     @FXML
     private TextField nomeField;
     @FXML
@@ -29,7 +29,7 @@ public class EditarController {
     private ListView<CheckBox> beneficios;
 
     protected static Funcionario funcionario;
-    protected static VisualizarController visualizarController;
+    protected static VisualizarFuncionarioController visualizarFuncionarioController;
 
     private FuncionarioDao funcionarioDao = new FuncionarioDao();
     private BeneficioDao beneficioDao = new BeneficioDao();
@@ -63,10 +63,10 @@ public class EditarController {
 
         List<Beneficio> beneficiosSelecionados = this.beneficios.getItems().stream()
                 .filter(CheckBox::isSelected)
-                .map(x -> beneficioDao.buscarPorNome(x.getText()))
+                .map(x -> beneficioDao.buscarPorTipo(x.getText()))
                 .toList();
 
-        Funcionario funcionario = funcionarioDao.buscarPorCpf(cpf);
+        Funcionario funcionario = this.funcionario;
 
         funcionario.setNome(nome);
         funcionario.setSobrenome(sobrenome);
@@ -77,7 +77,7 @@ public class EditarController {
 
         funcionarioDao.atualizar(funcionario);
 
-        visualizarController.atualizarTabela();
+        visualizarFuncionarioController.atualizarTabela();
     }
 
     private void carregarFuncionario() {

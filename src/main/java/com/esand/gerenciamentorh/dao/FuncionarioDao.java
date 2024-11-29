@@ -61,7 +61,7 @@ public class FuncionarioDao {
 
         try {
             TypedQuery<Funcionario> query = em.createQuery(
-                "SELECT DISTINCT f FROM Funcionario f LEFT JOIN FETCH f.beneficios WHERE f.cpf = :cpf", 
+                "SELECT f FROM Funcionario f LEFT JOIN FETCH f.beneficios WHERE f.cpf = :cpf",
                 Funcionario.class
             );
             query.setParameter("cpf", cpf);
@@ -101,7 +101,7 @@ public class FuncionarioDao {
 
         try {
             TypedQuery<Funcionario> query = em.createQuery(
-                "SELECT DISTINCT f FROM Funcionario f LEFT JOIN FETCH f.beneficios", 
+                "SELECT f FROM Funcionario f LEFT JOIN FETCH f.beneficios",
                 Funcionario.class
             );
             funcionarios = query.getResultList();

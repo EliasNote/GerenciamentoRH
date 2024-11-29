@@ -31,6 +31,7 @@ public class CadastroFuncionarioController {
     private FuncionarioDao funcionarioDao = new FuncionarioDao();
     private BeneficioDao beneficioDao = new BeneficioDao();
     private ObservableList<CheckBox> lista = FXCollections.observableArrayList();
+    protected static VisualizarFuncionarioController visualizarFuncionarioController;
 
     public void initialize() {
         List<Beneficio> beneficiosBanco = beneficioDao.buscarTodos();
@@ -63,20 +64,8 @@ public class CadastroFuncionarioController {
 
         List<Beneficio> beneficiosSelecionados = this.beneficios.getItems().stream()
                 .filter(CheckBox::isSelected)
-                .map(x -> beneficioDao.buscarPorNome(x.getText()))
+                .map(x -> beneficioDao.buscarPorTipo(x.getText()))
                 .toList();
-
-        Funcionario funcionario = new Funcionario(
-                null,
-                nome,
-                sobrenome,
-                cpf,
-                cargo,
-                salario,
-                beneficiosSelecionados,
-                LocalDate.now(),
-                null
-        );
 
 
         if (funcionarioDao.buscarPorCpf(cpf) != null) {
@@ -84,6 +73,20 @@ public class CadastroFuncionarioController {
             return;
         }
 
-        funcionarioDao.salvar(funcionario);
+        funcionarioDao.salvar(
+                new Funcionario(
+                        null,
+                        nome,
+                        sobrenome,
+                        cpf,
+                        cargo,
+                        salario,
+                        beneficiosSelecionados,
+                        LocalDate.now(),
+                        null
+                )
+        );
+
+        visualizarFuncionarioController.atualizarTabela();
     }
 }

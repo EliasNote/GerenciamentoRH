@@ -4,9 +4,7 @@ import com.esand.gerenciamentorh.dao.FuncionarioDao;
 import com.esand.gerenciamentorh.entidades.Funcionario;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -14,7 +12,7 @@ import javafx.stage.Stage;
 
 import static com.esand.gerenciamentorh.Utils.loadFXML;
 
-public class VisualizarController {
+public class VisualizarFuncionarioController {
 
     @FXML
     private TableView<Funcionario> tabela;
@@ -44,21 +42,21 @@ public class VisualizarController {
         tabela.setItems(funcionarios);
     }
 
-    public void inicializarDados() {
-
-    }
-
     public void editar() {
-        EditarController.funcionario = tabela.getSelectionModel().getSelectedItem();
-        EditarController.visualizarController = this;
+        EditarFuncionarioController.funcionario = tabela.getSelectionModel().getSelectedItem();
+        EditarFuncionarioController.visualizarFuncionarioController = this;
         loadFXML("editar.fxml", new Stage());
-        tabela.refresh();
     }
 
     public void excluir() {
         Funcionario funcionario = tabela.getSelectionModel().getSelectedItem();
         funcionarioDao.excluirPorCpf(funcionario.getCpf());
         funcionarios.remove(funcionario);
+    }
+
+    public void cadastrar() {
+        CadastroFuncionarioController.visualizarFuncionarioController = this;
+        loadFXML("cadastroFuncionario.fxml", new Stage());
     }
 
     public void atualizarTabela() {
