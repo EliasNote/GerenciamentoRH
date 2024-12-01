@@ -14,8 +14,8 @@
            <TableColumn fx:id="salarioColumn" prefWidth="125.0" text="Salário" />
         </columns>
       </TableView>
-      <Button layoutX="350.0" layoutY="617.0" mnemonicParsing="false" onAction="#cadastrar" text="Cadastrar" />
-      <Button layoutX="420.0" layoutY="617.0" mnemonicParsing="false" onAction="#editar" text="Editar" />
-      <Button layoutX="490.0" layoutY="617.0" mnemonicParsing="false" onAction="#excluir" text="Excluir" />
+      <Button layoutX="372.0" layoutY="617.0" mnemonicParsing="false" onAction="#cadastrar" text="Cadastrar" />
+      <Button layoutX="456.0" layoutY="617.0" mnemonicParsing="false" onAction="#editar" text="Editar" />
+      <Button layoutX="521.0" layoutY="617.0" mnemonicParsing="false" onAction="#excluir" text="Excluir" />
    </children>
 </AnchorPane>

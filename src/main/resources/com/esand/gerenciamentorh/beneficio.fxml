@@ -13,7 +13,7 @@
         </columns>
       </TableView>
        <Button layoutX="275.0" layoutY="422.0" mnemonicParsing="false" onAction="#cadastrar" text="Cadastrar" />
-      <Button layoutX="255.0" layoutY="422.0" mnemonicParsing="false" onAction="#editar" text="Editar" />
-      <Button layoutX="335.0" layoutY="422.0" mnemonicParsing="false" onAction="#excluir" text="Excluir" />
+      <Button layoutX="215.0" layoutY="422.0" mnemonicParsing="false" onAction="#editar" text="Editar" />
+      <Button layoutX="357.0" layoutY="422.0" mnemonicParsing="false" onAction="#excluir" text="Excluir" />
    </children>
 </AnchorPane>
