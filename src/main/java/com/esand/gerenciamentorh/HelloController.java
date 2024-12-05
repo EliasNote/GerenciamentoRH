@@ -11,10 +11,6 @@ public class HelloController {
     @FXML
     private Pane contentPane;
 
-    public void showCadastrar() {
-        loadChildrenFXML(contentPane,"cadastroFuncionario.fxml");
-    }
-
     public void showVisualizar() {
         loadChildrenFXML(contentPane,"visualizar.fxml");
     }

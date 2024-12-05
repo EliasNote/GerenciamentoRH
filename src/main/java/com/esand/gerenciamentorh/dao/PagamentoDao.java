@@ -6,7 +6,11 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 
-public class PagamentoDao {
+import java.util.List;
+
+public class PagamentoDao implements CrudDao<Pagamento> {
+
+    @Override
     public Pagamento salvar(Pagamento pagamento) {
         EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
@@ -27,6 +31,21 @@ public class PagamentoDao {
         }
     }
 
+    @Override
+    public List<Pagamento> buscarTodos() {
+        return List.of();
+    }
+
+    @Override
+    public Pagamento atualizar(Pagamento pagamento) {
+        return null;
+    }
+
+    @Override
+    public Pagamento deletar(String t) {
+        return null;
+    }
+
     public Pagamento buscarPorId(Long id) {
         EntityManager em = DataBase.getEntityManager();
         Pagamento pagamento = null;
@@ -42,7 +61,8 @@ public class PagamentoDao {
         return pagamento;
     }
 
-    public Pagamento buscarPorCpf(String cpf) {
+    @Override
+    public Pagamento buscarGenerico(String cpf) {
         EntityManager em = DataBase.getEntityManager();
         Pagamento pagamento = null;
 
@@ -62,7 +82,7 @@ public class PagamentoDao {
         return pagamento;
     }
 
-    public Pagamento atualizarPagamentoPorId(Long id, Pagamento novosDados) {
+    public Pagamento atualizarPorId(Long id, Pagamento novosDados) {
         EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 

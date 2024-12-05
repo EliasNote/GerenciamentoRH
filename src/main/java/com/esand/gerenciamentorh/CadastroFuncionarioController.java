@@ -64,11 +64,11 @@ public class CadastroFuncionarioController {
 
         List<Beneficio> beneficiosSelecionados = this.beneficios.getItems().stream()
                 .filter(CheckBox::isSelected)
-                .map(x -> beneficioDao.buscarPorTipo(x.getText()))
+                .map(x -> beneficioDao.buscarGenerico(x.getText()))
                 .toList();
 
 
-        if (funcionarioDao.buscarPorCpf(cpf) != null) {
+        if (funcionarioDao.buscarGenerico(cpf) != null) {
             errorLabel.setText("Funcionário com esse CPF já está cadastrado");
             return;
         }

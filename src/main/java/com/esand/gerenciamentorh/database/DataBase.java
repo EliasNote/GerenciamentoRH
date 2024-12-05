@@ -1,16 +1,13 @@
 package com.esand.gerenciamentorh.database;
 
-import com.esand.gerenciamentorh.dao.BeneficioDao;
-import com.esand.gerenciamentorh.dao.LoginDao;
+import com.esand.gerenciamentorh.dao.*;
 import com.esand.gerenciamentorh.entidades.Beneficio;
 import com.esand.gerenciamentorh.entidades.Login;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DataBase {
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("gerenciamentoRh");
@@ -28,7 +25,7 @@ public class DataBase {
     }
 
     private void inicializarAdmin() {
-        if (loginDao.buscarUltimoId() == null) {
+        if (loginDao.buscarTodos().isEmpty()) {
             Login login = new Login();
             login.setCpf("admin");
             login.setSenha("admin");

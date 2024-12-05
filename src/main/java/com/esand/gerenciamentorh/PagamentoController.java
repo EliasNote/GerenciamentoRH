@@ -87,7 +87,7 @@ public class PagamentoController {
     }
 
     public void salvarHoras() {
-        Funcionario funcionario = funcionarioDao.buscarPorCpf(cpf.getText());
+        Funcionario funcionario = funcionarioDao.buscarGenerico(cpf.getText());
 
         removerCampos(true);
 
@@ -160,7 +160,7 @@ public class PagamentoController {
     private void carregarFuncionario(String cpf) {
         Funcionario funcionario;
 
-        funcionario = funcionarioDao.carregarFuncionarioComBeneficios(cpf);
+        funcionario = funcionarioDao.buscarGenerico(cpf);
         carregarCampos(funcionario);
 
         nome.setText(funcionario.getNome() + " " + funcionario.getSobrenome());
@@ -254,14 +254,14 @@ public class PagamentoController {
     }
 
     public void salvar() {
-        Pagamento pagamentoBanco = pagamentoDao.buscarPorCpf(cpf.getText());
+        Pagamento pagamentoBanco = pagamentoDao.buscarGenerico(cpf.getText());
         Avaliacao avaliacao = avaliacaoDao.salvar(new Avaliacao(null, avaliacaoNota, avaliacaoObservacao, null));
 
         try {
             Pagamento pagamentoNovo = new Pagamento(
                     null,
                     YearMonth.of(ano.getValue(), mes.getValue()),
-                    funcionarioDao.buscarPorCpf(this.cpf.getText()),
+                    funcionarioDao.buscarGenerico(this.cpf.getText()),
                     nf.parse(salarioLiquido.getText()).doubleValue(),
                     horaExtra.getValue() + (double) minutoExtra.getValue() / 100,
                     horaFalta.getValue() + (double) minutoFalta.getValue() / 100,
@@ -269,7 +269,7 @@ public class PagamentoController {
             );
 
             if (pagamentoBanco != null && pagamentoBanco.getCompetencia().equals(YearMonth.of(ano.getValue(), mes.getValue()))) {
-                pagamentoDao.atualizarPagamentoPorId(pagamentoBanco.getId(), pagamentoNovo);
+                pagamentoDao.atualizarPorId(pagamentoBanco.getId(), pagamentoNovo);
             } else {
                 avaliacao.setPagamento(pagamentoDao.salvar(pagamentoNovo));
             }

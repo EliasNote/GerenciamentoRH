@@ -2,8 +2,6 @@ package com.esand.gerenciamentorh;
 
 import com.esand.gerenciamentorh.dao.LoginDao;
 import com.esand.gerenciamentorh.entidades.Login;
-import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.fxml.FXML;
@@ -23,6 +21,6 @@ public class CadastroAcessoController {
     }
 
     public void remover() {
-        loginDao.removerPorCpf(cpfRemocao.getText());
+        loginDao.deletar(cpfRemocao.getText());
     }
 }

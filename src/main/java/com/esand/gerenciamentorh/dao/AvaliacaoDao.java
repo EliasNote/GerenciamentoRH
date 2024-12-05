@@ -8,7 +8,7 @@ import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
-public class AvaliacaoDao {
+public class AvaliacaoDao implements CrudDao<Avaliacao> {
 
     private EntityManager em;
 
@@ -16,6 +16,7 @@ public class AvaliacaoDao {
         this.em = DataBase.getEntityManager();
     }
 
+    @Override
     public Avaliacao salvar(Avaliacao avaliacao) {
         EntityTransaction transaction = em.getTransaction();
         try {
@@ -32,11 +33,23 @@ public class AvaliacaoDao {
         }
     }
 
+    @Override
     public List<Avaliacao> buscarTodos() {
         TypedQuery<Avaliacao> query = em.createQuery("SELECT a FROM Avaliacao a", Avaliacao.class);
         return query.getResultList();
     }
 
+    @Override
+    public Avaliacao buscarPorId(Long id) {
+        return null;
+    }
+
+    @Override
+    public Avaliacao buscarGenerico(String t) {
+        return null;
+    }
+
+    @Override
     public Avaliacao atualizar(Avaliacao avaliacao) {
         EntityTransaction transaction = em.getTransaction();
         try {
@@ -53,24 +66,10 @@ public class AvaliacaoDao {
         }
     }
 
-    public boolean remover(Long id) {
-        EntityTransaction transaction = em.getTransaction();
-        try {
-            transaction.begin();
-            Avaliacao avaliacao = em.find(Avaliacao.class, id);
-            if (avaliacao != null) {
-                em.remove(avaliacao);
-                transaction.commit();
-                return true;
-            }
-            transaction.rollback();
-            return false;
-        } catch (Exception e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-            return false;
-        }
+    @Override
+    public Avaliacao deletar(String t) {
+        return null;
     }
+
+
 }

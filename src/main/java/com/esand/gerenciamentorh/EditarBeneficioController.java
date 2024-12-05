@@ -1,5 +1,6 @@
 package com.esand.gerenciamentorh;
 
+
 import com.esand.gerenciamentorh.dao.BeneficioDao;
 import com.esand.gerenciamentorh.entidades.Beneficio;
 import javafx.fxml.FXML;

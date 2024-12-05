@@ -10,7 +10,9 @@ import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BeneficioDao {
+public class BeneficioDao implements CrudDao<Beneficio> {
+
+    @Override
     public Beneficio salvar(Beneficio beneficio) {
         EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
@@ -31,6 +33,7 @@ public class BeneficioDao {
         }
     }
 
+    @Override
     public List<Beneficio> buscarTodos() {
         EntityManager em = DataBase.getEntityManager();
         List<Beneficio> beneficios = new ArrayList<>();
@@ -47,6 +50,32 @@ public class BeneficioDao {
         }
     }
 
+    @Override
+    public Beneficio buscarPorId(Long id) {
+        return null;
+    }
+
+    @Override
+    public Beneficio buscarGenerico(String tipo) {
+        EntityManager em = DataBase.getEntityManager();
+        Beneficio beneficio = null;
+
+        try {
+            TypedQuery<Beneficio> query = em.createQuery("SELECT b FROM Beneficio b WHERE b.tipo = :tipo", Beneficio.class);
+            query.setParameter("tipo", tipo);
+            beneficio = query.getSingleResult();
+        } catch (NoResultException e) {
+            System.out.println("Nenhum benefício encontrado com o tipo: " + tipo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+        return beneficio;
+    }
+
+    @Override
     public Beneficio atualizar(Beneficio beneficio) {
         EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
@@ -67,27 +96,8 @@ public class BeneficioDao {
         }
     }
 
-
-    public Beneficio buscarPorTipo(String tipo) {
-        EntityManager em = DataBase.getEntityManager();
-        Beneficio beneficio = null;
-
-        try {
-            TypedQuery<Beneficio> query = em.createQuery("SELECT b FROM Beneficio b WHERE b.tipo = :tipo", Beneficio.class);
-            query.setParameter("tipo", tipo);
-            beneficio = query.getSingleResult();
-        } catch (NoResultException e) {
-            System.out.println("Nenhum benefício encontrado com o tipo: " + tipo);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
-
-        return beneficio;
-    }
-
-    public void excluirPorTipo(String tipo) {
+    @Override
+    public Beneficio deletar(String tipo) {
         EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
@@ -110,5 +120,7 @@ public class BeneficioDao {
         } finally {
             em.close();
         }
+
+        return null;
     }
 }

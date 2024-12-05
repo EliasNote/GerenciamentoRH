@@ -50,7 +50,7 @@ public class VisualizarFuncionarioController {
 
     public void excluir() {
         Funcionario funcionario = tabela.getSelectionModel().getSelectedItem();
-        funcionarioDao.excluirPorCpf(funcionario.getCpf());
+        funcionarioDao.deletar(funcionario.getCpf());
         funcionarios.remove(funcionario);
     }
 

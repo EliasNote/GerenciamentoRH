@@ -1,6 +1,6 @@
 package com.esand.gerenciamentorh;
 
-import com.esand.gerenciamentorh.dao.BeneficioDao;
+import com.esand.gerenciamentorh.dao.*;
 import com.esand.gerenciamentorh.dto.BeneficioDto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -54,14 +54,14 @@ public class VisualizarBeneficioController {
     }
 
     public void editar() {
-        EditarBeneficioController.beneficio = beneficioDao.buscarPorTipo(tabela.getSelectionModel().getSelectedItem().getTipo());
+        EditarBeneficioController.beneficio = beneficioDao.buscarGenerico(tabela.getSelectionModel().getSelectedItem().getTipo());
         EditarBeneficioController.visualizarBeneficioController = this;
         loadFXML("editarBeneficio.fxml", new Stage());
     }
 
     public void excluir() {
         BeneficioDto beneficioDto = tabela.getSelectionModel().getSelectedItem();
-        beneficioDao.excluirPorTipo(beneficioDto.getTipo());
+        beneficioDao.deletar(beneficioDto.getTipo());
         beneficios.remove(beneficioDto);
     }
 

@@ -2,7 +2,6 @@ package com.esand.gerenciamentorh.dao;
 
 
 import com.esand.gerenciamentorh.database.DataBase;
-import com.esand.gerenciamentorh.entidades.Beneficio;
 import com.esand.gerenciamentorh.entidades.Login;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -10,7 +9,12 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.mindrot.jbcrypt.BCrypt;
 
-public class LoginDao {
+import java.util.ArrayList;
+import java.util.List;
+
+public class LoginDao implements CrudDao<Login> {
+
+    @Override
     public Login salvar(Login login) {
         EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
@@ -32,7 +36,30 @@ public class LoginDao {
         }
     }
 
-    public Login buscarPorCpf(String cpf) {
+    @Override
+    public List<Login> buscarTodos() {
+        EntityManager em = DataBase.getEntityManager();
+        List<Login> logins = new ArrayList<>();
+
+        try {
+            TypedQuery<Login> query = em.createQuery("SELECT l FROM Login l", Login.class);
+            logins = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+        return logins;
+    }
+
+    @Override
+    public Login buscarPorId(Long id) {
+        return null;
+    }
+
+    @Override
+    public Login buscarGenerico(String cpf) {
         EntityManager em = DataBase.getEntityManager();
         Login login = null;
 
@@ -53,25 +80,13 @@ public class LoginDao {
         return login;
     }
 
-    public boolean autenticar(String cpf, String senha) {
-        EntityManager em = DataBase.getEntityManager();
-
-        try {
-            Login login = buscarPorCpf(cpf);
-
-            if (login == null) {
-                return false;
-            }
-
-            return BCrypt.checkpw(senha, login.getSenha());
-        } catch (NoResultException e) {
-            return false;
-        } finally {
-            em.close();
-        }
+    @Override
+    public Login atualizar(Login login) {
+        return null;
     }
 
-    public boolean removerPorCpf(String cpf) {
+    @Override
+    public Login deletar(String cpf) {
         EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
@@ -86,36 +101,33 @@ public class LoginDao {
             if (loginExistente != null) {
                 em.remove(loginExistente);
                 transaction.commit();
-                return true;
-            } else {
-                return false;
             }
         } catch (NoResultException e) {
-            return false;
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
             e.printStackTrace();
-            return false;
         } finally {
             em.close();
         }
+
+        return null;
     }
 
-    public Long buscarUltimoId() {
+    public boolean autenticar(String cpf, String senha) {
         EntityManager em = DataBase.getEntityManager();
-        String query = "SELECT l.id FROM Login l ORDER BY l.id DESC";
 
         try {
-            return em.createQuery(query, Long.class)
-                    .setMaxResults(1)
-                    .getSingleResult();
+            Login login = buscarGenerico(cpf);
+
+            if (login == null) {
+                return false;
+            }
+
+            return BCrypt.checkpw(senha, login.getSenha());
         } catch (NoResultException e) {
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            return false;
         } finally {
             em.close();
         }

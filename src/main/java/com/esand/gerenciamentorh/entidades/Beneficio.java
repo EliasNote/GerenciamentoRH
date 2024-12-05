@@ -24,5 +24,5 @@ public class Beneficio {
     private Double valor;
 
     @ManyToMany(mappedBy = "beneficios")
-    private List<Funcionario> funcionario = new ArrayList<>();;
+    private List<Funcionario> funcionarios = new ArrayList<>();;
 }

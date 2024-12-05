@@ -63,7 +63,7 @@ public class EditarFuncionarioController {
 
         List<Beneficio> beneficiosSelecionados = this.beneficios.getItems().stream()
                 .filter(CheckBox::isSelected)
-                .map(x -> beneficioDao.buscarPorTipo(x.getText()))
+                .map(x -> beneficioDao.buscarGenerico(x.getText()))
                 .toList();
 
         Funcionario funcionario = this.funcionario;
