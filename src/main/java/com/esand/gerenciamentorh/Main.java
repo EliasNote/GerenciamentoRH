@@ -1,6 +1,6 @@
 package com.esand.gerenciamentorh;
 
-import com.esand.gerenciamentorh.database.DataBase;
+import com.esand.gerenciamentorh.model.database.DataBase;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,7 +13,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         new DataBase();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("view/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Gerenciamento de Funcionários");
         stage.setScene(scene);

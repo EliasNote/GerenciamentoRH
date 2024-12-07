@@ -1,6 +1,5 @@
 package com.esand.gerenciamentorh.dto;
 
-import com.esand.gerenciamentorh.entidades.Funcionario;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

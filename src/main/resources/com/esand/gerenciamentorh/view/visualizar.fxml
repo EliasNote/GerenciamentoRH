@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="675.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.controller.visualizar.VisualizarFuncionarioController">
+   <children>
+      <TableView fx:id="tabela" layoutX="13.0" layoutY="77.0" prefHeight="520.0" prefWidth="934.0">
+        <columns>
+            <TableColumn fx:id="idColumn" prefWidth="115.0" text="Registro" />
+           <TableColumn fx:id="nomeColumn" prefWidth="115.0" text="Nome" />
+           <TableColumn fx:id="sobrenomeColumn" prefWidth="153.0" text="Sobrenome" />
+           <TableColumn fx:id="cpfColumn" prefWidth="117.0" text="CPF" />
+           <TableColumn fx:id="salarioColumn" prefWidth="125.0" text="Salário" />
+        </columns>
+      </TableView>
+      <Button layoutX="372.0" layoutY="617.0" mnemonicParsing="false" onAction="#cadastrar" text="Cadastrar" />
+      <Button layoutX="456.0" layoutY="617.0" mnemonicParsing="false" onAction="#editar" text="Editar" />
+      <Button layoutX="521.0" layoutY="617.0" mnemonicParsing="false" onAction="#excluir" text="Excluir" />
+   </children>
+</AnchorPane>
