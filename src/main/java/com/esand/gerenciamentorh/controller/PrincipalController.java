@@ -5,7 +5,7 @@ import javafx.scene.layout.Pane;
 
 import static com.esand.gerenciamentorh.controller.Utils.loadChildrenFXML;
 
-public class HelloController {
+public class PrincipalController {
 
     @FXML
     private Pane contentPane;

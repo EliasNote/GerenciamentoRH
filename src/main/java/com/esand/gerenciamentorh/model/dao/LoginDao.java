@@ -14,8 +14,13 @@ import java.util.List;
 
 public class LoginDao {
 
+    EntityManager em;
+
+    public LoginDao() {
+        this.em = DataBase.getEntityManager();
+    }
+
     public Login salvar(Login login) {
-        EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         login.setSenha(BCrypt.hashpw(login.getSenha(), BCrypt.gensalt()));
 
@@ -36,7 +41,6 @@ public class LoginDao {
     }
 
     public List<Login> buscarTodos() {
-        EntityManager em = DataBase.getEntityManager();
         List<Login> logins = new ArrayList<>();
 
         try {
@@ -52,7 +56,6 @@ public class LoginDao {
     }
 
     public Login buscarGenerico(String cpf) {
-        EntityManager em = DataBase.getEntityManager();
         Login login = null;
 
         try {
@@ -73,7 +76,6 @@ public class LoginDao {
     }
 
     public Login deletar(String cpf) {
-        EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
         try {
@@ -102,8 +104,6 @@ public class LoginDao {
     }
 
     public boolean autenticar(String cpf, String senha) {
-        EntityManager em = DataBase.getEntityManager();
-
         try {
             Login login = buscarGenerico(cpf);
 

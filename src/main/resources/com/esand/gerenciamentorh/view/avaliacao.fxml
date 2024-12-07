@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="240.0" prefWidth="351.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.controller.AvaliacaoController">
+<AnchorPane prefHeight="240.0" prefWidth="351.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.controller.cadastro.CadastroAvaliacaoController">
    <children>
       <Spinner fx:id="nota" editable="true" layoutX="14.0" layoutY="72.0" prefHeight="26.0" prefWidth="72.0" />
       <Label layoutX="36.0" layoutY="47.0" text="Nota" />

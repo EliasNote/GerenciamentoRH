@@ -3,7 +3,7 @@ package com.esand.gerenciamentorh.controller.visualizar;
 import com.esand.gerenciamentorh.controller.cadastro.CadastroBeneficioController;
 import com.esand.gerenciamentorh.controller.editar.EditarBeneficioController;
 import com.esand.gerenciamentorh.model.dao.*;
-import com.esand.gerenciamentorh.dto.BeneficioDto;
+import com.esand.gerenciamentorh.model.dto.BeneficioDto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

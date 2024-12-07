@@ -1,11 +1,11 @@
-package com.esand.gerenciamentorh.controller;
+package com.esand.gerenciamentorh.controller.cadastro;
 
 import com.esand.gerenciamentorh.model.dao.AvaliacaoDao;
 import com.esand.gerenciamentorh.model.dao.BeneficioDao;
 import com.esand.gerenciamentorh.model.dao.FuncionarioDao;
 import com.esand.gerenciamentorh.model.dao.PagamentoDao;
-import com.esand.gerenciamentorh.dto.CampoDto;
-import com.esand.gerenciamentorh.dto.Campos;
+import com.esand.gerenciamentorh.model.dto.CampoDto;
+import com.esand.gerenciamentorh.model.dto.Campos;
 import com.esand.gerenciamentorh.model.entidades.Avaliacao;
 import com.esand.gerenciamentorh.model.entidades.Beneficio;
 import com.esand.gerenciamentorh.model.entidades.Pagamento;
@@ -29,7 +29,7 @@ import java.util.Locale;
 
 import static com.esand.gerenciamentorh.controller.Utils.loadFXML;
 
-public class PagamentoController {
+public class CadastroPagamentoController {
     @FXML
     private TableColumn<CampoDto, String> camposColuna;
     @FXML

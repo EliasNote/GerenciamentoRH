@@ -1,11 +1,11 @@
-package com.esand.gerenciamentorh.controller;
+package com.esand.gerenciamentorh.controller.cadastro;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextArea;
 
-public class AvaliacaoController {
+public class CadastroAvaliacaoController {
     @FXML
     private Spinner<Double> nota;
     @FXML
@@ -16,7 +16,7 @@ public class AvaliacaoController {
     }
 
     public void salvar() {
-        PagamentoController.avaliacaoNota = nota.getValue();
-        PagamentoController.avaliacaoObservacao = observacao.getText();
+        CadastroPagamentoController.avaliacaoNota = nota.getValue();
+        CadastroPagamentoController.avaliacaoObservacao = observacao.getText();
     }
 }

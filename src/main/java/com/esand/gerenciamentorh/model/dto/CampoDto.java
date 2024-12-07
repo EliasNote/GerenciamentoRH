@@ -1,4 +1,4 @@
-package com.esand.gerenciamentorh.dto;
+package com.esand.gerenciamentorh.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
