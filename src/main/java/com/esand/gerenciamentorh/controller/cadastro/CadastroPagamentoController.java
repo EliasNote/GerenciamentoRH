@@ -1,9 +1,6 @@
 package com.esand.gerenciamentorh.controller.cadastro;
 
-import com.esand.gerenciamentorh.model.dao.AvaliacaoDao;
-import com.esand.gerenciamentorh.model.dao.BeneficioDao;
-import com.esand.gerenciamentorh.model.dao.FuncionarioDao;
-import com.esand.gerenciamentorh.model.dao.PagamentoDao;
+import com.esand.gerenciamentorh.model.dao.*;
 import com.esand.gerenciamentorh.model.dto.CampoDto;
 import com.esand.gerenciamentorh.model.dto.Campos;
 import com.esand.gerenciamentorh.model.entidades.Avaliacao;
@@ -68,10 +65,10 @@ public class CadastroPagamentoController {
     private Label salarioLiquido;
 
     private ObservableList<CampoDto> listaFolha = FXCollections.observableArrayList();
-    private BeneficioDao beneficioDao = new BeneficioDao();
-    private FuncionarioDao funcionarioDao = new FuncionarioDao();
-    private PagamentoDao pagamentoDao = new PagamentoDao();
-    private AvaliacaoDao avaliacaoDao = new AvaliacaoDao();
+    private Dao<Beneficio> beneficioDao = new Dao();
+    private Dao<Funcionario> funcionarioDao = new Dao();
+    private Dao<Pagamento> pagamentoDao = new Dao();
+    private Dao<Avaliacao> avaliacaoDao = new Dao();
     private static final NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
     protected static Double avaliacaoNota;
     protected static String avaliacaoObservacao;
@@ -87,7 +84,7 @@ public class CadastroPagamentoController {
     }
 
     public void salvarHoras() {
-        Funcionario funcionario = funcionarioDao.buscarGenerico(cpf.getText());
+        Funcionario funcionario = funcionarioDao.buscarFuncionarioPorCpf(cpf.getText());
 
         removerCampos(true);
 
@@ -160,7 +157,7 @@ public class CadastroPagamentoController {
     private void carregarFuncionario(String cpf) {
         Funcionario funcionario;
 
-        funcionario = funcionarioDao.buscarGenerico(cpf);
+        funcionario = funcionarioDao.buscarFuncionarioPorCpf(cpf);
         carregarCampos(funcionario);
 
         nome.setText(funcionario.getNome() + " " + funcionario.getSobrenome());
@@ -200,7 +197,7 @@ public class CadastroPagamentoController {
     }
 
     private void removerCampos(Boolean verificar) {
-        List<Beneficio> beneficios = beneficioDao.buscarTodos();
+        List<Beneficio> beneficios = beneficioDao.buscarTodos(Beneficio.class);
 
         if (verificar != null && verificar) {
             listaFolha.removeIf(campo ->
@@ -255,7 +252,7 @@ public class CadastroPagamentoController {
 
     public void salvar() {
         try {
-            Funcionario funcionario = funcionarioDao.buscarGenerico(cpf.getText());
+            Funcionario funcionario = funcionarioDao.buscarFuncionarioPorCpf(cpf.getText());
             YearMonth competencia = YearMonth.of(ano.getValue(), mes.getValue());
             Pagamento pagamento = pagamentoDao.buscarPorFuncionarioECompetencia(funcionario.getCpf(), competencia);
 

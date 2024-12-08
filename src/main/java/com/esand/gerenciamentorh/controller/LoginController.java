@@ -1,6 +1,7 @@
 package com.esand.gerenciamentorh.controller;
 
-import com.esand.gerenciamentorh.model.dao.LoginDao;
+import com.esand.gerenciamentorh.model.dao.Dao;
+import com.esand.gerenciamentorh.model.entidades.Login;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -11,7 +12,7 @@ import static com.esand.gerenciamentorh.controller.Utils.showErrorMessage;
 
 public class LoginController {
 
-    private LoginDao loginDao = new LoginDao();
+    private Dao<Login> loginDao = new Dao();
 
     @FXML
     private TextField CPF;

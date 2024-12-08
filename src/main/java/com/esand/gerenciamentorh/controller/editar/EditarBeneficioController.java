@@ -2,7 +2,7 @@ package com.esand.gerenciamentorh.controller.editar;
 
 
 import com.esand.gerenciamentorh.controller.visualizar.VisualizarBeneficioController;
-import com.esand.gerenciamentorh.model.dao.BeneficioDao;
+import com.esand.gerenciamentorh.model.dao.Dao;
 import com.esand.gerenciamentorh.model.entidades.Beneficio;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -19,7 +19,7 @@ public class EditarBeneficioController {
     private Label errorLabel;
 
     public static Beneficio beneficio;
-    private BeneficioDao beneficioDao = new BeneficioDao();
+    private Dao<Beneficio> beneficioDao = new Dao();
     public static VisualizarBeneficioController visualizarBeneficioController;
 
     public void initialize() {

@@ -4,6 +4,7 @@ import com.esand.gerenciamentorh.controller.cadastro.CadastroBeneficioController
 import com.esand.gerenciamentorh.controller.editar.EditarBeneficioController;
 import com.esand.gerenciamentorh.model.dao.*;
 import com.esand.gerenciamentorh.model.dto.BeneficioDto;
+import com.esand.gerenciamentorh.model.entidades.Beneficio;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -28,12 +29,12 @@ public class VisualizarBeneficioController {
     private TableColumn<BeneficioDto, String> descricaoColumn;
 
     private ObservableList<BeneficioDto> beneficios = FXCollections.observableArrayList();
-    private BeneficioDao beneficioDao = new BeneficioDao();
+    private Dao<Beneficio> beneficioDao = new Dao();
 
     public void initialize() {
         List<BeneficioDto> beneficioDtos = new ArrayList<>();
 
-        beneficioDao.buscarTodos().forEach(beneficio -> {
+        beneficioDao.buscarTodos(Beneficio.class).forEach(beneficio -> {
             beneficioDtos.add(
                     new BeneficioDto(beneficio.getTipo(), beneficio.getDescricao(), beneficio.getValor())
             );
@@ -54,7 +55,7 @@ public class VisualizarBeneficioController {
     }
 
     public void editar() {
-        EditarBeneficioController.beneficio = beneficioDao.buscarGenerico(tabela.getSelectionModel().getSelectedItem().getTipo());
+        EditarBeneficioController.beneficio = beneficioDao.buscarBeneficioPorTipo(tabela.getSelectionModel().getSelectedItem().getTipo());
         EditarBeneficioController.visualizarBeneficioController = this;
         loadFXML("editarBeneficio.fxml", new Stage());
     }
@@ -62,15 +63,15 @@ public class VisualizarBeneficioController {
     public void excluir() {
         BeneficioDto beneficioDto = tabela.getSelectionModel().getSelectedItem();
 
-        if (beneficioDao.buscarGenerico(beneficioDto.getTipo()).getFuncionarios().isEmpty()) {
-            beneficioDao.deletar(beneficioDto.getTipo());
+        if (beneficioDao.buscarBeneficioPorTipo(beneficioDto.getTipo()).getFuncionarios().isEmpty()) {
+            beneficioDao.deletarPorTipo(beneficioDto.getTipo());
             beneficios.remove(beneficioDto);
         }
     }
 
     public void atualizarTabela() {
         beneficios.clear();
-        List<BeneficioDto> beneficioDtos = beneficioDao.buscarTodos().stream()
+        List<BeneficioDto> beneficioDtos = beneficioDao.buscarTodos(Beneficio.class).stream()
                 .map(beneficio ->
                     new BeneficioDto(beneficio.getTipo(), beneficio.getDescricao(), beneficio.getValor())
                 ).toList();

@@ -1,8 +1,7 @@
 package com.esand.gerenciamentorh.controller.cadastro;
 
 import com.esand.gerenciamentorh.controller.visualizar.VisualizarFuncionarioController;
-import com.esand.gerenciamentorh.model.dao.BeneficioDao;
-import com.esand.gerenciamentorh.model.dao.FuncionarioDao;
+import com.esand.gerenciamentorh.model.dao.Dao;
 import com.esand.gerenciamentorh.model.entidades.Beneficio;
 import com.esand.gerenciamentorh.model.entidades.Funcionario;
 import javafx.collections.FXCollections;
@@ -29,13 +28,13 @@ public class CadastroFuncionarioController {
     @FXML
     private TextField cargoField;
 
-    private FuncionarioDao funcionarioDao = new FuncionarioDao();
-    private BeneficioDao beneficioDao = new BeneficioDao();
+    private Dao<Funcionario> funcionarioDao = new Dao();
+    private Dao<Beneficio> beneficioDao = new Dao();
     private ObservableList<CheckBox> lista = FXCollections.observableArrayList();
     public static VisualizarFuncionarioController visualizarFuncionarioController;
 
     public void initialize() {
-        List<Beneficio> beneficiosBanco = beneficioDao.buscarTodos();
+        List<Beneficio> beneficiosBanco = beneficioDao.buscarTodos(Beneficio.class);
 
         beneficiosBanco.forEach(beneficio -> lista.add(new CheckBox(beneficio.getTipo())));
 
@@ -65,11 +64,11 @@ public class CadastroFuncionarioController {
 
         List<Beneficio> beneficiosSelecionados = this.beneficios.getItems().stream()
                 .filter(CheckBox::isSelected)
-                .map(x -> beneficioDao.buscarGenerico(x.getText()))
+                .map(x -> beneficioDao.buscarBeneficioPorTipo(x.getText()))
                 .toList();
 
 
-        if (funcionarioDao.buscarGenerico(cpf) != null) {
+        if (funcionarioDao.buscarFuncionarioPorCpf(cpf) != null) {
             errorLabel.setText("Funcionário com esse CPF já está cadastrado");
             return;
         }

@@ -1,8 +1,6 @@
 package com.esand.gerenciamentorh;
 
-import com.esand.gerenciamentorh.model.dao.BeneficioDao;
-import com.esand.gerenciamentorh.model.dao.LoginDao;
-import com.esand.gerenciamentorh.model.database.DataBase;
+import com.esand.gerenciamentorh.model.dao.Dao;
 import com.esand.gerenciamentorh.model.entidades.Beneficio;
 import com.esand.gerenciamentorh.model.entidades.Login;
 import javafx.application.Application;
@@ -15,8 +13,8 @@ import java.util.List;
 
 public class Main extends Application {
 
-    private LoginDao loginDao = new LoginDao();
-    private BeneficioDao beneficioDao = new BeneficioDao();
+    private Dao<Login> loginDao = new Dao();
+    private Dao<Beneficio> beneficioDao = new Dao();
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -34,17 +32,17 @@ public class Main extends Application {
     }
 
     private void inicializarAdmin() {
-        if (loginDao.buscarTodos().isEmpty()) {
+        if (loginDao.buscarTodos(Login.class).isEmpty()) {
             Login login = new Login();
             login.setCpf("admin");
             login.setSenha("admin");
 
-            loginDao.salvar(login);
+            loginDao.salvarLogin(login);
         }
     }
 
     private void inicializarBeneficios() {
-        if (beneficioDao.buscarTodos().isEmpty()) {
+        if (beneficioDao.buscarTodos(Beneficio.class).isEmpty()) {
             List<Beneficio> beneficios = List.of(
                     new Beneficio(null, "Vale Transporte", "Auxílio para transporte", 150.0, null),
                     new Beneficio(null, "Vale Refeição", "Auxílio para alimentação", 200.0, null),

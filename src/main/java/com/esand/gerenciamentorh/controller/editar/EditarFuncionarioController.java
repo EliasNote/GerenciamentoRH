@@ -1,8 +1,7 @@
 package com.esand.gerenciamentorh.controller.editar;
 
 import com.esand.gerenciamentorh.controller.visualizar.VisualizarFuncionarioController;
-import com.esand.gerenciamentorh.model.dao.BeneficioDao;
-import com.esand.gerenciamentorh.model.dao.FuncionarioDao;
+import com.esand.gerenciamentorh.model.dao.Dao;
 import com.esand.gerenciamentorh.model.entidades.Beneficio;
 import com.esand.gerenciamentorh.model.entidades.Funcionario;
 import javafx.collections.FXCollections;
@@ -32,8 +31,8 @@ public class EditarFuncionarioController {
     public static Funcionario funcionario;
     public static VisualizarFuncionarioController visualizarFuncionarioController;
 
-    private FuncionarioDao funcionarioDao = new FuncionarioDao();
-    private BeneficioDao beneficioDao = new BeneficioDao();
+    private Dao<Funcionario> funcionarioDao = new Dao();
+    private Dao<Beneficio> beneficioDao = new Dao();
     private ObservableList<CheckBox> lista = FXCollections.observableArrayList();
 
     public void initialize() {
@@ -64,7 +63,7 @@ public class EditarFuncionarioController {
 
         List<Beneficio> beneficiosSelecionados = this.beneficios.getItems().stream()
                 .filter(CheckBox::isSelected)
-                .map(x -> beneficioDao.buscarGenerico(x.getText()))
+                .map(x -> beneficioDao.buscarBeneficioPorTipo(x.getText()))
                 .toList();
 
         Funcionario funcionario = this.funcionario;
@@ -90,7 +89,7 @@ public class EditarFuncionarioController {
     }
 
     private void carregarBeneficios() {
-        List<Beneficio> beneficiosBanco = beneficioDao.buscarTodos();
+        List<Beneficio> beneficiosBanco = beneficioDao.buscarTodos(Beneficio.class);
         List<String> beneficiosFuncionario = new ArrayList<>();
         funcionario.getBeneficios().forEach(x ->
                 beneficiosFuncionario.add(x.getTipo())

@@ -2,7 +2,7 @@ package com.esand.gerenciamentorh.controller.visualizar;
 
 import com.esand.gerenciamentorh.controller.cadastro.CadastroFuncionarioController;
 import com.esand.gerenciamentorh.controller.editar.EditarFuncionarioController;
-import com.esand.gerenciamentorh.model.dao.FuncionarioDao;
+import com.esand.gerenciamentorh.model.dao.Dao;
 import com.esand.gerenciamentorh.model.entidades.Funcionario;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,7 +30,7 @@ public class VisualizarFuncionarioController {
     private TableColumn<Funcionario, Double> salarioColumn;
 
     private ObservableList<Funcionario> funcionarios = FXCollections.observableArrayList();
-    private FuncionarioDao funcionarioDao = new FuncionarioDao();
+    private Dao<Funcionario> funcionarioDao = new Dao();
 
     public void initialize() {
         funcionarios.addAll(funcionarioDao.buscarTodos());
@@ -52,7 +52,7 @@ public class VisualizarFuncionarioController {
 
     public void excluir() {
         Funcionario funcionario = tabela.getSelectionModel().getSelectedItem();
-        funcionarioDao.deletar(funcionario.getCpf());
+        funcionarioDao.deletarPorCpf(Funcionario.class, funcionario.getCpf());
         funcionarios.remove(funcionario);
     }
 
