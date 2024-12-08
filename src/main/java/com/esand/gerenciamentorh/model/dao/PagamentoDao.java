@@ -8,17 +8,11 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 
 import java.time.YearMonth;
-import java.util.List;
 
 public class PagamentoDao {
 
-    EntityManager em;
-
-    public PagamentoDao() {
-        this.em = DataBase.getEntityManager();
-    }
-
     public Pagamento salvar(Pagamento pagamento) {
+        EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
         try {
@@ -38,6 +32,7 @@ public class PagamentoDao {
     }
 
     public Pagamento atualizar(Pagamento pagamento) {
+        EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
         try {
@@ -57,6 +52,8 @@ public class PagamentoDao {
     }
 
     public Pagamento buscarPorId(Long id) {
+        EntityManager em = DataBase.getEntityManager();
+
         Pagamento pagamento = null;
 
         try {
@@ -71,6 +68,8 @@ public class PagamentoDao {
     }
 
     public Pagamento buscarPorFuncionarioECompetencia(String cpf, YearMonth competencia) {
+        EntityManager em = DataBase.getEntityManager();
+
         Pagamento pagamento = null;
 
         try {

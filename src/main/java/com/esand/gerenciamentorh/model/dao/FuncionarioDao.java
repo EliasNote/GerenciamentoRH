@@ -14,13 +14,8 @@ import static com.esand.gerenciamentorh.controller.Utils.showErrorMessage;
 
 public class FuncionarioDao {
 
-    EntityManager em;
-
-    public FuncionarioDao() {
-        this.em = DataBase.getEntityManager();
-    }
-
     public Funcionario salvar(Funcionario funcionario) {
+        EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
         try {
@@ -40,6 +35,8 @@ public class FuncionarioDao {
     }
 
     public List<Funcionario> buscarTodos() {
+        EntityManager em = DataBase.getEntityManager();
+
         List<Funcionario> funcionarios = new ArrayList<>();
 
         try {
@@ -58,6 +55,8 @@ public class FuncionarioDao {
     }
 
     public Funcionario buscarGenerico(String cpf) {
+        EntityManager em = DataBase.getEntityManager();
+
         Funcionario funcionario = null;
 
         try {
@@ -79,6 +78,7 @@ public class FuncionarioDao {
     }
 
     public Funcionario atualizar(Funcionario funcionario) {
+        EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
         try {
@@ -96,6 +96,7 @@ public class FuncionarioDao {
     }
 
     public Funcionario deletar(String cpf) {
+        EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
         try {

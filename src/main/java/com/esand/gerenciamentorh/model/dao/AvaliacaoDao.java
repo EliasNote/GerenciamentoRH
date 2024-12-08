@@ -10,13 +10,8 @@ import java.util.List;
 
 public class AvaliacaoDao {
 
-    private EntityManager em;
-
-    public AvaliacaoDao() {
-        this.em = DataBase.getEntityManager();
-    }
-
     public Avaliacao salvar(Avaliacao avaliacao) {
+        EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
@@ -33,11 +28,14 @@ public class AvaliacaoDao {
     }
 
     public List<Avaliacao> buscarTodos() {
+        EntityManager em = DataBase.getEntityManager();
+
         TypedQuery<Avaliacao> query = em.createQuery("SELECT a FROM Avaliacao a", Avaliacao.class);
         return query.getResultList();
     }
 
     public Avaliacao atualizar(Avaliacao avaliacao) {
+        EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();

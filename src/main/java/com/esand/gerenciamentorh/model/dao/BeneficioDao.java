@@ -12,13 +12,8 @@ import java.util.List;
 
 public class BeneficioDao {
 
-    EntityManager em;
-
-    public BeneficioDao() {
-        this.em = DataBase.getEntityManager();
-    }
-
     public Beneficio salvar(Beneficio beneficio) {
+        EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
         try {
@@ -38,6 +33,8 @@ public class BeneficioDao {
     }
 
     public List<Beneficio> buscarTodos() {
+        EntityManager em = DataBase.getEntityManager();
+
         List<Beneficio> beneficios = new ArrayList<>();
 
         try {
@@ -53,6 +50,8 @@ public class BeneficioDao {
     }
 
     public Beneficio buscarGenerico(String tipo) {
+        EntityManager em = DataBase.getEntityManager();
+
         Beneficio beneficio = null;
 
         try {
@@ -71,6 +70,7 @@ public class BeneficioDao {
     }
 
     public Beneficio atualizar(Beneficio beneficio) {
+        EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
         try {
@@ -90,6 +90,7 @@ public class BeneficioDao {
     }
 
     public Beneficio deletar(String tipo) {
+        EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
         try {
