@@ -5,3 +5,44 @@
 .tableColumn {
     -fx-alignment: CENTER;
 }
+
+.vbox-com-borda-esquerda {
+    -fx-border-style: solid;
+    -fx-border-width: 0 1px 0 0;
+    -fx-border-color: #002139;
+}
+
+.caixa-texto {
+    -fx-background-color: white;
+    -fx-border-style: solid;
+    -fx-border-width: 1px;
+    -fx-border-color: #002139;
+    -fx-border-radius: 2px;
+}
+
+.caixa-texto:hover {
+}
+
+.botao {
+    -fx-font-family: "JetBrains Mono Medium";
+    -fx-font-size: 12px;
+    -fx-background-color: #006EFF;
+    -fx-cursor: hand;
+    -fx-text-fill: white;
+}
+
+.botao-branco {
+    -fx-font-family: "JetBrains Mono Medium";
+    -fx-font-size: 12px;
+    -fx-background-color: white;
+    -fx-cursor: hand;
+    -fx-text-fill: #006EFF;
+    -fx-border-style: solid;
+    -fx-border-width: 1px;
+    -fx-border-color: #002139;
+    -fx-border-radius: 2px;
+}
+
+.botao:hover {
+    -fx-background-color: #00A8E8;
+}

@@ -4,11 +4,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="TOP_CENTER" minHeight="231.0" minWidth="501.0" prefHeight="400.0" prefWidth="798.0" spacing="15.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.controller.cadastro.CadastroFuncionarioController">
+<VBox alignment="TOP_CENTER" minHeight="231.0" minWidth="501.0" prefHeight="284.0" prefWidth="708.0" spacing="15.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.controller.cadastro.CadastroFuncionarioController">
     <children>
       <HBox prefHeight="275.0" prefWidth="644.0">
          <children>
-              <VBox alignment="TOP_CENTER" prefHeight="202.0" prefWidth="505.0" spacing="10.0">
+              <VBox alignment="TOP_CENTER" prefHeight="246.0" prefWidth="505.0" spacing="10.0">
                   <children>
                       <GridPane minHeight="150.0" minWidth="475.0" prefHeight="202.0" prefWidth="475.0">
                           <columnConstraints>

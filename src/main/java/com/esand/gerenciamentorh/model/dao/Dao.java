@@ -157,13 +157,13 @@ public class Dao<T> {
         return funcionarios;
     }
 
-    public T buscarPorCpf(Class<T> object, String cpf) {
+    public Login buscarPorCpf(String cpf) {
         EntityManager em = DataBase.getEntityManager();
 
-        T objetoGenerico = null;
+        Login objetoGenerico = null;
 
         try {
-            TypedQuery<T> query = em.createQuery("SELECT t FROM " + object.getSimpleName() + " t WHERE t.cpf = :cpf", object);
+            TypedQuery<Login> query = em.createQuery("SELECT t FROM Login t WHERE t.cpf = :cpf", Login.class);
             query.setParameter("cpf", cpf);
             objetoGenerico = query.getSingleResult();
         } catch (NoResultException e) {
@@ -251,7 +251,7 @@ public class Dao<T> {
 
         try {
             Dao<Login> loginDao = new Dao();
-            Login login = loginDao.buscarPorCpf(Login.class, cpf);
+            Login login = loginDao.buscarPorCpf(cpf);
 
             if (login == null) {
                 return false;
