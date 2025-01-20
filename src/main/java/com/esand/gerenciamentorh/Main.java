@@ -41,7 +41,7 @@ public class Main extends Application {
     private void inicializarAdmin() {
         if (loginDao.buscarTodos(Login.class).isEmpty()) {
             Login login = new Login();
-            login.setCpf("admin");
+            login.setLogin("admin@admin.com");
             login.setSenha("admin");
 
             loginDao.salvarLogin(login);

@@ -17,11 +17,11 @@
             </ImageView>
             <VBox maxWidth="220.0" prefHeight="111.0" prefWidth="200.0">
                <children>
-                  <Label prefHeight="17.0" prefWidth="39.0" text="CPF">
+                  <Label prefHeight="17.0" prefWidth="39.0" text="Login">
                      <font>
                         <Font size="12.0" />
                      </font></Label>
-                  <TextField fx:id="CPF" styleClass="caixa-texto" />
+                  <TextField fx:id="Login" styleClass="caixa-texto" />
                   <Label prefHeight="17.0" prefWidth="44.0" text="Senha">
                      <font>
                         <Font size="12.0" />

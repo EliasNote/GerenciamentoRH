@@ -157,17 +157,18 @@ public class Dao<T> {
         return funcionarios;
     }
 
-    public Login buscarPorCpf(String cpf) {
+    public Login buscarPorLogin(String cpf, String email) {
         EntityManager em = DataBase.getEntityManager();
 
-        Login objetoGenerico = null;
+        Login objeto = null;
+        String login = cpf != null ? cpf : email;
 
         try {
-            TypedQuery<Login> query = em.createQuery("SELECT t FROM Login t WHERE t.cpf = :cpf", Login.class);
-            query.setParameter("cpf", cpf);
-            objetoGenerico = query.getSingleResult();
+            TypedQuery<Login> query = em.createQuery("SELECT t FROM Login t WHERE t.login = :login", Login.class);
+            query.setParameter("login", login);
+            objeto = query.getSingleResult();
         } catch (NoResultException e) {
-            System.out.println("Nada encontrado com o CPF: " + cpf);
+            System.out.println("Nada encontrado com o login: " + login);
         } catch (Exception e) {
             e.printStackTrace();
             if (em.getTransaction().isActive()) {
@@ -176,7 +177,7 @@ public class Dao<T> {
         } finally {
             em.close();
         }
-        return objetoGenerico;
+        return objeto;
     }
 
     public Beneficio buscarBeneficioPorTipo(String tipo) {
@@ -244,24 +245,5 @@ public class Dao<T> {
         }
 
         return pagamento;
-    }
-
-    public boolean autenticar(String cpf, String senha) {
-        EntityManager em = DataBase.getEntityManager();
-
-        try {
-            Dao<Login> loginDao = new Dao();
-            Login login = loginDao.buscarPorCpf(cpf);
-
-            if (login == null) {
-                return false;
-            }
-
-            return BCrypt.checkpw(senha, login.getSenha());
-        } catch (NoResultException e) {
-            return false;
-        } finally {
-            em.close();
-        }
     }
 }
