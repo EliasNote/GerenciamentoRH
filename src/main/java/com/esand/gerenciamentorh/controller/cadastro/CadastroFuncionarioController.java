@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class CadastroFuncionarioController {
+
     @FXML
     private ListView<CheckBox> beneficios;
     @FXML
@@ -27,6 +28,8 @@ public class CadastroFuncionarioController {
     private TextField salarioField;
     @FXML
     private TextField cargoField;
+    @FXML
+    private DatePicker dataField;
 
     private Dao<Funcionario> funcionarioDao = new Dao();
     private Dao<Beneficio> beneficioDao = new Dao();
@@ -48,9 +51,17 @@ public class CadastroFuncionarioController {
         String sobrenome = sobrenomeField.getText();
         String cpf = cpfField.getText();
         String cargo = cargoField.getText();
+        LocalDate data = dataField.getValue();
         Double salario;
 
-        if (nome.isEmpty() || sobrenome.isEmpty() || cpf.isEmpty() || cargo.isEmpty() || salarioField.getText().isEmpty()) {
+        if (
+                nome.isEmpty() ||
+                sobrenome.isEmpty() ||
+                cpf.isEmpty() ||
+                cargo.isEmpty() ||
+                salarioField.getText().isEmpty() ||
+                data == null
+        ) {
             errorLabel.setText("Todas as informações devem ser preenchidas");
             return;
         }
@@ -82,7 +93,7 @@ public class CadastroFuncionarioController {
                         cargo,
                         salario,
                         beneficiosSelecionados,
-                        LocalDate.now(),
+                        data,
                         null
                 )
         );

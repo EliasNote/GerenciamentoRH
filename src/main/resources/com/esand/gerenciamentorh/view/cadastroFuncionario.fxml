@@ -43,6 +43,7 @@
                <children>
                   <Label text="Benefícios" />
                   <ListView fx:id="beneficios" prefHeight="181.0" prefWidth="167.0" />
+                  <DatePicker fx:id="dataField" />
                </children>
             </VBox>
          </children>

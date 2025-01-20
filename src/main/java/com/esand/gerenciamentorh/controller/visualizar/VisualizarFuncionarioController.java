@@ -12,6 +12,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.time.LocalDate;
+
 import static com.esand.gerenciamentorh.controller.Utils.loadFXML;
 
 public class VisualizarFuncionarioController {
@@ -28,6 +30,10 @@ public class VisualizarFuncionarioController {
     private TableColumn<Funcionario, String> cpfColumn;
     @FXML
     private TableColumn<Funcionario, Double> salarioColumn;
+    @FXML
+    private TableColumn<Funcionario, String> cargoColumn;
+    @FXML
+    private TableColumn<Funcionario, LocalDate> admissaoColumn;
 
     private ObservableList<Funcionario> funcionarios = FXCollections.observableArrayList();
     private Dao<Funcionario> funcionarioDao = new Dao();
@@ -40,6 +46,8 @@ public class VisualizarFuncionarioController {
         sobrenomeColumn.setCellValueFactory(new PropertyValueFactory<>("sobrenome"));
         cpfColumn.setCellValueFactory(new PropertyValueFactory<>("cpf"));
         salarioColumn.setCellValueFactory(new PropertyValueFactory<>("salario"));
+        cargoColumn.setCellValueFactory(new PropertyValueFactory<>("cargo"));
+        admissaoColumn.setCellValueFactory(new PropertyValueFactory<>("dataAdmissao"));
 
         tabela.setItems(funcionarios);
     }

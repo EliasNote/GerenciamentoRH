@@ -2,7 +2,6 @@ package com.esand.gerenciamentorh.controller.cadastro;
 
 import com.esand.gerenciamentorh.model.dao.*;
 import com.esand.gerenciamentorh.model.dto.CampoDto;
-import com.esand.gerenciamentorh.model.dto.Campos;
 import com.esand.gerenciamentorh.model.entidades.Avaliacao;
 import com.esand.gerenciamentorh.model.entidades.Beneficio;
 import com.esand.gerenciamentorh.model.entidades.Pagamento;
@@ -25,6 +24,8 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.esand.gerenciamentorh.controller.Utils.loadFXML;
+import static com.esand.gerenciamentorh.controller.cadastro.impostos.Impostos.calcularInss;
+import static com.esand.gerenciamentorh.controller.cadastro.impostos.Impostos.calcularIrpf;
 
 public class CadastroPagamentoController {
     @FXML
@@ -73,6 +74,16 @@ public class CadastroPagamentoController {
     protected static Double avaliacaoNota;
     protected static String avaliacaoObservacao;
 
+
+    public static final String SALARIO_BRUTO = "Salário Bruto";
+    public static final String HORAS_EXTRAS = "Horas Extras";
+    public static final String HORAS_FALTAS = "Horas Faltas";
+    public static final String INSS = "INSS";
+    public static final String IRPF = "IRPF";
+    public static final String FGTS = "FGTS";
+    public static final String TOTAL = "Total";
+
+
     public void initialize() throws Exception {
         camposColuna.setCellValueFactory(new PropertyValueFactory<>("campos"));
         informadoColuna.setCellValueFactory(new PropertyValueFactory<>("informado"));
@@ -86,11 +97,11 @@ public class CadastroPagamentoController {
     public void salvarHoras() {
         Funcionario funcionario = funcionarioDao.buscarFuncionarioPorCpf(cpf.getText());
 
-        removerCampos(true);
+        removerCampos("horas");
 
         if (horaExtra.getValue() > 0 || minutoExtra.getValue() > 0) {
             listaFolha.add(new CampoDto(
-                    Campos.HORAS_EXTRAS.getDescricao(),
+                    HORAS_EXTRAS,
                     horaExtra.getValue().toString() + ":" + minutoExtra.getValue().toString(),
                     String.format("%,.2f",
                             ((funcionario.getSalario() / 220) * horaExtra.getValue() + (minutoExtra.getValue() / 60.0)) * 1.5),
@@ -100,7 +111,7 @@ public class CadastroPagamentoController {
 
         if (horaFalta.getValue() > 0 || minutoFalta.getValue() > 0) {
             listaFolha.add(new CampoDto(
-                    Campos.HORAS_FALTAS.getDescricao(),
+                    HORAS_FALTAS,
                     horaFalta.getValue().toString() + ":" + minutoFalta.getValue().toString(),
                     String.format("%,.2f", 0.00),
                     String.format("%,.2f",
@@ -138,11 +149,14 @@ public class CadastroPagamentoController {
 
         for (Funcionario funcionario : funcionarios) {
             HBox hBox = new HBox();
-            Label nomeLabel = new Label(funcionario.getNome() + " " + funcionario.getSobrenome());
-            Button selecionarButton = new Button("Selecionar");
+            hBox.getStyleClass().add("hbox-custom");
 
+            Label nomeLabel = new Label(funcionario.getNome() + " " + funcionario.getSobrenome());
+            nomeLabel.getStyleClass().add("label-custom");
             nomeLabel.setMaxWidth(135);
 
+            Button selecionarButton = new Button("Selecionar");
+            selecionarButton.getStyleClass().add("button-custom");
             selecionarButton.setOnAction(e -> carregarFuncionario(funcionario.getCpf()));
 
             Region spacer = new Region();
@@ -169,11 +183,14 @@ public class CadastroPagamentoController {
     }
 
     private void carregarCampos(Funcionario funcionario) {
-        removerCampos(false);
-        removerCampos(true);
+        removerCampos("salario");
+        removerCampos("beneficios");
+        removerCampos("horas");
+        removerCampos("inss");
+        removerCampos("irpf");
 
         listaFolha.add(new CampoDto(
-                        Campos.SALARIO_BRUTO.getDescricao(),
+                        SALARIO_BRUTO,
                         "220:00",
                         String.format("%,.2f", funcionario.getSalario()),
                         String.format("%,.2f", 0.00)
@@ -191,33 +208,80 @@ public class CadastroPagamentoController {
             });
         }
 
+        double baseCalculoImposto = baseCalculoImposto();
+        double inss = calcularInss(baseCalculoImposto);
+
+        listaFolha.add(new CampoDto(
+                INSS,
+                String.format("%,.2f", (inss*100)/baseCalculoImposto),
+                String.format("%,.2f", 0.00),
+                String.format("%,.2f", inss)
+        ));
+
+        double irpf = calcularIrpf(baseCalculoImposto - inss);
+
+        listaFolha.add(new CampoDto(
+                IRPF,
+                String.format("%,.2f", (irpf*100)/baseCalculoImposto),
+                String.format("%,.2f", 0.00),
+                String.format("%,.2f", irpf)
+        ));
+
         calcularTotal();
 
         tabelaFolha.setItems(listaFolha);
     }
 
-    private void removerCampos(Boolean verificar) {
+    private double baseCalculoImposto() {
+        double resultado = 0.00;
+
+        try {
+            for (CampoDto campo : listaFolha) {
+                if (campo.getCampos().contains(SALARIO_BRUTO) ||
+                    campo.getCampos().contains(HORAS_EXTRAS) ||
+                    campo.getCampos().contains(HORAS_FALTAS)
+                ) {
+                    resultado += nf.parse(campo.getProventos()).doubleValue();
+                    resultado -= nf.parse(campo.getDescontos()).doubleValue();
+                }
+            }
+        } catch(Exception e) {
+            System.out.println("Falha na conversão dos valores da folha de pagamento");
+        }
+
+        return resultado;
+    }
+
+    private void removerCampos(String verificar) {
         List<Beneficio> beneficios = beneficioDao.buscarTodos(Beneficio.class);
 
-        if (verificar != null && verificar) {
+        if (verificar != null && verificar.equals("horas")) {
             listaFolha.removeIf(campo ->
-                    campo.getCampos().equals(Campos.HORAS_EXTRAS.getDescricao()) ||
-                            campo.getCampos().equals(Campos.HORAS_FALTAS.getDescricao())
+                    campo.getCampos().equals(HORAS_EXTRAS) ||
+                            campo.getCampos().equals(HORAS_FALTAS)
             );
-        } else if (verificar != null) {
+        } else if (verificar != null && verificar.equals("salario")) {
             listaFolha.removeIf(campo ->
-                    campo.getCampos().equals(Campos.SALARIO_BRUTO.getDescricao())
+                    campo.getCampos().equals(SALARIO_BRUTO)
             );
-
+        } else if (verificar != null && verificar.equals("beneficios")) {
             beneficios.forEach(beneficio -> {
                 listaFolha.removeIf(campo ->
                         campo.getCampos().equals(beneficio.getTipo())
                 );
             });
+        } else if (verificar != null && verificar.equals("inss")) {
+            listaFolha.removeIf(campo ->
+                    campo.getCampos().equals(INSS)
+            );
+        } else if (verificar != null && verificar.equals("irpf")) {
+            listaFolha.removeIf(campo ->
+                    campo.getCampos().equals(IRPF)
+            );
         }
 
         listaFolha.removeIf(campo ->
-                campo.getCampos().equals(Campos.TOTAL.getDescricao())
+                campo.getCampos().equals(TOTAL)
         );
 
         avaliacaoNota = null;
@@ -240,7 +304,7 @@ public class CadastroPagamentoController {
         removerCampos(null);
 
         listaFolha.add(new CampoDto(
-                        Campos.TOTAL.getDescricao(),
+                        TOTAL,
                         String.format("%,.2f", proventos - descontos),
                         String.format("%,.2f", proventos),
                         String.format("%,.2f", descontos)

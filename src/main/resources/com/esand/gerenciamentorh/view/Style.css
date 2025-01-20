@@ -1,48 +1,126 @@
-.menuButton:hover {
-    -fx-background-color: #BEC6FF;
-}
-
-.tableColumn {
-    -fx-alignment: CENTER;
-}
-
-.vbox-com-borda-esquerda {
-    -fx-border-style: solid;
-    -fx-border-width: 0 1px 0 0;
-    -fx-border-color: #002139;
-}
-
-.caixa-texto {
-    -fx-background-color: white;
-    -fx-border-style: solid;
-    -fx-border-width: 1px;
-    -fx-border-color: #002139;
-    -fx-border-radius: 2px;
-}
-
-.caixa-texto:hover {
-}
-
 .botao {
-    -fx-font-family: "JetBrains Mono Medium";
-    -fx-font-size: 12px;
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+    -fx-border-radius: 3px;
+    -fx-text-color: white;
+    -fx-background-radius: 3px;
     -fx-background-color: #006EFF;
-    -fx-cursor: hand;
-    -fx-text-fill: white;
-}
-
-.botao-branco {
-    -fx-font-family: "JetBrains Mono Medium";
     -fx-font-size: 12px;
-    -fx-background-color: white;
-    -fx-cursor: hand;
-    -fx-text-fill: #006EFF;
-    -fx-border-style: solid;
-    -fx-border-width: 1px;
-    -fx-border-color: #002139;
-    -fx-border-radius: 2px;
+    -fx-border-radius: 0;
 }
 
 .botao:hover {
-    -fx-background-color: #00A8E8;
+    -fx-background-color: #CFCFCF;
 }
+
+.botao-lateral {
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+    -fx-font-size: 12px;
+    -fx-border-radius: 0;
+}
+
+.botao-lateral:hover {
+    -fx-border-width: 0;
+    -fx-background-color: rgba(0, 110, 255, 0.2);
+    -fx-border-width: 0;
+    -fx-font-size: 12px;
+}
+
+.active {
+    -fx-border-width: 0;
+    -fx-background-color: rgba(0, 110, 255, 0.2);
+    -fx-margin: 0px;
+    -fx-font-size: 12px;
+}
+
+.botao-deletar {
+    -fx-cursor: hand;
+    -fx-background-color: white;
+    -fx-text-fill: red;
+    -fx-border-radius: 3px;
+    -fx-border-width: 1px;
+    -fx-border-color: red;
+}
+
+.botao-deletar:hover {
+    -fx-background-color: red;
+    -fx-text-fill: white;
+}
+
+.tabela .column-header .label {
+    -fx-alignment: CENTER_LEFT;
+    -fx-text-fill: #575757;
+}
+
+.column-header {
+    -fx-background-color: white;
+    -fx-border-color: white;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-table-cell-border-color: transparent;
+}
+
+
+
+
+
+
+
+
+
+
+#
+#.table-view .column-header-background {
+#    -fx-border-color: transparent; /* Remove as linhas verticais do cabeçalho */
+#}
+#
+#.table-view .table-row-cell {
+#    -fx-background-color: white; /* Cor de fundo das linhas */
+#    -fx-border-color: blue; /* Cor das linhas horizontais */
+#    -fx-border-width: 0 0 1px 0; /* Define a largura das bordas (apenas horizontal) */
+#}
+#
+#.table-view .table-row-cell:odd {
+#    -fx-background-color: white; /* Cor de fundo das linhas ímpares */
+#    -fx-border-color: blue; /* Cor das linhas horizontais */
+#}
+#
+#.table-view .table-row-cell:even {
+#    -fx-background-color: white; /* Cor de fundo das linhas pares */
+#    -fx-border-color: blue; /* Cor das linhas horizontais */
+#}
+#
+#.table-view .table-row-cell:selected {
+#    -fx-background-color: #d0e7ff; /* Cor de fundo da linha selecionada */
+#}
+
+
+
+
+
+
+
+
+
+
+#.list-view {
+#    -fx-background-color: #3c3f41;
+#    -fx-control-inner-background: #3c3f41;
+#    -fx-border-color: #555555;
+#    -fx-border-width: 1px;
+#    -fx-border-radius: 5px;
+#}
+
+#.list-view .list-cell {
+#    -fx-background-color: transparent;
+#    -fx-text-fill: #a9b7c6;
+#}
+#
+#.list-view .list-cell:hover {
+#    -fx-background-color: #4a4a4a;
+#}

@@ -5,7 +5,7 @@
 
 <AnchorPane prefHeight="474.0" prefWidth="638.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.controller.visualizar.VisualizarBeneficioController">
    <children>
-      <TableView fx:id="tabela" layoutX="19.0" layoutY="41.0" prefHeight="360.0" prefWidth="600.0">
+      <TableView fx:id="tabela" layoutX="19.0" layoutY="41.0" prefHeight="360.0" prefWidth="600.0" styleClass="tabela">
         <columns>
           <TableColumn fx:id="tipoColumn" prefWidth="175.0" text="Tipo" />
           <TableColumn fx:id="valorColumn" prefWidth="100.0" text="Valor" />

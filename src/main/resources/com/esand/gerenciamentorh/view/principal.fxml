@@ -4,28 +4,76 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="675.0" minWidth="1200.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.controller.PrincipalController">
+<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="675.0" minWidth="1200.0" style="-fx-background-color: #001f54;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.controller.PrincipalController">
     <children>
-      <HBox layoutY="15.0" prefHeight="660.0" prefWidth="1200.0">
+      <HBox prefHeight="675.0" prefWidth="1200.0">
          <children>
-              <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="635.0" minWidth="200.0" prefHeight="635.0" prefWidth="249.0" spacing="20.0">
+              <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="635.0" minWidth="200.0" prefHeight="675.0" prefWidth="250.0" spacing="10.0" style="-fx-background-color: white;">
                   <children>
                   <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../../imagens/monitor.png" />
                      </image>
                   </ImageView>
-                  <Label text="Nome do Sistema">
+                  <Label prefHeight="23.0" prefWidth="136.0" text="Nome do Sistema" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="15.0" />
+                        <Font name="JetBrains Mono Bold" size="15.0" />
                      </font>
                   </Label>
-                      <Button layoutX="30.0" layoutY="30.0" minHeight="36.0" minWidth="200.0" mnemonicParsing="false" onAction="#showVisualizar" styleClass="botao" text="Funcionários" />
-                  <Button layoutX="30.0" layoutY="220.0" minHeight="38.0" minWidth="200.0" mnemonicParsing="false" onAction="#showPagamento" styleClass="botao" text="Folha de Pagamento" />
-                  <Button layoutX="30.0" layoutY="280.0" minHeight="38.0" minWidth="200.0" mnemonicParsing="false" onAction="#showBeneficios" styleClass="botao" text="Benefícios" />
-                  <Button layoutX="30.0" layoutY="163.0" minHeight="38.0" minWidth="200.0" mnemonicParsing="false" onAction="#showAcesso" styleClass="botao" text="Acesso" />
+                  <VBox prefWidth="250.0">
+                     <children>
+                        <Button fx:id="btnFuncionarios" alignment="CENTER_LEFT" contentDisplay="LEFT" graphicTextGap="12.0" mnemonicParsing="false" onAction="#showFuncionarios" prefHeight="45.0" prefWidth="250.0" styleClass="botao-lateral" text="Funcionários">
+                            <font>
+                                <Font name="JetBrains Mono Regular" size="12.0" />
+                            </font>
+                            <graphic>
+                                <SVGPath content="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" strokeWidth="0.0" />
+                            </graphic>
+                           <padding>
+                              <Insets left="51.0" />
+                           </padding>
+                        </Button>
+                        <Button fx:id="btnPagamento" alignment="CENTER_LEFT" contentDisplay="LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#showPagamento" prefHeight="45.0" prefWidth="250.0" styleClass="botao-lateral" text="Folha de Pagamento">
+                           <font>
+                              <Font name="JetBrains Mono Regular" size="12.0" />
+                           </font>
+                           <graphic>
+                              <SVGPath content="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z" strokeWidth="0.0" />
+                           </graphic>
+                           <padding>
+                              <Insets left="53.0" />
+                           </padding>
+                        </Button>
+                        <Button fx:id="btnBeneficios" alignment="CENTER_LEFT" contentDisplay="LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#showBeneficios" prefHeight="45.0" prefWidth="250.0" styleClass="botao-lateral" text="Benefícios">
+                           <font>
+                              <Font name="JetBrains Mono Regular" size="12.0" />
+                           </font>
+                           <graphic>
+                              <SVGPath content="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v1.384l7.614 2.03a1.5 1.5 0 0 0 .772 0L16 5.884V4.5A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5  M0 12.5A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5V6.85L8.129 8.947a.5.5 0 0 1-.258 0L0 6.85z" strokeWidth="0.0" />
+                           </graphic>
+                           <padding>
+                              <Insets left="50.0" />
+                           </padding>
+                        </Button>
+                        <Button fx:id="btnAcesso" alignment="CENTER_LEFT" contentDisplay="LEFT" graphicTextGap="13.0" mnemonicParsing="false" onAction="#showAcesso" prefHeight="45.0" prefWidth="250.0" styleClass="botao-lateral" text="Acesso">
+                           <font>
+                              <Font name="JetBrains Mono Regular" size="12.0" />
+                           </font>
+                           <graphic>
+                              <SVGPath content="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.8 11.8 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7 7 0 0 0 1.048-.625 11.8 11.8 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.54 1.54 0 0 0-1.044-1.263 63 63 0 0 0-2.887-.87C9.843.266 8.69 0 8 0m0 5a1.5 1.5 0 0 1 .5 2.915l.385 1.99a.5.5 0 0 1-.491.595h-.788a.5.5 0 0 1-.49-.595l.384-1.99A1.5 1.5 0 0 1 8 5" strokeWidth="0.0" />
+                           </graphic>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="51.0" />
+                           </padding>
+                        </Button>
+                     </children>
+                  </VBox>
                   </children>
                <opaqueInsets>
                   <Insets />
@@ -34,10 +82,10 @@
                   <Insets />
                </HBox.margin>
                <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                  <Insets bottom="20.0" top="40.0" />
                </padding>
               </VBox>
-              <Pane fx:id="contentPane" prefHeight="635.0" prefWidth="948.0" />
+              <Pane fx:id="contentPane" prefHeight="675.0" prefWidth="950.0" style="-fx-background-color: white;" />
          </children>
       </HBox>
     </children>
