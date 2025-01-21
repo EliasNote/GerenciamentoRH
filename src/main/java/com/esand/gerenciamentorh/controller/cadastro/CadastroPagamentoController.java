@@ -1,5 +1,10 @@
 package com.esand.gerenciamentorh.controller.cadastro;
 
+import com.esand.gerenciamentorh.controller.cadastro.calculo.CalculoStrategy;
+import com.esand.gerenciamentorh.controller.cadastro.calculo.CalculoEnum;
+import com.esand.gerenciamentorh.controller.cadastro.calculo.impostos.Fgts;
+import com.esand.gerenciamentorh.controller.cadastro.calculo.impostos.Inss;
+import com.esand.gerenciamentorh.controller.cadastro.calculo.impostos.Irpf;
 import com.esand.gerenciamentorh.model.dao.*;
 import com.esand.gerenciamentorh.model.dto.CampoDto;
 import com.esand.gerenciamentorh.model.entidades.Avaliacao;
@@ -22,10 +27,9 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import static com.esand.gerenciamentorh.controller.Utils.loadFXML;
-import static com.esand.gerenciamentorh.controller.cadastro.impostos.Impostos.calcularInss;
-import static com.esand.gerenciamentorh.controller.cadastro.impostos.Impostos.calcularIrpf;
 
 public class CadastroPagamentoController {
     @FXML
@@ -65,23 +69,24 @@ public class CadastroPagamentoController {
     @FXML
     private Label salarioLiquido;
 
+    private static final NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
+
     private ObservableList<CampoDto> listaFolha = FXCollections.observableArrayList();
     private Dao<Beneficio> beneficioDao = new Dao();
     private Dao<Funcionario> funcionarioDao = new Dao();
     private Dao<Pagamento> pagamentoDao = new Dao();
     private Dao<Avaliacao> avaliacaoDao = new Dao();
-    private static final NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
+
     protected static Double avaliacaoNota;
     protected static String avaliacaoObservacao;
-
 
     public static final String SALARIO_BRUTO = "Salário Bruto";
     public static final String HORAS_EXTRAS = "Horas Extras";
     public static final String HORAS_FALTAS = "Horas Faltas";
-    public static final String INSS = "INSS";
-    public static final String IRPF = "IRPF";
-    public static final String FGTS = "FGTS";
     public static final String TOTAL = "Total";
+    public static final CalculoEnum INSS = CalculoEnum.INSS;
+    public static final CalculoEnum IRPF = CalculoEnum.IRPF;
+    public static final CalculoEnum FGTS = CalculoEnum.FGTS;
 
 
     public void initialize() throws Exception {
@@ -209,27 +214,34 @@ public class CadastroPagamentoController {
         }
 
         double baseCalculoImposto = baseCalculoImposto();
-        double inss = calcularInss(baseCalculoImposto);
+        double inss = calcularImposto(INSS, baseCalculoImposto);
 
         listaFolha.add(new CampoDto(
-                INSS,
+                INSS.toString(),
                 String.format("%,.2f", (inss*100)/baseCalculoImposto),
                 String.format("%,.2f", 0.00),
                 String.format("%,.2f", inss)
         ));
 
-        double irpf = calcularIrpf(baseCalculoImposto - inss);
+        double irpf = calcularImposto(IRPF, baseCalculoImposto - inss);
 
         listaFolha.add(new CampoDto(
-                IRPF,
+                IRPF.toString(),
                 String.format("%,.2f", (irpf*100)/baseCalculoImposto),
                 String.format("%,.2f", 0.00),
                 String.format("%,.2f", irpf)
         ));
 
+
+
         calcularTotal();
 
         tabelaFolha.setItems(listaFolha);
+    }
+
+    private double calcularImposto(CalculoEnum imposto, double baseCalculo) {
+        return imposto.getStrategy().calcular(baseCalculo);
+
     }
 
     private double baseCalculoImposto() {
@@ -272,11 +284,11 @@ public class CadastroPagamentoController {
             });
         } else if (verificar != null && verificar.equals("inss")) {
             listaFolha.removeIf(campo ->
-                    campo.getCampos().equals(INSS)
+                    campo.getCampos().equals(INSS.toString())
             );
         } else if (verificar != null && verificar.equals("irpf")) {
             listaFolha.removeIf(campo ->
-                    campo.getCampos().equals(IRPF)
+                    campo.getCampos().equals(IRPF.toString())
             );
         }
 

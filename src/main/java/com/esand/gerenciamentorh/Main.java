@@ -1,5 +1,8 @@
 package com.esand.gerenciamentorh;
 
+import com.esand.gerenciamentorh.controller.cadastro.calculo.impostos.Fgts;
+import com.esand.gerenciamentorh.controller.cadastro.calculo.impostos.Inss;
+import com.esand.gerenciamentorh.controller.cadastro.calculo.impostos.Irpf;
 import com.esand.gerenciamentorh.model.dao.Dao;
 import com.esand.gerenciamentorh.model.entidades.Beneficio;
 import com.esand.gerenciamentorh.model.entidades.Login;
@@ -29,6 +32,15 @@ public class Main extends Application {
         scene.getStylesheets().add(css);
         stage.getIcons().add(new Image(Main.class.getResourceAsStream("/imagens/monitor.png")));
         stage.setTitle("Gerenciamento de Funcionários");
+
+        Irpf.faixas = new double[] {0, 2259.20, 2259.21, 2826.65, 2826.66, 3751.05, 3751.06, 4664.68, 4664.69, 0};
+        Irpf.aliquotas = new double[] {0, 0.075, 0.15, 0.225, 0.275};
+        Irpf.parcelasDeducao = new double[] {0, 169.44, 381.44, 662.77, 896.00};
+
+        Inss.faixas = new double[] {0, 1518.00, 1518.01, 2793.88, 2793.89, 4190.83, 4190.84, 8157.41};
+        Inss.aliquotas = new double[] {0.075, 0.09, 0.12, 0.14};
+
+        Fgts.aliquota = 0.08;
 
         stage.setScene(scene);
         stage.show();
