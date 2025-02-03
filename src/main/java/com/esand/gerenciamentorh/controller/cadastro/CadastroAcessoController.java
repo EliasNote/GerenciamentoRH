@@ -1,26 +1,22 @@
 package com.esand.gerenciamentorh.controller.cadastro;
 
-import com.esand.gerenciamentorh.model.dao.Dao;
+import com.esand.gerenciamentorh.controller.service.LoginService;
 import com.esand.gerenciamentorh.model.entidades.Login;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.fxml.FXML;
 
 public class CadastroAcessoController {
-    @FXML
-    private TextField cpf;
-    @FXML
-    private PasswordField senha;
-    @FXML
-    private TextField cpfRemocao;
+    @FXML private TextField cpf, cpfRemocao;
+    @FXML private PasswordField senha;
 
-    private Dao<Login> loginDao = new Dao();
+    private final LoginService loginService = new LoginService();
 
     public void cadastrar() {
-        loginDao.salvarLogin(new Login(null, cpf.getText(), senha.getText()));
+        loginService.salvar(new Login(null, cpf.getText(), senha.getText()));
     }
 
     public void remover() {
-        loginDao.deletarPorCpf(Login.class, cpfRemocao.getText());
+        loginService.deletar(cpfRemocao.getText());
     }
 }

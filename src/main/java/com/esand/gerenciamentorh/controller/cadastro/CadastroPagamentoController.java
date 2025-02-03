@@ -1,14 +1,11 @@
 package com.esand.gerenciamentorh.controller.cadastro;
 
-import com.esand.gerenciamentorh.controller.cadastro.calculo.CalculoStrategy;
+import com.esand.gerenciamentorh.controller.cadastro.calculo.Calculadora;
 import com.esand.gerenciamentorh.controller.cadastro.calculo.CalculoEnum;
-import com.esand.gerenciamentorh.controller.cadastro.calculo.impostos.Fgts;
-import com.esand.gerenciamentorh.controller.cadastro.calculo.impostos.Inss;
-import com.esand.gerenciamentorh.controller.cadastro.calculo.impostos.Irpf;
-import com.esand.gerenciamentorh.model.dao.*;
+import com.esand.gerenciamentorh.controller.cadastro.calculo.FolhaPagamento;
+import com.esand.gerenciamentorh.controller.service.FuncionarioService;
+import com.esand.gerenciamentorh.controller.service.PagamentoService;
 import com.esand.gerenciamentorh.model.dto.CampoDto;
-import com.esand.gerenciamentorh.model.entidades.Avaliacao;
-import com.esand.gerenciamentorh.model.entidades.Beneficio;
 import com.esand.gerenciamentorh.model.entidades.Pagamento;
 import com.esand.gerenciamentorh.model.entidades.Funcionario;
 import javafx.collections.FXCollections;
@@ -17,65 +14,29 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import static com.esand.gerenciamentorh.controller.Utils.loadFXML;
 
 public class CadastroPagamentoController {
-    @FXML
-    private TableColumn<CampoDto, String> camposColuna;
-    @FXML
-    private TableColumn<CampoDto, String> informadoColuna;
-    @FXML
-    private TableColumn<CampoDto, String> proventosColuna;
-    @FXML
-    private TableColumn<CampoDto, String> descontosColuna;
-    @FXML
-    private TableView<CampoDto> tabelaFolha;
-    @FXML
-    private TextField nome;
-    @FXML
-    private TextField cpf;
-    @FXML
-    private TextField cargo;
-    @FXML
-    private TextField dataAdmissao;
-    @FXML
-    private ListView<HBox> listaNomes;
-    @FXML
-    private Spinner<Integer> horaExtra;
-    @FXML
-    private Spinner<Integer> horaFalta;
-    @FXML
-    private Spinner<Integer> minutoExtra;
-    @FXML
-    private Spinner<Integer> minutoFalta;
-    @FXML
-    private Spinner<Integer> ano;
-    @FXML
-    private Spinner<Integer> mes;
-    @FXML
-    private Label salvarLabel;
-    @FXML
-    private Label salarioLiquido;
 
-    private static final NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
+    private static final NumberFormat NF = NumberFormat.getInstance(new Locale("pt", "BR"));
+
+    @FXML private TableColumn<CampoDto, String> camposColuna, informadoColuna, proventosColuna, descontosColuna;
+    @FXML private TableView<CampoDto> tabelaFolha;
+    @FXML private TextField nome, cpf, cargo, dataAdmissao;
+    @FXML private ListView<HBox> listaNomes;
+    @FXML private Spinner<Integer> horaExtra, horaFalta, minutoExtra, minutoFalta, ano, mes;
+    @FXML private Label salvarLabel, salarioLiquido, lbInss, lbIrpf, lbFgts;
 
     private ObservableList<CampoDto> listaFolha = FXCollections.observableArrayList();
-    private Dao<Beneficio> beneficioDao = new Dao();
-    private Dao<Funcionario> funcionarioDao = new Dao();
-    private Dao<Pagamento> pagamentoDao = new Dao();
-    private Dao<Avaliacao> avaliacaoDao = new Dao();
 
     protected static Double avaliacaoNota;
     protected static String avaliacaoObservacao;
@@ -84,165 +45,163 @@ public class CadastroPagamentoController {
     public static final String HORAS_EXTRAS = "Horas Extras";
     public static final String HORAS_FALTAS = "Horas Faltas";
     public static final String TOTAL = "Total";
-    public static final CalculoEnum INSS = CalculoEnum.INSS;
-    public static final CalculoEnum IRPF = CalculoEnum.IRPF;
-    public static final CalculoEnum FGTS = CalculoEnum.FGTS;
+    private static final String VALUE_FORMAT = "%,.2f";
+
+    private final PagamentoService pagamentoService = new PagamentoService();
+    private final FuncionarioService funcionarioService = new FuncionarioService();
+    private final Calculadora calculadora = new Calculadora();
 
 
     public void initialize() throws Exception {
+        configurarColunasTabela();
+        iniciarSpinners();
+        carregarFuncionarios();
+    }
+
+    private void configurarColunasTabela() {
         camposColuna.setCellValueFactory(new PropertyValueFactory<>("campos"));
         informadoColuna.setCellValueFactory(new PropertyValueFactory<>("informado"));
         proventosColuna.setCellValueFactory(new PropertyValueFactory<>("proventos"));
         descontosColuna.setCellValueFactory(new PropertyValueFactory<>("descontos"));
-
-        iniciarSpinners();
-        carregarTodosEmpregados();
     }
 
     public void salvarHoras() {
-        Funcionario funcionario = funcionarioDao.buscarFuncionarioPorCpf(cpf.getText());
+        Funcionario funcionario = funcionarioService.buscarPorCpf(cpf.getText());
 
-        removerCampos("horas");
+        listaFolha.removeIf(campo ->
+                campo.getCampos().equals(HORAS_EXTRAS) ||
+                campo.getCampos().equals(HORAS_FALTAS) ||
+                campo.getCampos().equals(TOTAL)
+        );
 
-        if (horaExtra.getValue() > 0 || minutoExtra.getValue() > 0) {
-            listaFolha.add(new CampoDto(
-                    HORAS_EXTRAS,
-                    horaExtra.getValue().toString() + ":" + minutoExtra.getValue().toString(),
-                    String.format("%,.2f",
-                            ((funcionario.getSalario() / 220) * horaExtra.getValue() + (minutoExtra.getValue() / 60.0)) * 1.5),
-                    String.format("%,.2f", 0.00)
-            ));
-        }
+        adicionarHorasExtras(funcionario);
+        adicionarHorasFaltas(funcionario);
 
-        if (horaFalta.getValue() > 0 || minutoFalta.getValue() > 0) {
-            listaFolha.add(new CampoDto(
-                    HORAS_FALTAS,
-                    horaFalta.getValue().toString() + ":" + minutoFalta.getValue().toString(),
-                    String.format("%,.2f", 0.00),
-                    String.format("%,.2f",
-                            (funcionario.getSalario() / 220) * horaFalta.getValue() + (minutoFalta.getValue() / 60.0))
-
-            ));
-        }
-
+        calcularImpostos(funcionario);
         calcularTotal();
     }
 
-    private void iniciarSpinners() {
-        SpinnerValueFactory<Integer> horaExtra = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0);
-        SpinnerValueFactory<Integer> horaFalta = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0);
-        SpinnerValueFactory<Integer> minutoExtra = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0);
-        SpinnerValueFactory<Integer> minutoFalta = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0);
-
-        SpinnerValueFactory<Integer> mes = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 12, LocalDate.now().getMonthValue());
-        SpinnerValueFactory<Integer> ano = new SpinnerValueFactory.IntegerSpinnerValueFactory(1900, LocalDate.now().getYear(), LocalDate.now().getYear());
-
-        this.horaExtra.setValueFactory(horaExtra);
-        this.horaFalta.setValueFactory(horaFalta);
-        this.minutoExtra.setValueFactory(minutoExtra);
-        this.minutoFalta.setValueFactory(minutoFalta);
-
-        this.mes.setValueFactory(mes);
-        this.ano.setValueFactory(ano);
-    }
-
-
-
-    private void carregarTodosEmpregados() {
-        ObservableList<Funcionario> funcionarios = FXCollections.observableArrayList();
-        funcionarios.addAll(funcionarioDao.buscarTodos());
-
-        for (Funcionario funcionario : funcionarios) {
-            HBox hBox = new HBox();
-            hBox.getStyleClass().add("hbox-custom");
-
-            Label nomeLabel = new Label(funcionario.getNome() + " " + funcionario.getSobrenome());
-            nomeLabel.getStyleClass().add("label-custom");
-            nomeLabel.setMaxWidth(135);
-
-            Button selecionarButton = new Button("Selecionar");
-            selecionarButton.getStyleClass().add("button-custom");
-            selecionarButton.setOnAction(e -> carregarFuncionario(funcionario.getCpf()));
-
-            Region spacer = new Region();
-            HBox.setHgrow(spacer, Priority.ALWAYS);
-
-            hBox.getChildren().addAll(nomeLabel, spacer, selecionarButton);
-            listaNomes.getItems().add(hBox);
+    private void adicionarHorasExtras(Funcionario funcionario) {
+        if (horaExtra.getValue() > 0 || minutoExtra.getValue() > 0) {
+            double valor = calculadora.calcularHorasExtras(funcionario.getSalario(), horaExtra.getValue(), minutoExtra.getValue());
+            listaFolha.add(new CampoDto(
+                    HORAS_EXTRAS,
+                    horaExtra.getValue().toString() + ":" + minutoExtra.getValue().toString(),
+                    getTextoFormatado(valor),
+                    getTextoFormatado(0)
+            ));
         }
     }
 
+    private void adicionarHorasFaltas(Funcionario funcionario) {
+        if (horaFalta.getValue() > 0 || minutoFalta.getValue() > 0) {
+            double valor = calculadora.calcularHorasFaltas(funcionario.getSalario(), horaFalta.getValue(), minutoFalta.getValue());
+            listaFolha.add(new CampoDto(
+                    HORAS_FALTAS,
+                    horaFalta.getValue().toString() + ":" + minutoFalta.getValue().toString(),
+                    getTextoFormatado(0),
+                    getTextoFormatado(valor)
+
+            ));
+        }
+    }
+
+    private void iniciarSpinners() {
+        configurarSpinner(horaExtra, 0, 23, 0);
+        configurarSpinner(horaFalta, 0, 23, 0);
+        configurarSpinner(minutoExtra, 0, 59, 0);
+        configurarSpinner(minutoFalta, 0, 59, 0);
+        configurarSpinner(mes, 1, 12, LocalDate.now().getMonthValue());
+        configurarSpinner(ano, 1900, LocalDate.now().getYear(), LocalDate.now().getYear());
+    }
+
+    private void configurarSpinner(Spinner<Integer> spinner, int i, int i1, int i2) {
+        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(i, i1, i2));
+    }
+
+    private void carregarFuncionarios() {
+        listaNomes.getItems().addAll(
+                funcionarioService.criarItensListaFuncionarios(this::carregarFuncionario)
+        );
+    }
 
     private void carregarFuncionario(String cpf) {
-        Funcionario funcionario;
-
-        funcionario = funcionarioDao.buscarFuncionarioPorCpf(cpf);
+        Funcionario funcionario = funcionarioService.buscarPorCpf(cpf);
+        atualizarCamposFuncionario(funcionario);
         carregarCampos(funcionario);
+    }
 
+    private void atualizarCamposFuncionario(Funcionario funcionario) {
         nome.setText(funcionario.getNome() + " " + funcionario.getSobrenome());
-        this.cpf.setText(funcionario.getCpf());
+        cpf.setText(funcionario.getCpf());
         cargo.setText(funcionario.getCargo());
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String dataFormatada = funcionario.getDataAdmissao().format(formatter);
         dataAdmissao.setText(dataFormatada);
     }
 
     private void carregarCampos(Funcionario funcionario) {
-        removerCampos("salario");
-        removerCampos("beneficios");
-        removerCampos("horas");
-        removerCampos("inss");
-        removerCampos("irpf");
+        removerCampos(true);
 
         listaFolha.add(new CampoDto(
                         SALARIO_BRUTO,
                         "220:00",
-                        String.format("%,.2f", funcionario.getSalario()),
-                        String.format("%,.2f", 0.00)
+                        getTextoFormatado(funcionario.getSalario()),
+                        getTextoFormatado(0)
                 )
         );
 
+        adicionarBeneficios(funcionario);
+        calcularImpostos(funcionario);
+        calcularTotal();
+        tabelaFolha.setItems(listaFolha);
+    }
+
+    private void adicionarBeneficios(Funcionario funcionario) {
         if (!funcionario.getBeneficios().isEmpty()) {
             funcionario.getBeneficios().forEach(x -> {
                 listaFolha.add(new CampoDto(
                         x.getTipo(),
-                        String.format("%,.2f", x.getValor()),
-                        String.format("%,.2f", x.getValor()),
-                        String.format("%,.2f", 0.00)
+                        getTextoFormatado(x.getValor()),
+                        getTextoFormatado(x.getValor()),
+                        getTextoFormatado(0)
                 ));
             });
         }
+    }
 
+    private void calcularImpostos(Funcionario funcionario) {
         double baseCalculoImposto = baseCalculoImposto();
-        double inss = calcularImposto(INSS, baseCalculoImposto);
 
-        listaFolha.add(new CampoDto(
-                INSS.toString(),
-                String.format("%,.2f", (inss*100)/baseCalculoImposto),
-                String.format("%,.2f", 0.00),
-                String.format("%,.2f", inss)
-        ));
+        Map<CalculoEnum, Double> impostos = calculadora.calcularImpostos(baseCalculoImposto);
 
-        double irpf = calcularImposto(IRPF, baseCalculoImposto - inss);
+        impostos.forEach((tipo, valor) -> {
+            if (valor != 0) {
+                listaFolha.add(
+                        new CampoDto(
+                                tipo.toString(),
+                                getTextoFormatado((valor*100)/baseCalculoImposto),
+                                getTextoFormatado(0),
+                                getTextoFormatado(valor)
+                        )
+                );
+            }
 
-        listaFolha.add(new CampoDto(
-                IRPF.toString(),
-                String.format("%,.2f", (irpf*100)/baseCalculoImposto),
-                String.format("%,.2f", 0.00),
-                String.format("%,.2f", irpf)
-        ));
-
-
-
-        calcularTotal();
+            atualizarLabelsImpostos(tipo, valor);
+        });
 
         tabelaFolha.setItems(listaFolha);
     }
 
-    private double calcularImposto(CalculoEnum imposto, double baseCalculo) {
-        return imposto.getStrategy().calcular(baseCalculo);
-
+    private void atualizarLabelsImpostos(CalculoEnum tipo, Double valor) {
+        switch (tipo) {
+            case INSS -> lbInss.setText(getTextoFormatado(valor));
+            case IRPF -> lbIrpf.setText(getTextoFormatado(valor));
+            case FGTS -> lbFgts.setText(getTextoFormatado(valor));
+        }
     }
+
 
     private double baseCalculoImposto() {
         double resultado = 0.00;
@@ -253,8 +212,8 @@ public class CadastroPagamentoController {
                     campo.getCampos().contains(HORAS_EXTRAS) ||
                     campo.getCampos().contains(HORAS_FALTAS)
                 ) {
-                    resultado += nf.parse(campo.getProventos()).doubleValue();
-                    resultado -= nf.parse(campo.getDescontos()).doubleValue();
+                    resultado += NF.parse(campo.getProventos()).doubleValue();
+                    resultado -= NF.parse(campo.getDescontos()).doubleValue();
                 }
             }
         } catch(Exception e) {
@@ -264,97 +223,54 @@ public class CadastroPagamentoController {
         return resultado;
     }
 
-    private void removerCampos(String verificar) {
-        List<Beneficio> beneficios = beneficioDao.buscarTodos(Beneficio.class);
-
-        if (verificar != null && verificar.equals("horas")) {
-            listaFolha.removeIf(campo ->
-                    campo.getCampos().equals(HORAS_EXTRAS) ||
-                            campo.getCampos().equals(HORAS_FALTAS)
-            );
-        } else if (verificar != null && verificar.equals("salario")) {
-            listaFolha.removeIf(campo ->
-                    campo.getCampos().equals(SALARIO_BRUTO)
-            );
-        } else if (verificar != null && verificar.equals("beneficios")) {
-            beneficios.forEach(beneficio -> {
-                listaFolha.removeIf(campo ->
-                        campo.getCampos().equals(beneficio.getTipo())
-                );
-            });
-        } else if (verificar != null && verificar.equals("inss")) {
-            listaFolha.removeIf(campo ->
-                    campo.getCampos().equals(INSS.toString())
-            );
-        } else if (verificar != null && verificar.equals("irpf")) {
-            listaFolha.removeIf(campo ->
-                    campo.getCampos().equals(IRPF.toString())
-            );
+    private void removerCampos(boolean valor) {
+        if (valor) {
+            listaFolha.clear();
+        } else {
+            listaFolha.removeIf(c -> TOTAL.equals(c.getCampos()));
         }
-
-        listaFolha.removeIf(campo ->
-                campo.getCampos().equals(TOTAL)
-        );
 
         avaliacaoNota = null;
         avaliacaoObservacao = null;
     }
 
     private void calcularTotal() {
-        double proventos = 0;
-        double descontos = 0;
+        FolhaPagamento folha = new FolhaPagamento(listaFolha);
+        double proventos = folha.getTotalProventos();
+        double descontos = folha.getTotalDescontos();
 
-        try {
-            for (CampoDto campo : listaFolha) {
-                proventos += nf.parse(campo.getProventos()).doubleValue();
-                descontos += nf.parse(campo.getDescontos()).doubleValue();
-            }
-        } catch(Exception e) {
-            System.out.println("Falha na conversão dos valores da folha de pagamento");
-        }
-
-        removerCampos(null);
+        salarioLiquido.setText(getTextoFormatado(proventos - descontos));
 
         listaFolha.add(new CampoDto(
                         TOTAL,
-                        String.format("%,.2f", proventos - descontos),
-                        String.format("%,.2f", proventos),
-                        String.format("%,.2f", descontos)
+                        getTextoFormatado(proventos - descontos),
+                        getTextoFormatado(proventos),
+                        getTextoFormatado(descontos)
                 )
         );
 
-        salarioLiquido.setText(String.format("%,.2f", proventos - descontos));
+        salarioLiquido.setText(getTextoFormatado(proventos - descontos));
+    }
+
+    private String getTextoFormatado(double valor) {
+        return String.format(VALUE_FORMAT, valor);
     }
 
     public void salvar() {
         try {
-            Funcionario funcionario = funcionarioDao.buscarFuncionarioPorCpf(cpf.getText());
-            YearMonth competencia = YearMonth.of(ano.getValue(), mes.getValue());
-            Pagamento pagamento = pagamentoDao.buscarPorFuncionarioECompetencia(funcionario.getCpf(), competencia);
+            Pagamento pagamento = pagamentoService.criarPagamento(
+                    cpf.getText(),
+                    YearMonth.of(ano.getValue(), mes.getValue()),
+                    Double.parseDouble(salarioLiquido.getText().replace(",", "")),
+                    horaExtra.getValue(),
+                    minutoExtra.getValue(),
+                    horaFalta.getValue(),
+                    minutoFalta.getValue()
+            );
 
-            Avaliacao avaliacao = avaliacaoDao.salvar(new Avaliacao(null, avaliacaoNota, avaliacaoObservacao, null));
-
-            if (pagamento == null) {
-                pagamento = new Pagamento();
-            }
-
-            pagamento.setCompetencia(competencia);
-            pagamento.setFuncionario(funcionario);
-            pagamento.setSalarioLiquido(nf.parse(salarioLiquido.getText()).doubleValue());
-            pagamento.setHorasExtras(horaExtra.getValue() + (double) minutoExtra.getValue() / 100);
-            pagamento.setHorasFaltas(horaFalta.getValue() + (double) minutoFalta.getValue() / 100);
-            pagamento.setAvaliacao(avaliacao);
-
-            if (pagamento.getId() != null) {
-                pagamentoDao.atualizar(pagamento);
-            } else {
-                avaliacao.setPagamento(pagamentoDao.salvar(pagamento));
-            }
-
-            salvarLabel.setText("Salvo com sucesso!");
+            salvarLabel.setText(pagamentoService.salvarPagamento(pagamento));
         } catch (Exception e) {
-            e.printStackTrace();
-            salvarLabel.setText("Falha ao salvar pagamento.");
+            salvarLabel.setText("Erro ao salvar: " + e.getMessage());
         }
     }
 

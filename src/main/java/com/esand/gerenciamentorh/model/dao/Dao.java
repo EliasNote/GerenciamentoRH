@@ -39,7 +39,6 @@ public class Dao<T> {
     public Login salvarLogin(Login login) {
         EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
-        login.setSenha(BCrypt.hashpw(login.getSenha(), BCrypt.gensalt()));
 
         try {
             transaction.begin();

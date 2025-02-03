@@ -23,6 +23,11 @@ public class Inss implements CalculoStrategy {
         return total;
     }
 
+    @Override
+    public double calcular(double baseCalculo, Integer hora, Integer minuto) {
+        return 0;
+    }
+
     private double retornarFaixa(double baseCalculo, double valorInferior, double valorSuperior) {
         return baseCalculo >= valorSuperior ? valorSuperior : baseCalculo > valorInferior ? baseCalculo : 0;
     }

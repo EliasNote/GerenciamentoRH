@@ -5,14 +5,6 @@
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
              version="2.2">
     <persistence-unit name="gerenciamentoRh">
-<!--        <properties>-->
-<!--            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:./data/rh"/>-->
-<!--            <property name="jakarta.persistence.jdbc.user" value="root"/>-->
-<!--            <property name="jakarta.persistence.jdbc.password" value="root"/>-->
-<!--            <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>-->
-<!--            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>-->
-<!--            <property name="hibernate.hbm2ddl.auto" value="update"/>-->
-<!--        </properties>-->
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/gerenciamentorh"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>

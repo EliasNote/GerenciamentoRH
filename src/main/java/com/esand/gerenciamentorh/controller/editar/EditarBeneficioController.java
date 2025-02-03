@@ -1,25 +1,18 @@
 package com.esand.gerenciamentorh.controller.editar;
 
-
+import com.esand.gerenciamentorh.controller.service.BeneficioService;
 import com.esand.gerenciamentorh.controller.visualizar.VisualizarBeneficioController;
-import com.esand.gerenciamentorh.model.dao.Dao;
 import com.esand.gerenciamentorh.model.entidades.Beneficio;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class EditarBeneficioController {
-    @FXML
-    private TextField tipoField;
-    @FXML
-    private TextField descricaoField;
-    @FXML
-    private TextField valorField;
-    @FXML
-    private Label errorLabel;
+    @FXML private TextField tipoField, descricaoField, valorField;
+    @FXML private Label errorLabel;
 
     public static Beneficio beneficio;
-    private Dao<Beneficio> beneficioDao = new Dao();
+    private final BeneficioService beneficioService = new BeneficioService();
     public static VisualizarBeneficioController visualizarBeneficioController;
 
     public void initialize() {
@@ -31,7 +24,7 @@ public class EditarBeneficioController {
 
         String tipo = tipoField.getText();
         String descricao = descricaoField.getText();
-        Double valor;
+        double valor;
 
         if (tipo.isEmpty() || descricao.isEmpty()) {
             errorLabel.setText("Todas as informações devem ser preenchidas");
@@ -45,13 +38,13 @@ public class EditarBeneficioController {
             return;
         }
 
-        Beneficio beneficio = this.beneficio;
+        Beneficio beneficio = EditarBeneficioController.beneficio;
 
         beneficio.setTipo(tipo);
         beneficio.setDescricao(descricao);
         beneficio.setValor(valor);
 
-        beneficioDao.atualizar(beneficio);
+        beneficioService.atualizar(beneficio);
 
         visualizarBeneficioController.atualizarTabela();
     }

@@ -23,4 +23,9 @@ public class Irpf implements CalculoStrategy {
 
         return baseCalculo * aliquotas[aliquotas.length-1] - parcelasDeducao [parcelasDeducao .length-1];
     }
+
+    @Override
+    public double calcular(double baseCalculo, Integer hora, Integer minuto) {
+        return 0;
+    }
 }

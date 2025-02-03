@@ -1,7 +1,8 @@
 package com.esand.gerenciamentorh.controller.editar;
 
+import com.esand.gerenciamentorh.controller.service.BeneficioService;
+import com.esand.gerenciamentorh.controller.service.FuncionarioService;
 import com.esand.gerenciamentorh.controller.visualizar.VisualizarFuncionarioController;
-import com.esand.gerenciamentorh.model.dao.Dao;
 import com.esand.gerenciamentorh.model.entidades.Beneficio;
 import com.esand.gerenciamentorh.model.entidades.Funcionario;
 import javafx.collections.FXCollections;
@@ -13,26 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditarFuncionarioController {
-    @FXML
-    private TextField nomeField;
-    @FXML
-    private TextField sobrenomeField;
-    @FXML
-    private TextField cpfField;
-    @FXML
-    private TextField cargoField;
-    @FXML
-    private TextField salarioField;
-    @FXML
-    private Label errorLabel;
-    @FXML
-    private ListView<CheckBox> beneficios;
+    @FXML private TextField nomeField, sobrenomeField, cpfField, cargoField, salarioField;
+    @FXML private Label errorLabel;
+    @FXML private ListView<CheckBox> beneficios;
 
     public static Funcionario funcionario;
     public static VisualizarFuncionarioController visualizarFuncionarioController;
 
-    private Dao<Funcionario> funcionarioDao = new Dao();
-    private Dao<Beneficio> beneficioDao = new Dao();
+    private final FuncionarioService funcionarioService = new FuncionarioService();
+    private final BeneficioService beneficioService = new BeneficioService();
     private ObservableList<CheckBox> lista = FXCollections.observableArrayList();
 
     public void initialize() {
@@ -63,7 +53,7 @@ public class EditarFuncionarioController {
 
         List<Beneficio> beneficiosSelecionados = this.beneficios.getItems().stream()
                 .filter(CheckBox::isSelected)
-                .map(x -> beneficioDao.buscarBeneficioPorTipo(x.getText()))
+                .map(x -> beneficioService.buscarBeneficioPorTipo(x.getText()))
                 .toList();
 
         Funcionario funcionario = this.funcionario;
@@ -75,7 +65,7 @@ public class EditarFuncionarioController {
         funcionario.setSalario(salario);
         funcionario.setBeneficios(beneficiosSelecionados);
 
-        funcionarioDao.atualizar(funcionario);
+        funcionarioService.atualizar(funcionario);
 
         visualizarFuncionarioController.atualizarTabela();
     }
@@ -89,7 +79,7 @@ public class EditarFuncionarioController {
     }
 
     private void carregarBeneficios() {
-        List<Beneficio> beneficiosBanco = beneficioDao.buscarTodos(Beneficio.class);
+        List<Beneficio> beneficiosBanco = beneficioService.buscarTodos();
         List<String> beneficiosFuncionario = new ArrayList<>();
         funcionario.getBeneficios().forEach(x ->
                 beneficiosFuncionario.add(x.getTipo())

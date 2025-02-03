@@ -1,9 +1,11 @@
 package com.esand.gerenciamentorh.controller;
 
+import com.esand.gerenciamentorh.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -38,6 +40,8 @@ public class Utils {
             Parent root = loader.load();
 
             Scene scene = new Scene(root);
+            stage.getIcons().add(new Image(Main.class.getResourceAsStream("/imagens/monitor.png")));
+            stage.setTitle("Gerenciamento de Funcionários");
             stage.setScene(scene);
             centerStage(stage);
             stage.show();

@@ -2,17 +2,14 @@ package com.esand.gerenciamentorh.controller.cadastro.calculo.impostos;
 
 import com.esand.gerenciamentorh.controller.cadastro.calculo.CalculoStrategy;
 
-public class Fgts implements CalculoStrategy {
-
-    public static double aliquota;
-
+public class HorasExtras implements CalculoStrategy {
     @Override
     public double calcular(double baseCalculo) {
-        return baseCalculo * aliquota;
+        return 0;
     }
 
     @Override
     public double calcular(double baseCalculo, Integer hora, Integer minuto) {
-        return 0;
+        return ((baseCalculo / 220) * hora + (minuto / 60.0)) * 1.5;
     }
 }

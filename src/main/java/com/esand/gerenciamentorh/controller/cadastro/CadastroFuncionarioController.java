@@ -1,7 +1,8 @@
 package com.esand.gerenciamentorh.controller.cadastro;
 
+import com.esand.gerenciamentorh.controller.service.BeneficioService;
+import com.esand.gerenciamentorh.controller.service.FuncionarioService;
 import com.esand.gerenciamentorh.controller.visualizar.VisualizarFuncionarioController;
-import com.esand.gerenciamentorh.model.dao.Dao;
 import com.esand.gerenciamentorh.model.entidades.Beneficio;
 import com.esand.gerenciamentorh.model.entidades.Funcionario;
 import javafx.collections.FXCollections;
@@ -14,30 +15,18 @@ import java.util.List;
 
 public class CadastroFuncionarioController {
 
-    @FXML
-    private ListView<CheckBox> beneficios;
-    @FXML
-    private Label errorLabel;
-    @FXML
-    private TextField nomeField;
-    @FXML
-    private TextField sobrenomeField;
-    @FXML
-    private TextField cpfField;
-    @FXML
-    private TextField salarioField;
-    @FXML
-    private TextField cargoField;
-    @FXML
-    private DatePicker dataField;
+    @FXML private ListView<CheckBox> beneficios;
+    @FXML private Label errorLabel;
+    @FXML private TextField nomeField, sobrenomeField, cpfField, salarioField, cargoField;
+    @FXML private DatePicker dataField;
 
-    private Dao<Funcionario> funcionarioDao = new Dao();
-    private Dao<Beneficio> beneficioDao = new Dao();
-    private ObservableList<CheckBox> lista = FXCollections.observableArrayList();
+    private final FuncionarioService funcionarioService = new FuncionarioService();
+    private final BeneficioService beneficioService = new BeneficioService();
+    private final ObservableList<CheckBox> lista = FXCollections.observableArrayList();
     public static VisualizarFuncionarioController visualizarFuncionarioController;
 
     public void initialize() {
-        List<Beneficio> beneficiosBanco = beneficioDao.buscarTodos(Beneficio.class);
+        List<Beneficio> beneficiosBanco = beneficioService.buscarTodos();
 
         beneficiosBanco.forEach(beneficio -> lista.add(new CheckBox(beneficio.getTipo())));
 
@@ -75,16 +64,16 @@ public class CadastroFuncionarioController {
 
         List<Beneficio> beneficiosSelecionados = this.beneficios.getItems().stream()
                 .filter(CheckBox::isSelected)
-                .map(x -> beneficioDao.buscarBeneficioPorTipo(x.getText()))
+                .map(x -> beneficioService.buscarBeneficioPorTipo(x.getText()))
                 .toList();
 
 
-        if (funcionarioDao.buscarFuncionarioPorCpf(cpf) != null) {
+        if (funcionarioService.buscarPorCpf(cpf) != null) {
             errorLabel.setText("Funcionário com esse CPF já está cadastrado");
             return;
         }
 
-        funcionarioDao.salvar(
+        funcionarioService.salvar(
                 new Funcionario(
                         null,
                         nome,

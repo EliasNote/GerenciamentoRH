@@ -27,7 +27,7 @@
                      <children>
                         <Button fx:id="btnFuncionarios" alignment="CENTER_LEFT" contentDisplay="LEFT" graphicTextGap="12.0" mnemonicParsing="false" onAction="#showFuncionarios" prefHeight="45.0" prefWidth="250.0" styleClass="botao-lateral" text="Funcionários">
                             <font>
-                                <Font name="JetBrains Mono Regular" size="12.0" />
+                                <Font name="JetBrains Mono Bold" size="12.0" />
                             </font>
                             <graphic>
                                 <SVGPath content="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" strokeWidth="0.0" />

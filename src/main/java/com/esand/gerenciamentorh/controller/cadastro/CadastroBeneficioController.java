@@ -9,17 +9,9 @@ import javafx.scene.control.TextField;
 
 public class CadastroBeneficioController {
 
-    @FXML
-    private TextField tipoField;
+    @FXML private TextField tipoField, descricaoField, valorField;
 
-    @FXML
-    private TextField descricaoField;
-
-    @FXML
-    private TextField valorField;
-
-    @FXML
-    private Label errorLabel;
+    @FXML private Label errorLabel;
 
     private Dao<Beneficio> beneficioDao = new Dao();
     public static VisualizarBeneficioController visualizarBeneficioController;

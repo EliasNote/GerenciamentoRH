@@ -8,17 +8,8 @@ import static com.esand.gerenciamentorh.controller.Utils.loadChildrenFXML;
 
 public class PrincipalController {
 
-    @FXML
-    private Pane contentPane;
-
-    @FXML
-    private Button btnFuncionarios;
-    @FXML
-    private Button btnPagamento;
-    @FXML
-    private Button btnBeneficios;
-    @FXML
-    private Button btnAcesso;
+    @FXML private Pane contentPane;
+    @FXML private Button btnFuncionarios, btnPagamento, btnBeneficios, btnAcesso;
 
     private Button activeButton;
 
@@ -51,6 +42,4 @@ public class PrincipalController {
 
         activeButton.getStyleClass().add("active");
     }
-
-
 }
