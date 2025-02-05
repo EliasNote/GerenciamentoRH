@@ -1,4 +1,4 @@
-package com.esand.gerenciamentorh.controller.cadastro.calculo.impostos;
+package com.esand.gerenciamentorh.controller.cadastro.calculo.horas;
 
 import com.esand.gerenciamentorh.controller.cadastro.calculo.CalculoStrategy;
 

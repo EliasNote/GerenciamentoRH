@@ -1,5 +1,7 @@
 package com.esand.gerenciamentorh.controller.cadastro.calculo;
 
+import com.esand.gerenciamentorh.controller.cadastro.calculo.horas.HorasExtras;
+import com.esand.gerenciamentorh.controller.cadastro.calculo.horas.HorasFaltas;
 import com.esand.gerenciamentorh.controller.cadastro.calculo.impostos.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
