@@ -6,8 +6,6 @@ import com.esand.gerenciamentorh.controller.cadastro.calculo.impostos.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@Getter
-@AllArgsConstructor
 public enum CalculoEnum {
     INSS(new Inss()),
     IRPF(new Irpf()),
@@ -16,4 +14,12 @@ public enum CalculoEnum {
     HORAS_FALTAS(new HorasFaltas());
 
     public final CalculoStrategy strategy;
+
+    CalculoEnum(CalculoStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public CalculoStrategy getStrategy() {
+        return strategy;
+    }
 }

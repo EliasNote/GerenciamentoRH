@@ -14,7 +14,8 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 
-import static com.esand.gerenciamentorh.controller.Utils.loadFXML;
+import static com.esand.gerenciamentorh.controller.util.Utils.loadFXML;
+import static com.esand.gerenciamentorh.controller.EnumView.*;
 
 public class VisualizarFuncionarioController {
 
@@ -39,14 +40,13 @@ public class VisualizarFuncionarioController {
         admissaoColumn.setCellValueFactory(new PropertyValueFactory<>("dataAdmissao"));
 
         tabela.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
         tabela.setItems(funcionarios);
     }
 
     public void editar() {
         EditarFuncionarioController.funcionario = tabela.getSelectionModel().getSelectedItem();
         EditarFuncionarioController.visualizarFuncionarioController = this;
-        loadFXML("editar.fxml", new Stage());
+        loadFXML(FUNCIONARIO_EDITAR.getPath(), new Stage());
     }
 
     public void excluir() {
@@ -57,7 +57,7 @@ public class VisualizarFuncionarioController {
 
     public void cadastrar() {
         CadastroFuncionarioController.visualizarFuncionarioController = this;
-        loadFXML("cadastroFuncionario.fxml", new Stage());
+        loadFXML(FUNCIONARIO_CADASTRO.getPath(), new Stage());
     }
 
     public void atualizarTabela() {

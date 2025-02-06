@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="635.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.controller.visualizar.VisualizarBeneficioController">
+   <children>
+      <TableView fx:id="tabela" layoutX="21.0" layoutY="100.0" prefHeight="510.0" prefWidth="918.0" styleClass="tabela">
+        <columns>
+          <TableColumn fx:id="tipoColumn" prefWidth="229.6908836364746" text="Tipo" />
+          <TableColumn fx:id="valorColumn" prefWidth="153.8909149169922" text="Valor" />
+            <TableColumn fx:id="descricaoColumn" minWidth="-1.0" prefWidth="517.236328125" text="Descrição" />
+        </columns>
+      </TableView>
+       <Button layoutX="600.0" layoutY="50.0" mnemonicParsing="false" onAction="#cadastrar" prefHeight="30.0" prefWidth="85.0" styleClass="botao" text="Cadastrar" />
+      <Button layoutX="723.0" layoutY="50.0" mnemonicParsing="false" onAction="#editar" prefHeight="30.0" prefWidth="85.0" styleClass="botao" text="Editar" />
+      <Button layoutX="844.0" layoutY="50.0" mnemonicParsing="false" onAction="#excluir" prefHeight="30.0" prefWidth="85.0" styleClass="botao-deletar" text="Excluir" />
+      <Label layoutX="50.0" layoutY="50.0" text="Benefícios" textFill="#2b2a2a">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font></Label>
+   </children>
+</AnchorPane>

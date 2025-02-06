@@ -25,7 +25,7 @@ public class Funcionario {
     private String cpf;
     private String cargo;
     private Double salario = 0.00;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "funcionario_beneficio",
             joinColumns = @JoinColumn(name = "funcionario_id"),

@@ -23,4 +23,6 @@ module com.esand.gerenciamentorh {
     opens com.esand.gerenciamentorh.controller.editar to javafx.fxml;
     exports com.esand.gerenciamentorh.controller.visualizar;
     opens com.esand.gerenciamentorh.controller.visualizar to javafx.fxml;
+    exports com.esand.gerenciamentorh.controller.util;
+    opens com.esand.gerenciamentorh.controller.util to javafx.fxml;
 }

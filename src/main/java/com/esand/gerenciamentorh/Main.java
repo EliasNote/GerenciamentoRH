@@ -16,21 +16,22 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
+import static com.esand.gerenciamentorh.controller.EnumView.*;
+
 public class Main extends Application {
 
     private final LoginService loginService = new LoginService();
     private final BeneficioService beneficioService = new BeneficioService();
-//    private Dao<Campo> campoDao = new Dao();
 
     @Override
     public void start(Stage stage) throws IOException {
         inicializarAdmin();
         inicializarBeneficios();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("view/login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(LOGIN.getPath()));
         Scene scene = new Scene(fxmlLoader.load());
-        String css = Main.class.getResource("view/Style.css").toExternalForm();
+        String css = Main.class.getResource(STYLE.getPath()).toExternalForm();
         scene.getStylesheets().add(css);
-        stage.getIcons().add(new Image(Main.class.getResourceAsStream("/imagens/monitor.png")));
+        stage.getIcons().add(new Image(Main.class.getResourceAsStream(ICON.getPath())));
         stage.setTitle("Gerenciamento de Funcionários");
 
         Irpf.faixas = new double[] {0, 2259.20, 2259.21, 2826.65, 2826.66, 3751.05, 3751.06, 4664.68, 4664.69, 0};
@@ -70,15 +71,4 @@ public class Main extends Application {
             }
         }
     }
-
-//    private void inicializarCampos() {
-//        if (campoDao.buscarTodos(Campo.class).isEmpty()) {
-//            List<Campo> campos = List.of(
-//                    new Campo(null, CadastroPagamentoController.SALARIO_BRUTO, true, true, true, true),
-//                    new Campo(null, CadastroPagamentoController.HORAS_EXTRAS, true, true, true, true),
-//                    new Campo(null, CadastroPagamentoController.HORAS_FALTAS, false, true, true, true)
-//
-//            );
-//        }
-//    }
 }

@@ -23,7 +23,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.esand.gerenciamentorh.controller.Utils.loadFXML;
+import static com.esand.gerenciamentorh.controller.util.Utils.loadFXML;
+import static com.esand.gerenciamentorh.controller.EnumView.*;
 
 public class CadastroPagamentoController {
 
@@ -276,7 +277,7 @@ public class CadastroPagamentoController {
 
     public void abrirAvaliacoes() {
         if (!nome.getText().isEmpty()) {
-            loadFXML("avaliacao.fxml", new Stage());
+            loadFXML(PAGAMENTO_AVALIACAO.getPath(), new Stage());
         }
     }
 }

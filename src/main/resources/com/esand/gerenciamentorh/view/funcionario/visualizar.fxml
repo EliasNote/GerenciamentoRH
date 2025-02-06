@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="635.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.controller.visualizar.VisualizarFuncionarioController">
    <children>
-      <TableView fx:id="tabela" fixedCellSize="0.0" focusTraversable="false" layoutX="25.0" layoutY="106.0" prefHeight="511.0" prefWidth="918.0" snapToPixel="false" style="-fx-border-radius: 10px;" styleClass="tabela">
+      <TableView fx:id="tabela" fixedCellSize="0.0" focusTraversable="false" layoutX="25.0" layoutY="106.0" prefHeight="510.0" prefWidth="918.0" snapToPixel="false" style="-fx-border-radius: 10px;" styleClass="tabela">
         <columns>
             <TableColumn fx:id="idColumn" editable="false" maxWidth="115.0" minWidth="-1.0" prefWidth="115.0" text="REGISTRO" />
            <TableColumn fx:id="nomeColumn" editable="false" maxWidth="112.0" minWidth="-1.0" prefWidth="112.0" text="NOME" />
@@ -24,7 +24,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button layoutX="599.0" layoutY="50.0" mnemonicParsing="false" onAction="#cadastrar" prefHeight="30.0" prefWidth="85.0" styleClass="botao" text="Cadastrar" textFill="WHITE">
+      <Button layoutX="600.0" layoutY="50.0" mnemonicParsing="false" onAction="#cadastrar" prefHeight="30.0" prefWidth="85.0" styleClass="botao" text="Cadastrar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.218181610107422" />
          </font></Button>
@@ -36,7 +36,7 @@
          <font>
             <Font name="System Bold" size="12.218181610107422" />
          </font></Button>
-      <Label layoutX="50.0" layoutY="49.0" stylesheets="@Style.css" text="Funcionários" textFill="#2b2a2a">
+      <Label layoutX="50.0" layoutY="50.0" stylesheets="@../Style.css" text="Funcionários" textFill="#2b2a2a">
           <font>
               <Font name="System Bold" size="22.0" />
           </font>

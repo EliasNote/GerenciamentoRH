@@ -12,7 +12,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import static com.esand.gerenciamentorh.controller.Utils.loadFXML;
+import static com.esand.gerenciamentorh.controller.util.Utils.loadFXML;
+import static com.esand.gerenciamentorh.controller.EnumView.*;
 
 public class VisualizarBeneficioController {
     @FXML private TableView<Beneficio> tabela;
@@ -34,13 +35,13 @@ public class VisualizarBeneficioController {
 
     public void cadastrar() {
         CadastroBeneficioController.visualizarBeneficioController = this;
-        loadFXML("cadastroBeneficio.fxml", new Stage());
+        loadFXML(BENEFICIO_CADASTRO.getPath(), new Stage());
     }
 
     public void editar() {
         EditarBeneficioController.beneficio = beneficioService.buscarBeneficioPorTipo(tabela.getSelectionModel().getSelectedItem().getTipo());
         EditarBeneficioController.visualizarBeneficioController = this;
-        loadFXML("editarBeneficio.fxml", new Stage());
+        loadFXML(BENEFICIO_EDITAR.getPath(), new Stage());
     }
 
     public void excluir() {

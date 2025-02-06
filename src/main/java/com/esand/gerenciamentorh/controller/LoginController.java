@@ -8,8 +8,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.mindrot.jbcrypt.BCrypt;
 
-import static com.esand.gerenciamentorh.controller.Utils.loadFXML;
-import static com.esand.gerenciamentorh.controller.Utils.showErrorMessage;
+import static com.esand.gerenciamentorh.controller.util.Utils.loadFXML;
+import static com.esand.gerenciamentorh.controller.util.Utils.showErrorMessage;
+import static com.esand.gerenciamentorh.controller.EnumView.*;
 
 public class LoginController {
 
@@ -23,7 +24,7 @@ public class LoginController {
 
         if (autenticar(loginText, Senha.getText())) {
             Stage stage = (Stage) Login.getScene().getWindow();
-            loadFXML("principal.fxml", stage);
+            loadFXML(PRINCIPAL.getPath(), stage);
         } else {
             showErrorMessage("Login ou Senha incorreto");
         }

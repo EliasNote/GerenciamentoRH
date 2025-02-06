@@ -4,7 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
-import static com.esand.gerenciamentorh.controller.Utils.loadChildrenFXML;
+import static com.esand.gerenciamentorh.controller.util.Utils.loadChildrenFXML;
+import static com.esand.gerenciamentorh.controller.EnumView.*;
 
 public class PrincipalController {
 
@@ -14,22 +15,22 @@ public class PrincipalController {
     private Button activeButton;
 
     public void showFuncionarios() {
-        loadChildrenFXML(contentPane,"visualizar.fxml");
+        loadChildrenFXML(contentPane, FUNCIONARIO_VISUALIZAR.getPath());
         setActiveButton(btnFuncionarios);
     }
 
     public void showPagamento() {
-        loadChildrenFXML(contentPane,"pagamento.fxml");
+        loadChildrenFXML(contentPane, PAGAMENTO_VISUALIZAR.getPath());
         setActiveButton(btnPagamento);
     }
 
     public void showBeneficios() {
-        loadChildrenFXML(contentPane,"beneficio.fxml");
+        loadChildrenFXML(contentPane, BENEFICIO_VISUALIZAR.getPath());
         setActiveButton(btnBeneficios);
     }
 
     public void showAcesso() {
-        loadChildrenFXML(contentPane,"cadastroAcesso.fxml");
+        loadChildrenFXML(contentPane, LOGIN_CADASTRO.getPath());
         setActiveButton(btnAcesso);
     }
 
