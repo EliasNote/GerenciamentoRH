@@ -1,6 +1,6 @@
 package com.esand.gerenciamentorh.controller.cadastro.calculo;
 
-import com.esand.gerenciamentorh.model.dto.CampoDto;
+import com.esand.gerenciamentorh.model.dto.CalculoDto;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -8,9 +8,9 @@ import java.util.Locale;
 
 public class FolhaPagamento {
     private final NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
-    private final List<CampoDto> itens;
+    private final List<CalculoDto> itens;
 
-    public FolhaPagamento(List<CampoDto> itens) {
+    public FolhaPagamento(List<CalculoDto> itens) {
         this.itens = itens;
     }
 

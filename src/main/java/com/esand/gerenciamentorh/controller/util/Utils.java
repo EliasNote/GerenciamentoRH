@@ -16,6 +16,7 @@ public class Utils {
     private static final String ICON_PATH = "/imagens/monitor.png";
     private static final String FXML_PATH = "/com/esand/gerenciamentorh/view/";
     private static final String TITULO = "Gerenciamento de Funcionários";
+    private static final String VALUE_FORMAT = "%,.2f";
 
     public static void showErrorMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -23,6 +24,10 @@ public class Utils {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public static String getTextoFormatado(double valor) {
+        return String.format(VALUE_FORMAT, valor);
     }
 
     public static void loadChildrenFXML(Pane contentPane, String fxml) {

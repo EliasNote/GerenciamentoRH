@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CampoDto {
+public class CalculoDto {
     private String campos;
     private String informado;
     private String proventos;

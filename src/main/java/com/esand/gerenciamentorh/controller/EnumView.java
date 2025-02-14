@@ -12,6 +12,7 @@ public enum EnumView {
     FUNCIONARIO_EDITAR("funcionario/editar.fxml"),
     FUNCIONARIO_CADASTRO("funcionario/cadastro.fxml"),
 
+    PAGAMENTO_CADASTRO("pagamento/cadastro.fxml"),
     PAGAMENTO_VISUALIZAR("pagamento/visualizar.fxml"),
     PAGAMENTO_AVALIACAO("pagamento/avaliacao.fxml"),
 

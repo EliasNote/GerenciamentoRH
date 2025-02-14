@@ -10,13 +10,18 @@ import static com.esand.gerenciamentorh.controller.EnumView.*;
 public class PrincipalController {
 
     @FXML private Pane contentPane;
-    @FXML private Button btnFuncionarios, btnPagamento, btnBeneficios, btnAcesso;
+    @FXML private Button btnFuncionarios, btnPagamento, btnBeneficios, btnAcesso, btnCalculo;
 
     private Button activeButton;
 
     public void showFuncionarios() {
         loadChildrenFXML(contentPane, FUNCIONARIO_VISUALIZAR.getPath());
         setActiveButton(btnFuncionarios);
+    }
+
+    public void showCalculo() {
+        loadChildrenFXML(contentPane, PAGAMENTO_CADASTRO.getPath());
+        setActiveButton(btnCalculo);
     }
 
     public void showPagamento() {

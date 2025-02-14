@@ -36,57 +36,60 @@ public class CadastroFuncionarioController {
     public void salvar() {
         errorLabel.setText("");
 
-        String nome = nomeField.getText();
-        String sobrenome = sobrenomeField.getText();
-        String cpf = cpfField.getText();
-        String cargo = cargoField.getText();
-        LocalDate data = dataField.getValue();
-        Double salario;
-
-        if (
-                nome.isEmpty() ||
-                sobrenome.isEmpty() ||
-                cpf.isEmpty() ||
-                cargo.isEmpty() ||
-                salarioField.getText().isEmpty() ||
-                data == null
-        ) {
+        if (!validarCampos()) {
             errorLabel.setText("Todas as informações devem ser preenchidas");
             return;
         }
 
-        try {
-            salario = Double.parseDouble(salarioField.getText());
-        } catch (NumberFormatException e) {
+        Double salario = parseSalario();
+        if (salario == null) {
             errorLabel.setText("Salário deve ser um número válido");
             return;
         }
 
+        if (funcionarioService.buscarPorCpf(cpfField.getText()) != null) {
+            errorLabel.setText("Funcionário com esse CPF já está cadastrado");
+            return;
+        }
+
+        Funcionario funcionario = criarFuncionario(salario);
+        funcionarioService.salvar(funcionario);
+        visualizarFuncionarioController.atualizarTabela();
+    }
+
+    private boolean validarCampos() {
+        return !nomeField.getText().isEmpty() &&
+                !sobrenomeField.getText().isEmpty() &&
+                !cpfField.getText().isEmpty() &&
+                !cargoField.getText().isEmpty() &&
+                !salarioField.getText().isEmpty() &&
+                dataField.getValue() != null;
+    }
+
+    private Double parseSalario() {
+        try {
+            return Double.parseDouble(salarioField.getText());
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    private Funcionario criarFuncionario(Double salario) {
         List<Beneficio> beneficiosSelecionados = this.beneficios.getItems().stream()
                 .filter(CheckBox::isSelected)
                 .map(x -> beneficioService.buscarBeneficioPorTipo(x.getText()))
                 .toList();
 
-
-        if (funcionarioService.buscarPorCpf(cpf) != null) {
-            errorLabel.setText("Funcionário com esse CPF já está cadastrado");
-            return;
-        }
-
-        funcionarioService.salvar(
-                new Funcionario(
-                        null,
-                        nome,
-                        sobrenome,
-                        cpf,
-                        cargo,
-                        salario,
-                        beneficiosSelecionados,
-                        data,
-                        null
-                )
+        return new Funcionario(
+                null,
+                nomeField.getText(),
+                sobrenomeField.getText(),
+                cpfField.getText(),
+                cargoField.getText(),
+                salario,
+                beneficiosSelecionados,
+                dataField.getValue(),
+                null
         );
-
-        visualizarFuncionarioController.atualizarTabela();
     }
 }

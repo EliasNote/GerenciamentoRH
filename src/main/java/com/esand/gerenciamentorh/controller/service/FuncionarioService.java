@@ -24,7 +24,7 @@ public class FuncionarioService {
             hBox.getStyleClass().add("hbox-custom");
 
             Label nomeLabel = new Label(funcionario.getNome() + " " + funcionario.getSobrenome());
-            nomeLabel.setMaxWidth(135);
+            nomeLabel.setMaxWidth(132);
 
             Button btnSelecionar = new Button("Selecionar");
             btnSelecionar.getStyleClass().add("botao");

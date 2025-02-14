@@ -36,7 +36,18 @@
                               <Insets left="51.0" />
                            </padding>
                         </Button>
-                        <Button fx:id="btnPagamento" alignment="CENTER_LEFT" contentDisplay="LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#showPagamento" prefHeight="45.0" prefWidth="250.0" styleClass="botao-lateral" text="Folha de Pagamento">
+                        <Button fx:id="btnBeneficios" alignment="CENTER_LEFT" contentDisplay="LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#showBeneficios" prefHeight="45.0" prefWidth="250.0" styleClass="botao-lateral" text="Benefícios">
+                           <font>
+                              <Font name="JetBrains Mono Regular" size="12.0" />
+                           </font>
+                           <graphic>
+                              <SVGPath content="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v1.384l7.614 2.03a1.5 1.5 0 0 0 .772 0L16 5.884V4.5A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5  M0 12.5A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5V6.85L8.129 8.947a.5.5 0 0 1-.258 0L0 6.85z" strokeWidth="0.0" />
+                           </graphic>
+                           <padding>
+                              <Insets left="50.0" />
+                           </padding>
+                        </Button>
+                        <Button fx:id="btnCalculo" alignment="CENTER_LEFT" contentDisplay="LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#showCalculo" prefHeight="45.0" prefWidth="250.0" styleClass="botao-lateral" text="Calculos">
                            <font>
                               <Font name="JetBrains Mono Regular" size="12.0" />
                            </font>
@@ -47,15 +58,15 @@
                               <Insets left="53.0" />
                            </padding>
                         </Button>
-                        <Button fx:id="btnBeneficios" alignment="CENTER_LEFT" contentDisplay="LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#showBeneficios" prefHeight="45.0" prefWidth="250.0" styleClass="botao-lateral" text="Benefícios">
+                        <Button fx:id="btnPagamento" alignment="CENTER_LEFT" contentDisplay="LEFT" graphicTextGap="15.0" layoutX="10.0" layoutY="55.0" mnemonicParsing="false" onAction="#showPagamento" prefHeight="45.0" prefWidth="250.0" styleClass="botao-lateral" text="Folhas de Pagamentos">
                            <font>
                               <Font name="JetBrains Mono Regular" size="12.0" />
                            </font>
                            <graphic>
-                              <SVGPath content="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v1.384l7.614 2.03a1.5 1.5 0 0 0 .772 0L16 5.884V4.5A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5  M0 12.5A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5V6.85L8.129 8.947a.5.5 0 0 1-.258 0L0 6.85z" strokeWidth="0.0" />
+                              <SVGPath content="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z" strokeWidth="0.0" />
                            </graphic>
                            <padding>
-                              <Insets left="50.0" />
+                              <Insets left="53.0" />
                            </padding>
                         </Button>
                         <Button fx:id="btnAcesso" alignment="CENTER_LEFT" contentDisplay="LEFT" graphicTextGap="13.0" mnemonicParsing="false" onAction="#showAcesso" prefHeight="45.0" prefWidth="250.0" styleClass="botao-lateral" text="Acesso">

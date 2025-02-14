@@ -26,8 +26,23 @@ public class Pagamento {
     private Double salarioLiquido;
     private Double horasExtras;
     private Double horasFaltas;
+    private Double inss;
+    private Double irpf;
+    private Double fgts;
 
     @OneToOne
     @JoinColumn(name = "avaliacao_id")
     private Avaliacao avaliacao;
+
+    public String getNome() {
+        return funcionario.getNome();
+    }
+
+    public String getCpf() {
+        return funcionario.getCpf();
+    }
+
+    public Double getSalarioBruto() {
+        return funcionario.getSalario();
+    }
 }

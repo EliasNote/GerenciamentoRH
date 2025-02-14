@@ -36,26 +36,6 @@ public class Dao<T> {
         }
     }
 
-    public Login salvarLogin(Login login) {
-        EntityManager em = DataBase.getEntityManager();
-        EntityTransaction transaction = em.getTransaction();
-
-        try {
-            transaction.begin();
-            em.persist(login);
-            transaction.commit();
-            return login;
-        } catch (Exception e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-            return null;
-        } finally {
-            em.close();
-        }
-    }
-
     public T atualizar(T entity) {
         EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
