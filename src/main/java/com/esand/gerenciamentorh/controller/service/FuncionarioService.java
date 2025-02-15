@@ -53,7 +53,7 @@ public class FuncionarioService {
     }
 
     public void deletar(String cpf) {
-        funcionarioDao.deletarPorCpf(Funcionario.class, cpf);
+        funcionarioDao.deletar(Funcionario.class, cpf);
     }
 
     public List<Funcionario> buscarTodos() {

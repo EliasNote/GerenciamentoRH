@@ -25,6 +25,6 @@ public class BeneficioService {
     }
 
     public void deletarPorTipo(String tipo) {
-        beneficioDao.deletarPorTipo(tipo);
+        beneficioDao.deletar(tipo);
     }
 }

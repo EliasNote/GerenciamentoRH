@@ -41,6 +41,8 @@ public class PagamentoService {
         try {
             if (pagamento.getAvaliacao() != null) {
                 pagamento.getAvaliacao().setPagamento(pagamento);
+            } else {
+                pagamento.setAvaliacao(null);
             }
 
             if (pagamento.getId() == null) {
@@ -59,7 +61,7 @@ public class PagamentoService {
         return pagamentoDao.buscarPagamentosPorCompetencia(competencia);
     }
 
-    public void deletar(String cpf) {
-        pagamentoDao.deletarPorCpf(Pagamento.class, cpf);
+    public void deletar(String cpf, YearMonth competencia) {
+        pagamentoDao.deletar(cpf, competencia);
     }
 }

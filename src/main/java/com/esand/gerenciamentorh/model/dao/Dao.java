@@ -9,7 +9,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -55,7 +54,7 @@ public class Dao<T> {
         }
     }
 
-    public void deletarPorTipo(String tipo) {
+    public void deletar(String tipo) {
         EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
@@ -80,7 +79,7 @@ public class Dao<T> {
         }
     }
 
-    public void deletarPorCpf(Class<T> object, String cpf) {
+    public void deletar(Class<T> object, String cpf) {
         EntityManager em = DataBase.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
@@ -96,6 +95,38 @@ public class Dao<T> {
                 transaction.commit();
             }
         } catch (NoResultException e) {
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    public void deletar(String cpf, YearMonth competencia) {
+        EntityManager em = DataBase.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+
+        try {
+            transaction.begin();
+
+            TypedQuery<Pagamento> query = em.createQuery(
+                    "SELECT p FROM Pagamento p WHERE p.competencia = :competencia AND p.funcionario.cpf = :cpf",
+                    Pagamento.class
+            );
+            query.setParameter("competencia", competencia);
+            query.setParameter("cpf", cpf);
+
+            Pagamento pagamento = query.getSingleResult();
+
+            if (pagamento != null) {
+                em.remove(pagamento);
+                transaction.commit();
+            }
+        } catch (NoResultException e) {
+            System.out.println("Nenhum pagamento encontrado para a competência: " + competencia + " e CPF: " + cpf);
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();

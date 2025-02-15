@@ -76,7 +76,7 @@ public class VisualizarPagamentoController {
         PagamentoDto dto = tabela.getSelectionModel().getSelectedItem();
 
         if (dto != null) {
-            pagamentoService.deletar(dto.getCpf());
+            pagamentoService.deletar(dto.getCpf(), YearMonth.of(ano.getValue(), mes.getValue()));
             funcionarios.remove(dto);
         }
     }

@@ -22,6 +22,7 @@ public class FolhaPagamento {
 
     public double getTotalDescontos() {
         return itens.stream()
+                .filter(item -> !item.getCampos().equals(CalculoEnum.FGTS.toString()))
                 .mapToDouble(item -> parse(item.getDescontos()))
                 .sum();
     }

@@ -16,7 +16,7 @@ public class LoginService {
     }
 
     public void deletar(String cpf) {
-        loginDao.deletarPorCpf(Login.class, cpf);
+        loginDao.deletar(Login.class, cpf);
     }
 
     public List<Login> buscarTodos() {

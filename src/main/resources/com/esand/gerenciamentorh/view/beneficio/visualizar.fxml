@@ -15,7 +15,7 @@
       </TableView>
        <Button layoutX="600.0" layoutY="50.0" mnemonicParsing="false" onAction="#cadastrar" prefHeight="30.0" prefWidth="85.0" styleClass="botao" text="Cadastrar" />
       <Button layoutX="723.0" layoutY="50.0" mnemonicParsing="false" onAction="#editar" prefHeight="30.0" prefWidth="85.0" styleClass="botao" text="Editar" />
-      <Button layoutX="844.0" layoutY="50.0" mnemonicParsing="false" onAction="#excluir" prefHeight="30.0" prefWidth="85.0" styleClass="botao-deletar" text="Excluir" />
+      <Button layoutX="844.0" layoutY="50.0" mnemonicParsing="false" onAction="#excluir" prefHeight="30.0" prefWidth="85.0" styleClass="botao-deletar" text="Deletar" />
       <Label layoutX="50.0" layoutY="50.0" text="Benefícios" textFill="#2b2a2a">
          <font>
             <Font name="System Bold" size="22.0" />
