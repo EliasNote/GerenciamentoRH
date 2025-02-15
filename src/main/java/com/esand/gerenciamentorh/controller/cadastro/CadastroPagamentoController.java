@@ -6,6 +6,7 @@ import com.esand.gerenciamentorh.controller.cadastro.calculo.FolhaPagamento;
 import com.esand.gerenciamentorh.controller.service.FuncionarioService;
 import com.esand.gerenciamentorh.controller.service.PagamentoService;
 import com.esand.gerenciamentorh.model.dto.CalculoDto;
+import com.esand.gerenciamentorh.model.entidades.Avaliacao;
 import com.esand.gerenciamentorh.model.entidades.Pagamento;
 import com.esand.gerenciamentorh.model.entidades.Funcionario;
 import javafx.collections.FXCollections;
@@ -88,8 +89,8 @@ public class CadastroPagamentoController {
             listaFolha.add(new CalculoDto(
                     HORAS_EXTRAS,
                     horaExtra.getValue().toString() + ":" + minutoExtra.getValue().toString(),
-                    getTextoFormatado(valor),
-                    getTextoFormatado(0)
+                    setTextoFormatado(valor),
+                    setTextoFormatado(0)
             ));
         }
     }
@@ -100,8 +101,8 @@ public class CadastroPagamentoController {
             listaFolha.add(new CalculoDto(
                     HORAS_FALTAS,
                     horaFalta.getValue().toString() + ":" + minutoFalta.getValue().toString(),
-                    getTextoFormatado(0),
-                    getTextoFormatado(valor)
+                    setTextoFormatado(0),
+                    setTextoFormatado(valor)
 
             ));
         }
@@ -148,8 +149,8 @@ public class CadastroPagamentoController {
         listaFolha.add(new CalculoDto(
                         SALARIO_BRUTO,
                         "220:00",
-                        getTextoFormatado(funcionario.getSalario()),
-                        getTextoFormatado(0)
+                        setTextoFormatado(funcionario.getSalario()),
+                        setTextoFormatado(0)
                 )
         );
 
@@ -164,9 +165,9 @@ public class CadastroPagamentoController {
             funcionario.getBeneficios().forEach(x -> {
                 listaFolha.add(new CalculoDto(
                         x.getTipo(),
-                        getTextoFormatado(x.getValor()),
-                        getTextoFormatado(x.getValor()),
-                        getTextoFormatado(0)
+                        setTextoFormatado(x.getValor()),
+                        setTextoFormatado(x.getValor()),
+                        setTextoFormatado(0)
                 ));
             });
         }
@@ -182,9 +183,9 @@ public class CadastroPagamentoController {
                 listaFolha.add(
                         new CalculoDto(
                                 tipo.toString(),
-                                getTextoFormatado((valor*100)/baseCalculoImposto),
-                                getTextoFormatado(0),
-                                getTextoFormatado(valor)
+                                setTextoFormatado((valor*100)/baseCalculoImposto),
+                                setTextoFormatado(0),
+                                setTextoFormatado(valor)
                         )
                 );
             }
@@ -197,9 +198,9 @@ public class CadastroPagamentoController {
 
     private void atualizarLabelsImpostos(CalculoEnum tipo, Double valor) {
         switch (tipo) {
-            case INSS -> lbInss.setText(getTextoFormatado(valor));
-            case IRPF -> lbIrpf.setText(getTextoFormatado(valor));
-            case FGTS -> lbFgts.setText(getTextoFormatado(valor));
+            case INSS -> lbInss.setText(setTextoFormatado(valor));
+            case IRPF -> lbIrpf.setText(setTextoFormatado(valor));
+            case FGTS -> lbFgts.setText(setTextoFormatado(valor));
         }
     }
 
@@ -240,17 +241,17 @@ public class CadastroPagamentoController {
         double proventos = folha.getTotalProventos();
         double descontos = folha.getTotalDescontos();
 
-        salarioLiquido.setText(getTextoFormatado(proventos - descontos));
+        salarioLiquido.setText(setTextoFormatado(proventos - descontos));
 
         listaFolha.add(new CalculoDto(
                         TOTAL,
-                        getTextoFormatado(proventos - descontos),
-                        getTextoFormatado(proventos),
-                        getTextoFormatado(descontos)
+                        setTextoFormatado(proventos - descontos),
+                        setTextoFormatado(proventos),
+                        setTextoFormatado(descontos)
                 )
         );
 
-        salarioLiquido.setText(getTextoFormatado(proventos - descontos));
+        salarioLiquido.setText(setTextoFormatado(proventos - descontos));
     }
 
     public void salvar() {
@@ -258,14 +259,15 @@ public class CadastroPagamentoController {
             Pagamento pagamento = pagamentoService.criarPagamento(
                     funcionario,
                     YearMonth.of(ano.getValue(), mes.getValue()),
-                    Double.parseDouble(salarioLiquido.getText().replace(",", "")),
+                    getTextoFormatado(salarioLiquido.getText()),
                     horaExtra.getValue(),
                     minutoExtra.getValue(),
                     horaFalta.getValue(),
                     minutoFalta.getValue(),
-                    Double.parseDouble(lbInss.getText().replace(",", "")),
-                    Double.parseDouble(lbIrpf.getText().replace(",", "")),
-                    Double.parseDouble(lbFgts.getText().replace(",", ""))
+                    getTextoFormatado(lbInss.getText()),
+                    getTextoFormatado(lbIrpf.getText()),
+                    getTextoFormatado(lbFgts.getText()),
+                    new Avaliacao(null, avaliacaoNota, avaliacaoObservacao, null)
             );
 
             salvarLabel.setText(pagamentoService.salvarPagamento(pagamento));

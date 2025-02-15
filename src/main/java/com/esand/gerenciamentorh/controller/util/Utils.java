@@ -10,6 +10,9 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 
 public class Utils {
 
@@ -26,8 +29,17 @@ public class Utils {
         alert.showAndWait();
     }
 
-    public static String getTextoFormatado(double valor) {
+    public static String setTextoFormatado(double valor) {
         return String.format(VALUE_FORMAT, valor);
+    }
+
+    public static double getTextoFormatado(String textoFormatado) {
+        try {
+            NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
+            return nf.parse(textoFormatado).doubleValue();
+        } catch (ParseException e) {
+            throw new RuntimeException("Erro ao converter texto formatado para número", e);
+        }
     }
 
     public static void loadChildrenFXML(Pane contentPane, String fxml) {

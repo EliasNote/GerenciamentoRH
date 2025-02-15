@@ -1,16 +1,14 @@
 package com.esand.gerenciamentorh.model.entidades;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.YearMonth;
 
 @Entity
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class Pagamento {
@@ -30,7 +28,7 @@ public class Pagamento {
     private Double irpf;
     private Double fgts;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "avaliacao_id")
     private Avaliacao avaliacao;
 

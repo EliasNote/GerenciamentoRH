@@ -225,4 +225,24 @@ public class Dao<T> {
 
         return pagamento;
     }
+
+    public List<Pagamento> buscarPagamentosPorCompetencia(YearMonth competencia) {
+        EntityManager em = DataBase.getEntityManager();
+        List<Pagamento> pagamentos = new ArrayList<>();
+
+        try {
+            TypedQuery<Pagamento> query = em.createQuery(
+                    "SELECT p FROM Pagamento p WHERE p.competencia = :competencia",
+                    Pagamento.class
+            );
+            query.setParameter("competencia", competencia);
+            pagamentos = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+        return pagamentos;
+    }
 }

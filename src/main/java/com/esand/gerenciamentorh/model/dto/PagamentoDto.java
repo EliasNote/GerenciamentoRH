@@ -10,9 +10,9 @@ import lombok.Setter;
 public class PagamentoDto {
     private String nome;
     private String cpf;
-    private double salarioBruto;
-    private double inss;
-    private double irpf;
-    private double fgts;
-    private double salarioLiquido;
+    private String salarioBruto;
+    private String inss;
+    private String irpf;
+    private String fgts;
+    private String salarioLiquido;
 }

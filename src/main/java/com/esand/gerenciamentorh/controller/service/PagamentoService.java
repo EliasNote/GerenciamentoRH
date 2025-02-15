@@ -15,7 +15,7 @@ public class PagamentoService {
     public Pagamento criarPagamento(Funcionario funcionario, YearMonth competencia, Double salarioLiquido,
                                     Integer horasExtra, Integer minutosExtra,
                                     Integer horasFalta, Integer minutosFalta,
-                                    Double inss, Double irpf, Double fgts) {
+                                    Double inss, Double irpf, Double fgts, Avaliacao avaliacao) {
         Pagamento pagamento = pagamentoDao.buscarPorFuncionarioECompetencia(funcionario.getCpf(), competencia);
 
         if (pagamento == null) {
@@ -30,18 +30,21 @@ public class PagamentoService {
         pagamento.setInss(inss);
         pagamento.setIrpf(irpf);
         pagamento.setFgts(fgts);
+        pagamento.setAvaliacao(avaliacao);
+
+        System.out.println("\n\n\n\n\n" + pagamento + "\n\n\n\n\n");
 
         return pagamento;
     }
 
     public String salvarPagamento(Pagamento pagamento) {
         try {
-            Avaliacao avaliacao = avaliacaoDao.salvar(pagamento.getAvaliacao());
+            if (pagamento.getAvaliacao() != null) {
+                pagamento.getAvaliacao().setPagamento(pagamento);
+            }
 
             if (pagamento.getId() == null) {
                 pagamentoDao.salvar(pagamento);
-                avaliacao.setPagamento(pagamento);
-                avaliacaoDao.atualizar(avaliacao);
             } else {
                 pagamentoDao.atualizar(pagamento);
             }
@@ -56,9 +59,7 @@ public class PagamentoService {
         return pagamentoDao.buscarPagamentosPorCompetencia(competencia);
     }
 
-
-
-    public void deletar(Pagamento pagamento) {
-//        pagamentoDao.deletarPorCpf();
+    public void deletar(String cpf) {
+        pagamentoDao.deletarPorCpf(Pagamento.class, cpf);
     }
 }

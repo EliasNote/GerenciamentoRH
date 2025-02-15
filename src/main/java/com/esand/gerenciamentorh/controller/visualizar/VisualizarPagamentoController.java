@@ -2,7 +2,6 @@ package com.esand.gerenciamentorh.controller.visualizar;
 
 import com.esand.gerenciamentorh.controller.service.PagamentoService;
 import com.esand.gerenciamentorh.model.dto.PagamentoDto;
-import com.esand.gerenciamentorh.model.entidades.Funcionario;
 import com.esand.gerenciamentorh.model.entidades.Pagamento;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +23,7 @@ public class VisualizarPagamentoController {
     @FXML private Spinner<Integer> mes, ano;
     @FXML private TableView<PagamentoDto> tabela;
     @FXML private TableColumn<Pagamento, String> nomeColumn, cpfColumn;
-    @FXML private TableColumn<Pagamento, Double> salarioColumn, inssColumn, irpfColumn, fgtsColumn, salarioLiquidoColumn;
+    @FXML private TableColumn<Pagamento, String> salarioColumn, inssColumn, irpfColumn, fgtsColumn, salarioLiquidoColumn;
 
     private ObservableList<PagamentoDto> funcionarios = FXCollections.observableArrayList();
     private PagamentoService pagamentoService = new PagamentoService();
@@ -35,6 +34,9 @@ public class VisualizarPagamentoController {
 
         configurarColunasTabela();
         carregarPagamentos();
+
+        mes.valueProperty().addListener((obs, oldValue, newValue) -> carregarPagamentos());
+        ano.valueProperty().addListener((obs, oldValue, newValue) -> carregarPagamentos());
     }
 
     private void configurarColunasTabela() {
@@ -48,19 +50,20 @@ public class VisualizarPagamentoController {
     }
 
     public void carregarPagamentos() {
-        List<Pagamento> pagamentos =  pagamentoService.buscarPagamentoPorCompetencia(YearMonth.of(ano.getValue(), mes.getValue())));
+        funcionarios.clear();
 
+        List<Pagamento> pagamentos =  pagamentoService.buscarPagamentoPorCompetencia(YearMonth.of(ano.getValue(), mes.getValue()));
 
         for (Pagamento pagamento : pagamentos) {
             funcionarios.add(
                     new PagamentoDto(
                             pagamento.getNome(),
                             pagamento.getCpf(),
-                            Double.parseDouble(getTextoFormatado(pagamento.getSalarioBruto())),
-                            Double.parseDouble(getTextoFormatado(pagamento.getInss())),
-                            Double.parseDouble(getTextoFormatado(pagamento.getIrpf())),
-                            Double.parseDouble(getTextoFormatado(pagamento.getFgts())),
-                            Double.parseDouble(getTextoFormatado(pagamento.getSalarioLiquido()))
+                            setTextoFormatado(pagamento.getSalarioBruto()),
+                            setTextoFormatado(pagamento.getInss()),
+                            setTextoFormatado(pagamento.getIrpf()),
+                            setTextoFormatado(pagamento.getFgts()),
+                            setTextoFormatado(pagamento.getSalarioLiquido())
                     )
             );
         }
@@ -70,10 +73,11 @@ public class VisualizarPagamentoController {
 
     @FXML
     private void excluir() {
-        Pagamento pagamentoSelecionado = pagamentoService.buscarPagamentoPorCompetencia();
-        if (pagamentoSelecionado != null) {
-            pagamentoService.deletar(pagamentoSelecionado);
-            funcionarios.remove(pagamentoSelecionado);
+        PagamentoDto dto = tabela.getSelectionModel().getSelectedItem();
+
+        if (dto != null) {
+            pagamentoService.deletar(dto.getCpf());
+            funcionarios.remove(dto);
         }
     }
 }
