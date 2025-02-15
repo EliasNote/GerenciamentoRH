@@ -22,8 +22,8 @@ public class VisualizarPagamentoController {
 
     @FXML private Spinner<Integer> mes, ano;
     @FXML private TableView<PagamentoDto> tabela;
-    @FXML private TableColumn<Pagamento, String> nomeColumn, cpfColumn;
-    @FXML private TableColumn<Pagamento, String> salarioColumn, inssColumn, irpfColumn, fgtsColumn, salarioLiquidoColumn;
+    @FXML private TableColumn<PagamentoDto, String> nomeColumn, cpfColumn;
+    @FXML private TableColumn<PagamentoDto, String> salarioColumn, inssColumn, irpfColumn, fgtsColumn, salarioLiquidoColumn;
 
     private ObservableList<PagamentoDto> funcionarios = FXCollections.observableArrayList();
     private PagamentoService pagamentoService = new PagamentoService();
@@ -52,7 +52,7 @@ public class VisualizarPagamentoController {
     public void carregarPagamentos() {
         funcionarios.clear();
 
-        List<Pagamento> pagamentos =  pagamentoService.buscarPagamentoPorCompetencia(YearMonth.of(ano.getValue(), mes.getValue()));
+        List<Pagamento> pagamentos = pagamentoService.buscarPagamentoPorCompetencia(YearMonth.of(ano.getValue(), mes.getValue()));
 
         for (Pagamento pagamento : pagamentos) {
             funcionarios.add(
@@ -60,10 +60,10 @@ public class VisualizarPagamentoController {
                             pagamento.getNome(),
                             pagamento.getCpf(),
                             setTextoFormatado(pagamento.getSalarioBruto()),
-                            setTextoFormatado(pagamento.getInss()),
-                            setTextoFormatado(pagamento.getIrpf()),
-                            setTextoFormatado(pagamento.getFgts()),
-                            setTextoFormatado(pagamento.getSalarioLiquido())
+                            setTextoFormatado(pagamentoService.getInss(pagamento)),
+                            setTextoFormatado(pagamentoService.getIrpf(pagamento)),
+                            setTextoFormatado(pagamentoService.getFgts(pagamento)),
+                            setTextoFormatado(pagamentoService.getSalarioLiquido(pagamento))
                     )
             );
         }

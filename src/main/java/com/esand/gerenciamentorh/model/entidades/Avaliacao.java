@@ -1,15 +1,7 @@
 package com.esand.gerenciamentorh.model.entidades;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class Avaliacao {
     @Id
@@ -22,4 +14,46 @@ public class Avaliacao {
 
     @OneToOne(mappedBy = "avaliacao")
     private Pagamento pagamento;
+
+    public Avaliacao() {
+    }
+
+    public Avaliacao(Long id, Double pontuacao, String observacao, Pagamento pagamento) {
+        this.id = id;
+        this.pontuacao = pontuacao;
+        this.observacao = observacao;
+        this.pagamento = pagamento;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Double getPontuacao() {
+        return pontuacao;
+    }
+
+    public void setPontuacao(Double pontuacao) {
+        this.pontuacao = pontuacao;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
+    public Pagamento getPagamento() {
+        return pagamento;
+    }
+
+    public void setPagamento(Pagamento pagamento) {
+        this.pagamento = pagamento;
+    }
 }

@@ -21,14 +21,6 @@ public class Utils {
     private static final String TITULO = "Gerenciamento de Funcionários";
     private static final String VALUE_FORMAT = "%,.2f";
 
-    public static void showErrorMessage(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("ERRO");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
     public static String setTextoFormatado(double valor) {
         return String.format(VALUE_FORMAT, valor);
     }
@@ -47,8 +39,8 @@ public class Utils {
             FXMLLoader fxmlLoader = new FXMLLoader(Utils.class.getResource(FXML_PATH + fxml));
             Pane pane = fxmlLoader.load();
             contentPane.getChildren().setAll(pane);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -61,9 +53,7 @@ public class Utils {
             stage.setScene(scene);
             stage.show();
             centerStage(stage);
-        } catch (RuntimeException e) {
-            showErrorMessage("Erro ao carregar a interface." + e.getMessage());
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

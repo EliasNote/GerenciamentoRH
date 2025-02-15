@@ -2,7 +2,6 @@ package com.esand.gerenciamentorh.controller.cadastro;
 
 import com.esand.gerenciamentorh.controller.cadastro.calculo.Calculadora;
 import com.esand.gerenciamentorh.controller.cadastro.calculo.CalculoEnum;
-import com.esand.gerenciamentorh.controller.cadastro.calculo.FolhaPagamento;
 import com.esand.gerenciamentorh.controller.service.FuncionarioService;
 import com.esand.gerenciamentorh.controller.service.PagamentoService;
 import com.esand.gerenciamentorh.model.dto.CalculoDto;
@@ -21,8 +20,7 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static com.esand.gerenciamentorh.controller.util.Utils.*;
 import static com.esand.gerenciamentorh.controller.EnumView.*;
@@ -237,9 +235,9 @@ public class CadastroPagamentoController {
     }
 
     private void calcularTotal() {
-        FolhaPagamento folha = new FolhaPagamento(listaFolha);
-        double proventos = folha.getTotalProventos();
-        double descontos = folha.getTotalDescontos();
+        pagamentoService.setItens(listaFolha);
+        double proventos = pagamentoService.getTotalProventos();
+        double descontos = pagamentoService.getTotalDescontos();
 
         salarioLiquido.setText(setTextoFormatado(proventos - descontos));
 
@@ -256,17 +254,23 @@ public class CadastroPagamentoController {
 
     public void salvar() {
         try {
+            Map<String, Double> proventos = new HashMap<>();
+            Map<String, Double> descontos = new HashMap<>();
+
+            for (CalculoDto calculo : listaFolha) {
+                if (!calculo.getDescontos().equals("0,00") && !calculo.getCampos().equals(TOTAL)) {
+                    descontos.put(calculo.getCampos(), getTextoFormatado(calculo.getDescontos()));
+                }
+                if (!calculo.getProventos().equals("0,00") && !calculo.getCampos().equals(TOTAL)) {
+                    proventos.put(calculo.getCampos(), getTextoFormatado(calculo.getProventos()));
+                }
+            }
+
             Pagamento pagamento = pagamentoService.criarPagamento(
                     funcionario,
                     YearMonth.of(ano.getValue(), mes.getValue()),
-                    getTextoFormatado(salarioLiquido.getText()),
-                    horaExtra.getValue(),
-                    minutoExtra.getValue(),
-                    horaFalta.getValue(),
-                    minutoFalta.getValue(),
-                    getTextoFormatado(lbInss.getText()),
-                    getTextoFormatado(lbIrpf.getText()),
-                    getTextoFormatado(lbFgts.getText()),
+                    proventos,
+                    descontos,
                     new Avaliacao(null, avaliacaoNota, avaliacaoObservacao, null)
             );
 

@@ -263,7 +263,10 @@ public class Dao<T> {
 
         try {
             TypedQuery<Pagamento> query = em.createQuery(
-                    "SELECT p FROM Pagamento p WHERE p.competencia = :competencia",
+                    "SELECT distinct p FROM Pagamento p " +
+                            "LEFT JOIN FETCH p.proventos " +
+                            "LEFT JOIN FETCH p.descontos " +
+                            "WHERE p.competencia = :competencia",
                     Pagamento.class
             );
             query.setParameter("competencia", competencia);

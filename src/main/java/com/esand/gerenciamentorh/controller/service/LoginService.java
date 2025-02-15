@@ -7,7 +7,6 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.util.List;
 
 public class LoginService {
-
     private final Dao<Login> loginDao = new Dao();
 
     public void salvar(Login login) {

@@ -8,7 +8,7 @@
 
 <FlowPane prefHeight="205.0" prefWidth="317.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.controller.LoginController">
     <children>
-      <VBox alignment="CENTER" prefHeight="320.0" prefWidth="315.0" spacing="20.0" style="-fx-background-color: white;">
+      <VBox alignment="CENTER" prefHeight="333.0" prefWidth="315.0" spacing="20.0" style="-fx-background-color: white;">
          <children>
             <ImageView fitHeight="71.0" fitWidth="71.0" pickOnBounds="true">
                <image>
@@ -39,6 +39,7 @@
                <VBox.margin>
                   <Insets />
                </VBox.margin></Button>
+            <Label fx:id="errorLabel" textFill="RED" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
