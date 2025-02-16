@@ -112,6 +112,22 @@ public class CadastroPagamentoController {
         configurarSpinner(minutoFalta, 0, 59, 0);
         configurarSpinner(mes, 1, 12, LocalDate.now().getMonthValue());
         configurarSpinner(ano, 1900, LocalDate.now().getYear(), LocalDate.now().getYear());
+
+        mes.valueProperty().addListener((obs, oldValue, newValue) -> {
+            avaliacaoNota = null;
+            avaliacaoObservacao = null;
+            if (funcionario != null) {
+                adicionarAvaliacao(funcionario);
+            }
+        });
+
+        ano.valueProperty().addListener((obs, oldValue, newValue) -> {
+            avaliacaoNota = null;
+            avaliacaoObservacao = null;
+            if (funcionario != null) {
+                adicionarAvaliacao(funcionario);
+            }
+        });
     }
 
     private void configurarSpinner(Spinner<Integer> spinner, int i, int i1, int i2) {
@@ -164,6 +180,14 @@ public class CadastroPagamentoController {
                         setValorFormatado(0)
                 ));
             });
+        }
+    }
+
+    private void adicionarAvaliacao(Funcionario funcionario) {
+        Pagamento pagamento = pagamentoService.buscarPorCpfECompetencia(funcionario.getCpf(), YearMonth.of(ano.getValue(), mes.getValue()));
+        if (pagamento != null) {
+            avaliacaoNota = pagamento.getAvaliacaoNota();
+            avaliacaoObservacao = pagamento.getAvaliacaoObservacao();
         }
     }
 

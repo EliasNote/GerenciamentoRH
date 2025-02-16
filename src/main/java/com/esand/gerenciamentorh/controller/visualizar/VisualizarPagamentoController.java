@@ -52,7 +52,7 @@ public class VisualizarPagamentoController {
     public void carregarPagamentos() {
         funcionarios.clear();
 
-        List<Pagamento> pagamentos = pagamentoService.buscarPagamentoPorCompetencia(YearMonth.of(ano.getValue(), mes.getValue()));
+        List<Pagamento> pagamentos = pagamentoService.buscarPorCompetencia(YearMonth.of(ano.getValue(), mes.getValue()));
 
         for (Pagamento pagamento : pagamentos) {
             funcionarios.add(

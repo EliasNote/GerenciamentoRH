@@ -60,7 +60,11 @@ public class PagamentoService {
         }
     }
 
-    public List<Pagamento> buscarPagamentoPorCompetencia(YearMonth competencia) {
+    public Pagamento buscarPorCpfECompetencia(String cpf, YearMonth competencia) {
+        return pagamentoDao.buscarPorCpfECompetencia(cpf, competencia);
+    }
+
+    public List<Pagamento> buscarPorCompetencia(YearMonth competencia) {
         return pagamentoDao.buscarPorCompetencia(competencia);
     }
 

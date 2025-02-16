@@ -51,6 +51,14 @@ public class Pagamento {
         return funcionario.getSalario();
     }
 
+    public Double getAvaliacaoNota() {
+        return avaliacao.getPontuacao();
+    }
+
+    public String getAvaliacaoObservacao() {
+        return avaliacao.getObservacao();
+    }
+
     public Long getId() {
         return id;
     }
