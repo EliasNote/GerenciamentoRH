@@ -9,14 +9,18 @@ import java.util.List;
 public class LoginService {
     private final Dao<Login> loginDao = new Dao();
 
-    public void salvar(Login login) {
-        validarCpf(login.getCpf());
+    public boolean salvar(Login login) {
+        if (!validarCpf(login.getCpf())) {
+            return false;
+        }
         login.setSenha(BCrypt.hashpw(login.getSenha(), BCrypt.gensalt()));
         loginDao.salvar(login);
+
+        return true;
     }
 
-    public void deletar(String cpf) {
-        loginDao.deletar(Login.class, cpf);
+    public boolean deletar(String cpf) {
+        return loginDao.deletar(Login.class, cpf);
     }
 
     public List<Login> buscarTodos() {
@@ -24,7 +28,7 @@ public class LoginService {
     }
 
     public boolean autenticar(String cpf, String senha) {
-        Login login = loginDao.buscarPorCpfEEmail(cpf, null);
+        Login login = loginDao.buscarLoginPorCpf(cpf);
         if (login == null) {
             return false;
         }

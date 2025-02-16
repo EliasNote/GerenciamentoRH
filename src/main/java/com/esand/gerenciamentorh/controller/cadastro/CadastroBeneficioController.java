@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import static com.esand.gerenciamentorh.controller.util.Utils.closeFxml;
+
 public class CadastroBeneficioController {
 
     @FXML private TextField tipoField, descricaoField, valorField;
@@ -17,7 +19,7 @@ public class CadastroBeneficioController {
     public static VisualizarBeneficioController visualizarBeneficioController;
 
     @FXML
-    private void salvarBeneficio() {
+    private void salvar() {
         String tipo = tipoField.getText();
         String descricao = descricaoField.getText();
         Double valor;
@@ -45,5 +47,7 @@ public class CadastroBeneficioController {
         errorLabel.setText("Benefício salvo com sucesso!");
 
         visualizarBeneficioController.atualizarTabela();
+
+        closeFxml();
     }
 }

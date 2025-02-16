@@ -15,7 +15,7 @@
                   <children>
                   <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../imagens/monitor.png" />
+                        <Image url="@../imagens/monitor.png" />
                      </image>
                   </ImageView>
                   <Label prefHeight="23.0" prefWidth="136.0" text="Nome do Sistema" textFill="WHITE">

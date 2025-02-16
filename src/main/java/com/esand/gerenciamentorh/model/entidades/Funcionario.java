@@ -1,9 +1,6 @@
 package com.esand.gerenciamentorh.model.entidades;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,9 +13,6 @@ public class Funcionario {
     private Long id;
     private String nome;
     private String sobrenome;
-    @CPF
-    @NotNull
-    @Size(min = 11, max = 11)
     @Column(unique = true)
     private String cpf;
     private String cargo;

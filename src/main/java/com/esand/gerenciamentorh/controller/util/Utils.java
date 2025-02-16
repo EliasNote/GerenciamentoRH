@@ -18,6 +18,7 @@ public class Utils {
     private static final NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
     private static final String TITULO = "Gerenciamento de Funcionários";
     private static final String VALUE_FORMAT = "%,.2f";
+    private static Stage stage = null;
 
     public static String setTextoFormatado(double valor) {
         return String.format(VALUE_FORMAT, valor);
@@ -49,9 +50,15 @@ public class Utils {
             stage.setTitle(TITULO);
             stage.setScene(scene);
             stage.show();
-            centerStage(stage);
+            Utils.stage = stage;            centerStage(stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static void closeFxml() {
+        if (stage != null) {
+            stage.close();
         }
     }
 

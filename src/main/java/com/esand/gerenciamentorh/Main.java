@@ -27,9 +27,9 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         inicializarAdmin();
         inicializarBeneficios();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(LOGIN.getPath()));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(FXML_PATH.getPath() + LOGIN.getPath()));
         Scene scene = new Scene(fxmlLoader.load());
-        String css = Main.class.getResource(STYLE.getPath()).toExternalForm();
+        String css = Main.class.getResource(FXML_PATH.getPath() + STYLE.getPath()).toExternalForm();
         scene.getStylesheets().add(css);
         stage.getIcons().add(new Image(Main.class.getResourceAsStream(ICON.getPath())));
         stage.setTitle("Gerenciamento de Funcionários");

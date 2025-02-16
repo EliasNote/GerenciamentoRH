@@ -10,8 +10,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.time.LocalDate;
 import java.util.List;
+
+import static com.esand.gerenciamentorh.controller.util.Utils.closeFxml;
 
 public class CadastroFuncionarioController {
 
@@ -55,6 +56,8 @@ public class CadastroFuncionarioController {
         Funcionario funcionario = criarFuncionario(salario);
         funcionarioService.salvar(funcionario);
         visualizarFuncionarioController.atualizarTabela();
+
+        closeFxml();
     }
 
     private boolean validarCampos() {

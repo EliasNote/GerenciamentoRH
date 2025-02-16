@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Dao<T> {
 
@@ -81,28 +82,34 @@ public class Dao<T> {
         }
     }
 
-    public void deletar(Class<T> object, String cpf) {
+    public boolean deletar(Class<T> object, String cpf) {
         EntityManager em = getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
         try {
             transaction.begin();
 
-            T loginExistente = em.createQuery("SELECT l FROM " + object.getSimpleName() + " l WHERE l.cpf = :cpf", object)
+            T objetoExistente = em.createQuery("SELECT l FROM " + object.getSimpleName() + " l WHERE l.cpf = :cpf", object)
                     .setParameter("cpf", cpf)
                     .getSingleResult();
 
-            if (loginExistente != null) {
-                em.remove(loginExistente);
-                transaction.commit();
+            if (objetoExistente == null) {
+                return false;
             }
+
+            em.remove(objetoExistente);
+            transaction.commit();
+
+            return true;
         } catch (NoResultException e) {
             System.out.println("Não encontrado");
+            return false;
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
             e.printStackTrace();
+            return false;
         } finally {
             em.close();
         }
@@ -170,18 +177,17 @@ public class Dao<T> {
         return funcionarios;
     }
 
-    public Login buscarPorCpfEEmail(String cpf, String email) {
+    public Login buscarLoginPorCpf(String cpf) {
         EntityManager em = getEntityManager();
 
         Login objeto = null;
-        String login = cpf != null ? cpf : email;
 
         try {
-            TypedQuery<Login> query = em.createQuery("SELECT t FROM Login t WHERE t.login = :login", Login.class);
-            query.setParameter("login", login);
+            TypedQuery<Login> query = em.createQuery("SELECT t FROM Login t WHERE t.cpf = :cpf", Login.class);
+            query.setParameter("cpf", cpf);
             objeto = query.getSingleResult();
         } catch (NoResultException e) {
-            System.out.println("Nada encontrado com o login: " + login);
+            System.out.println("Nada encontrado com o cpf: " + cpf);
         } catch (Exception e) {
             e.printStackTrace();
             if (em.getTransaction().isActive()) {

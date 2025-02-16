@@ -76,5 +76,7 @@
          </padding>
       </VBox>
       <Line endY="128.94546508789062" layoutX="508.0" layoutY="316.0" startY="-149.05455017089844" />
+      <Label fx:id="labelCadastro" layoutX="260.0" layoutY="410.0" textFill="RED" />
+      <Label fx:id="labelRemocao" layoutX="630.0" layoutY="410.0" />
    </children>
 </AnchorPane>

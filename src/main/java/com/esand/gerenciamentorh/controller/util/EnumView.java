@@ -1,10 +1,10 @@
 package com.esand.gerenciamentorh.controller.util;
 
 public enum EnumView {
-    FXML_PATH("/com/esand/gerenciamentorh/view/"),
+    FXML_PATH("/view/"),
 
-    LOGIN("view/login/login.fxml"),
-    STYLE("view/Style.css"),
+    LOGIN("login/login.fxml"),
+    STYLE("Style.css"),
     ICON("/imagens/monitor.png"),
 
     PRINCIPAL("principal.fxml"),

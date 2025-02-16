@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import static com.esand.gerenciamentorh.controller.util.Utils.closeFxml;
+
 public class EditarBeneficioController {
     @FXML private TextField tipoField, descricaoField, valorField;
     @FXML private Label errorLabel;
@@ -47,6 +49,8 @@ public class EditarBeneficioController {
         beneficioService.atualizar(beneficio);
 
         visualizarBeneficioController.atualizarTabela();
+
+        closeFxml();
     }
 
     private void carregarBeneficio() {
