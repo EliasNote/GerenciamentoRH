@@ -14,7 +14,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.List;
 
 import static com.esand.gerenciamentorh.controller.util.Utils.*;
@@ -87,8 +86,8 @@ public class VisualizarFuncionarioController {
                             funcionario.getSobrenome(),
                             funcionario.getCpf(),
                             funcionario.getCargo(),
-                            setTextoFormatado(funcionario.getSalario()),
-                            funcionario.getDataAdmissao().toString()
+                            setValorFormatado(funcionario.getSalario()),
+                            setDataFormatada(funcionario.getDataAdmissao())
                     )
             );
         }

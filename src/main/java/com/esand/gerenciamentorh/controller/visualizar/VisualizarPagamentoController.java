@@ -59,11 +59,11 @@ public class VisualizarPagamentoController {
                     new PagamentoDto(
                             pagamento.getNome(),
                             pagamento.getCpf(),
-                            setTextoFormatado(pagamento.getSalarioBruto()),
-                            setTextoFormatado(pagamentoService.getInss(pagamento)),
-                            setTextoFormatado(pagamentoService.getIrpf(pagamento)),
-                            setTextoFormatado(pagamentoService.getFgts(pagamento)),
-                            setTextoFormatado(pagamentoService.getSalarioLiquido(pagamento))
+                            setValorFormatado(pagamento.getSalarioBruto()),
+                            setValorFormatado(pagamentoService.getInss(pagamento)),
+                            setValorFormatado(pagamentoService.getIrpf(pagamento)),
+                            setValorFormatado(pagamentoService.getFgts(pagamento)),
+                            setValorFormatado(pagamentoService.getSalarioLiquido(pagamento))
                     )
             );
         }

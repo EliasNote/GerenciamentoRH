@@ -72,7 +72,7 @@ public class VisualizarBeneficioController {
             beneficios.add(
                     new BeneficioDto(
                             beneficio.getTipo(),
-                            setTextoFormatado(beneficio.getValor()),
+                            setValorFormatado(beneficio.getValor()),
                             beneficio.getDescricao()
                     )
             );

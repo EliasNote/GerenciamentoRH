@@ -10,26 +10,33 @@ import javafx.stage.Stage;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 import static com.esand.gerenciamentorh.controller.util.EnumView.*;
 
 public class Utils {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
     private static final String TITULO = "Gerenciamento de Funcionários";
     private static final String VALUE_FORMAT = "%,.2f";
     private static Stage stage = null;
 
-    public static String setTextoFormatado(double valor) {
+    public static String setValorFormatado(double valor) {
         return String.format(VALUE_FORMAT, valor);
     }
 
-    public static double getTextoFormatado(String textoFormatado) {
+    public static double getValorFormatado(String textoFormatado) {
         try {
             return nf.parse(textoFormatado).doubleValue();
         } catch (ParseException e) {
             throw new RuntimeException("Erro ao converter texto formatado para número", e);
         }
+    }
+
+    public static String setDataFormatada(LocalDate data) {
+        return data.format(formatter);
     }
 
     public static void loadChildrenFXML(Pane contentPane, String fxml) {
