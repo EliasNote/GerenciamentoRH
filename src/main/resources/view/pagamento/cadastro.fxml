@@ -42,7 +42,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Label fx:id="salvarLabel" layoutX="430.0" layoutY="643.0" textFill="WHITE" />
+      <Label fx:id="salvarLabel" layoutX="365.0" layoutY="650.0" />
       <Button layoutX="605.0" layoutY="132.0" mnemonicParsing="false" onAction="#abrirAvaliacoes" styleClass="botao" text="Avaliação" textFill="WHITE" />
       <HBox layoutX="761.0" layoutY="625.0" prefHeight="17.0" prefWidth="173.0" spacing="5.0">
          <children>

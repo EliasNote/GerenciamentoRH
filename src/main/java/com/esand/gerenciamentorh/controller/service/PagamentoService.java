@@ -40,7 +40,7 @@ public class PagamentoService {
         return pagamento;
     }
 
-    public String salvarPagamento(Pagamento pagamento) {
+    public boolean salvarPagamento(Pagamento pagamento) {
         try {
             if (pagamento.getAvaliacao() != null) {
                 pagamento.getAvaliacao().setPagamento(pagamento);
@@ -54,9 +54,9 @@ public class PagamentoService {
                 pagamentoDao.atualizar(pagamento);
             }
 
-            return "Pagamento salvo com sucesso!";
+            return true;
         } catch (Exception e) {
-            return "Erro ao salvar pagamento: " + e.getMessage();
+            return false;
         }
     }
 

@@ -274,9 +274,12 @@ public class CadastroPagamentoController {
                     new Avaliacao(null, avaliacaoNota, avaliacaoObservacao, null)
             );
 
-            salvarLabel.setText(pagamentoService.salvarPagamento(pagamento));
+            boolean sucesso = pagamentoService.salvarPagamento(pagamento);
+            salvarLabel.setText(sucesso ? "Pagamento salvo com sucesso!" : "Erro ao salvar pagamento");
+            salvarLabel.setStyle(sucesso ? "-fx-text-fill: green;" : "-fx-text-fill: red;");
         } catch (Exception e) {
-            salvarLabel.setText("Erro ao salvar: " + e.getMessage());
+            salvarLabel.setText("Erro ao salvar pagamento");
+            salvarLabel.setStyle("-fx-text-fill: red;");
         }
     }
 

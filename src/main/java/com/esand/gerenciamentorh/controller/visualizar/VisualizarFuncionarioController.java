@@ -3,6 +3,7 @@ package com.esand.gerenciamentorh.controller.visualizar;
 import com.esand.gerenciamentorh.controller.cadastro.CadastroFuncionarioController;
 import com.esand.gerenciamentorh.controller.editar.EditarFuncionarioController;
 import com.esand.gerenciamentorh.controller.service.FuncionarioService;
+import com.esand.gerenciamentorh.model.dto.FuncionarioDto;
 import com.esand.gerenciamentorh.model.entidades.Funcionario;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,24 +14,24 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.List;
 
-import static com.esand.gerenciamentorh.controller.util.Utils.loadFXML;
+import static com.esand.gerenciamentorh.controller.util.Utils.*;
 import static com.esand.gerenciamentorh.controller.util.EnumView.*;
 
 public class VisualizarFuncionarioController {
 
-    @FXML private TableView<Funcionario> tabela;
+    @FXML private TableView<FuncionarioDto> tabela;
     @FXML private TableColumn<Funcionario, Long> idColumn;
     @FXML private TableColumn<Funcionario, String> nomeColumn, sobrenomeColumn, cpfColumn, cargoColumn;
-    @FXML private TableColumn<Funcionario, Double> salarioColumn;
+    @FXML private TableColumn<Funcionario, String> salarioColumn;
     @FXML private TableColumn<Funcionario, LocalDate> admissaoColumn;
 
-    private ObservableList<Funcionario> funcionarios = FXCollections.observableArrayList();
+    private ObservableList<FuncionarioDto> funcionarios = FXCollections.observableArrayList();
     private FuncionarioService funcionarioService = new FuncionarioService();
 
     public void initialize() {
-        funcionarios.addAll(funcionarioService.buscarTodos());
-
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
         sobrenomeColumn.setCellValueFactory(new PropertyValueFactory<>("sobrenome"));
@@ -40,21 +41,22 @@ public class VisualizarFuncionarioController {
         admissaoColumn.setCellValueFactory(new PropertyValueFactory<>("dataAdmissao"));
 
         tabela.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        tabela.setItems(funcionarios);
+
+        carregarFuncionarios();
     }
 
     public void editar() {
-        Funcionario funcionario = tabela.getSelectionModel().getSelectedItem();
+        FuncionarioDto funcionario = tabela.getSelectionModel().getSelectedItem();
 
         if (funcionario != null) {
-            EditarFuncionarioController.funcionario = funcionario;
+            EditarFuncionarioController.funcionario = funcionarioService.buscarPorCpf(funcionario.getCpf());
             EditarFuncionarioController.visualizarFuncionarioController = this;
             loadFXML(FUNCIONARIO_EDITAR.getPath(), new Stage());
         }
     }
 
     public void excluir() {
-        Funcionario funcionario = tabela.getSelectionModel().getSelectedItem();
+        FuncionarioDto funcionario = tabela.getSelectionModel().getSelectedItem();
 
         if (funcionario != null) {
             funcionarioService.deletar(funcionario.getCpf());
@@ -68,8 +70,29 @@ public class VisualizarFuncionarioController {
     }
 
     public void atualizarTabela() {
-        funcionarios.clear();
-        funcionarios.addAll(funcionarioService.buscarTodos());
+        carregarFuncionarios();
         tabela.refresh();
+    }
+
+    public void carregarFuncionarios() {
+        funcionarios.clear();
+
+        List<Funcionario> funcionariosBuscados = funcionarioService.buscarTodos();
+
+        for (Funcionario funcionario : funcionariosBuscados) {
+            funcionarios.add(
+                    new FuncionarioDto(
+                            funcionario.getId(),
+                            funcionario.getNome(),
+                            funcionario.getSobrenome(),
+                            funcionario.getCpf(),
+                            funcionario.getCargo(),
+                            setTextoFormatado(funcionario.getSalario()),
+                            funcionario.getDataAdmissao().toString()
+                    )
+            );
+        }
+
+        tabela.setItems(this.funcionarios);
     }
 }
