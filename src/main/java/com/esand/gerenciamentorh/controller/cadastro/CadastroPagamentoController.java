@@ -70,7 +70,10 @@ public class CadastroPagamentoController {
         listaFolha.removeIf(campo ->
                 campo.getCampos().equals(HORAS_EXTRAS) ||
                 campo.getCampos().equals(HORAS_FALTAS) ||
-                campo.getCampos().equals(TOTAL)
+                campo.getCampos().equals(TOTAL) ||
+                campo.getCampos().equals(CalculoEnum.INSS.toString()) ||
+                campo.getCampos().equals(CalculoEnum.IRPF.toString()) ||
+                campo.getCampos().equals(CalculoEnum.FGTS.toString())
         );
 
         adicionarHorasExtras(funcionario);
