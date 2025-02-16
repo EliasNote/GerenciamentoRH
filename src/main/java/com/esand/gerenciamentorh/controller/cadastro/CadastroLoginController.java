@@ -6,7 +6,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.fxml.FXML;
 
-public class CadastroAcessoController {
+public class CadastroLoginController {
     @FXML private TextField cpf, cpfRemocao;
     @FXML private PasswordField senha;
 

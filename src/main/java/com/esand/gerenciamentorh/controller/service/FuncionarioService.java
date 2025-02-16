@@ -45,7 +45,7 @@ public class FuncionarioService {
     }
 
     public Funcionario buscarPorCpf(String cpf) {
-        return funcionarioDao.buscarFuncionarioPorCpf(cpf);
+        return funcionarioDao.buscarPorCpf(cpf);
     }
 
     public void atualizar(Funcionario funcionario) {

@@ -28,7 +28,7 @@
          <font>
             <Font name="System Bold" size="12.218181610107422" />
          </font></Button>
-      <Label layoutX="50.0" layoutY="50.0" stylesheets="@../Style.css" text="Funcionários" textFill="#2b2a2a">
+      <Label layoutX="50.0" layoutY="50.0" stylesheets="@../Style.css" text="Folhas de Pagmentos" textFill="#2b2a2a">
           <font>
               <Font name="System Bold" size="22.0" />
           </font>

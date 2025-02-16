@@ -1,8 +1,8 @@
-package com.esand.gerenciamentorh.controller.cadastro.calculo;
+package com.esand.gerenciamentorh.controller.util.calculo;
 
-import com.esand.gerenciamentorh.controller.cadastro.calculo.horas.HorasExtras;
-import com.esand.gerenciamentorh.controller.cadastro.calculo.horas.HorasFaltas;
-import com.esand.gerenciamentorh.controller.cadastro.calculo.impostos.*;
+import com.esand.gerenciamentorh.controller.util.calculo.horas.HorasExtras;
+import com.esand.gerenciamentorh.controller.util.calculo.horas.HorasFaltas;
+import com.esand.gerenciamentorh.controller.util.calculo.impostos.*;
 
 public enum CalculoEnum {
     INSS(new Inss()),

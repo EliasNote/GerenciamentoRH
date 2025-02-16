@@ -3,17 +3,18 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox alignment="TOP_CENTER" minHeight="231.0" minWidth="501.0" prefHeight="284.0" prefWidth="708.0" spacing="15.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.controller.cadastro.CadastroFuncionarioController">
+<VBox alignment="TOP_CENTER" minHeight="231.0" minWidth="501.0" prefHeight="284.0" prefWidth="708.0" spacing="15.0" stylesheets="@../Style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.controller.cadastro.CadastroFuncionarioController">
     <children>
       <HBox prefHeight="275.0" prefWidth="644.0">
          <children>
               <VBox alignment="TOP_CENTER" prefHeight="246.0" prefWidth="505.0" spacing="10.0">
                   <children>
-                      <GridPane minHeight="150.0" minWidth="475.0" prefHeight="202.0" prefWidth="475.0">
+                      <GridPane minHeight="150.0" minWidth="0.0" prefHeight="200.0" prefWidth="0.0">
                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="50.0" /> <!-- Coluna do Nome -->
-                              <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="400.0" minWidth="10.0" prefWidth="300.0" /> <!-- Coluna do Sobrenome (largura maior) -->
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="105.12726942834787" minWidth="10.0" prefWidth="94.12726942834787" /> <!-- Coluna do Nome -->
+                              <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="411.5818042900153" minWidth="10.0" prefWidth="401.5818042900153" /> <!-- Coluna do Sobrenome (largura maior) -->
                           </columnConstraints>
                           <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -23,25 +24,46 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                           <children>
-                              <Label text="Nome" />
+                              <Label text="Nome" textFill="#575757">
+                           <font>
+                              <Font name="System Bold" size="12.218181610107422" />
+                           </font></Label>
                               <TextField fx:id="nomeField" minHeight="26.0" minWidth="181.0" GridPane.columnIndex="1" />
-                              <Label text="Sobrenome" GridPane.rowIndex="1" />
-                              <TextField fx:id="sobrenomeField" minHeight="26.0" minWidth="381.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Label text="Cpf" GridPane.rowIndex="2" />
+                              <Label text="Sobrenome" textFill="#575757" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="System Bold" size="12.218181610107422" />
+                           </font></Label>
+                              <TextField fx:id="sobrenomeField" minHeight="26.0" minWidth="356.0" prefHeight="26.0" prefWidth="356.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label text="Cpf" textFill="#575757" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="System Bold" size="12.218181610107422" />
+                           </font></Label>
                               <TextField fx:id="cpfField" minWidth="149.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Label layoutX="10.0" layoutY="104.0" text="Cargo" GridPane.rowIndex="3" />
+                              <Label layoutX="10.0" layoutY="104.0" text="Cargo" textFill="#575757" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="System Bold" size="12.218181610107422" />
+                           </font></Label>
                               <TextField fx:id="cargoField" layoutX="105.0" layoutY="100.0" minWidth="149.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <Label text="Salário" GridPane.rowIndex="4" />
+                              <Label text="Salário" textFill="#575757" GridPane.rowIndex="4">
+                           <font>
+                              <Font name="System Bold" size="12.218181610107422" />
+                           </font></Label>
                               <TextField fx:id="salarioField" minWidth="151.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                           </children>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
                       </GridPane>
-                      <Button mnemonicParsing="false" onAction="#salvar" text="Salvar" />
+                      <Button mnemonicParsing="false" onAction="#salvar" prefHeight="30.0" prefWidth="85.0" styleClass="botao" text="Salvar" />
                   <Label fx:id="errorLabel" textFill="RED" />
                   </children>
               </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="275.0" prefWidth="167.0">
                <children>
-                  <Label text="Benefícios" />
+                  <Label text="Benefícios" textFill="#575757">
+                     <font>
+                        <Font name="System Bold" size="12.218181610107422" />
+                     </font></Label>
                   <ListView fx:id="beneficios" prefHeight="181.0" prefWidth="167.0" />
                   <DatePicker fx:id="dataField" />
                </children>

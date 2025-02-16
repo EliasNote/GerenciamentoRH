@@ -1,8 +1,8 @@
 package com.esand.gerenciamentorh;
 
-import com.esand.gerenciamentorh.controller.cadastro.calculo.impostos.Fgts;
-import com.esand.gerenciamentorh.controller.cadastro.calculo.impostos.Inss;
-import com.esand.gerenciamentorh.controller.cadastro.calculo.impostos.Irpf;
+import com.esand.gerenciamentorh.controller.util.calculo.impostos.Fgts;
+import com.esand.gerenciamentorh.controller.util.calculo.impostos.Inss;
+import com.esand.gerenciamentorh.controller.util.calculo.impostos.Irpf;
 import com.esand.gerenciamentorh.controller.service.BeneficioService;
 import com.esand.gerenciamentorh.controller.service.LoginService;
 import com.esand.gerenciamentorh.model.entidades.Beneficio;
@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
-import static com.esand.gerenciamentorh.controller.EnumView.*;
+import static com.esand.gerenciamentorh.controller.util.EnumView.*;
 
 public class Main extends Application {
 

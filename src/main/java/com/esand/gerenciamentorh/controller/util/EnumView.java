@@ -1,6 +1,7 @@
-package com.esand.gerenciamentorh.controller;
+package com.esand.gerenciamentorh.controller.util;
 
 public enum EnumView {
+    FXML_PATH("/com/esand/gerenciamentorh/view/"),
 
     LOGIN("view/login/login.fxml"),
     STYLE("view/Style.css"),
@@ -21,7 +22,6 @@ public enum EnumView {
     BENEFICIO_EDITAR("beneficio/editar.fxml"),
 
     LOGIN_CADASTRO("login/cadastro.fxml");
-
 
     public final String path;
 

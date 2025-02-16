@@ -1,6 +1,6 @@
 package com.esand.gerenciamentorh.controller.service;
 
-import com.esand.gerenciamentorh.controller.cadastro.calculo.CalculoEnum;
+import com.esand.gerenciamentorh.controller.util.calculo.CalculoEnum;
 import com.esand.gerenciamentorh.model.dao.Dao;
 import com.esand.gerenciamentorh.model.dto.CalculoDto;
 import com.esand.gerenciamentorh.model.entidades.Avaliacao;
@@ -25,7 +25,7 @@ public class PagamentoService {
     public Pagamento criarPagamento(Funcionario funcionario, YearMonth competencia,
                                     Map<String, Double> proventos, Map<String, Double> descontos,
                                     Avaliacao avaliacao) {
-        Pagamento pagamento = pagamentoDao.buscarPorFuncionarioECompetencia(funcionario.getCpf(), competencia);
+        Pagamento pagamento = pagamentoDao.buscarPorCpfECompetencia(funcionario.getCpf(), competencia);
 
         if (pagamento == null) {
             pagamento = new Pagamento();
@@ -61,7 +61,7 @@ public class PagamentoService {
     }
 
     public List<Pagamento> buscarPagamentoPorCompetencia(YearMonth competencia) {
-        return pagamentoDao.buscarPagamentosPorCompetencia(competencia);
+        return pagamentoDao.buscarPorCompetencia(competencia);
     }
 
     public void deletar(String cpf, YearMonth competencia) {

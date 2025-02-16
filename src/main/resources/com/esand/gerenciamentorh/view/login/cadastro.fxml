@@ -3,18 +3,19 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.controller.cadastro.CadastroAcessoController">
+<AnchorPane prefHeight="635.0" prefWidth="960.0" stylesheets="@../Style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esand.gerenciamentorh.controller.cadastro.CadastroLoginController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="13.0" layoutY="14.0" prefHeight="374.0" prefWidth="295.0" spacing="10.0">
+      <VBox alignment="TOP_CENTER" layoutX="162.0" layoutY="217.0" prefHeight="201.0" prefWidth="296.0" spacing="10.0">
          <children>
-            <Label text="Cadastro">
+            <Label text="Cadastro" textFill="#2b2a2a">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <GridPane>
+            <GridPane vgap="10.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="123.3636328831193" minWidth="0.0" prefWidth="52.23636179017633" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="256.3272637687245" minWidth="10.0" prefWidth="204.09090197854817" />
@@ -24,24 +25,33 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="CPF" />
+                  <Label text="CPF" textFill="#575757">
+                     <font>
+                        <Font name="System Bold" size="12.218181610107422" />
+                     </font></Label>
                   <TextField fx:id="cpf" prefHeight="26.0" prefWidth="148.0" GridPane.columnIndex="1" />
-                  <Label layoutX="10.0" layoutY="17.0" text="Senha" GridPane.rowIndex="1" />
+                  <Label layoutX="10.0" layoutY="17.0" text="Senha" textFill="#575757" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="12.218181610107422" />
+                     </font></Label>
                   <PasswordField fx:id="senha" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
-            <Button mnemonicParsing="false" onAction="#cadastrar" text="Cadastrar" />
+            <Button mnemonicParsing="false" onAction="#cadastrar" prefHeight="30.0" prefWidth="85.0" styleClass="botao" text="Cadastrar" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
       </VBox>
-      <VBox alignment="TOP_CENTER" layoutX="300.0" layoutY="14.0" prefHeight="374.0" prefWidth="295.0" spacing="10.0">
+      <VBox alignment="TOP_CENTER" layoutX="552.0" layoutY="218.0" prefHeight="175.0" prefWidth="296.0" spacing="10.0">
          <children>
-            <Label text="Remoção">
+            <Label text="Remoção" textFill="#2b2a2a">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </Label>
             <GridPane>
                <columnConstraints>
@@ -52,15 +62,19 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label text="CPF" />
+                  <Label text="CPF" textFill="#575757">
+                     <font>
+                        <Font name="System Bold" size="12.218181610107422" />
+                     </font></Label>
                   <TextField fx:id="cpfRemocao" prefHeight="26.0" prefWidth="148.0" GridPane.columnIndex="1" />
                </children>
             </GridPane>
-            <Button mnemonicParsing="false" onAction="#remover" text="Remover" />
+            <Button mnemonicParsing="false" onAction="#remover" prefHeight="30.0" prefWidth="85.0" styleClass="botao" text="Remover" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
       </VBox>
+      <Line endY="128.94546508789062" layoutX="508.0" layoutY="316.0" startY="-149.05455017089844" />
    </children>
 </AnchorPane>

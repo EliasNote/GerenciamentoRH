@@ -17,7 +17,7 @@ public class BeneficioService {
     }
 
     public Beneficio buscarBeneficioPorTipo(String tipo) {
-        return beneficioDao.buscarBeneficioPorTipo(tipo);
+        return beneficioDao.buscarPorTipo(tipo);
     }
 
     public void atualizar(Beneficio beneficio) {

@@ -13,7 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import static com.esand.gerenciamentorh.controller.util.Utils.loadFXML;
-import static com.esand.gerenciamentorh.controller.EnumView.*;
+import static com.esand.gerenciamentorh.controller.util.EnumView.*;
 
 public class VisualizarBeneficioController {
     @FXML private TableView<Beneficio> tabela;
@@ -39,15 +39,19 @@ public class VisualizarBeneficioController {
     }
 
     public void editar() {
-        EditarBeneficioController.beneficio = beneficioService.buscarBeneficioPorTipo(tabela.getSelectionModel().getSelectedItem().getTipo());
-        EditarBeneficioController.visualizarBeneficioController = this;
-        loadFXML(BENEFICIO_EDITAR.getPath(), new Stage());
+        Beneficio beneficioDto = tabela.getSelectionModel().getSelectedItem();
+
+        if (beneficioDto != null) {
+            EditarBeneficioController.beneficio = beneficioService.buscarBeneficioPorTipo(beneficioDto.getTipo());
+            EditarBeneficioController.visualizarBeneficioController = this;
+            loadFXML(BENEFICIO_EDITAR.getPath(), new Stage());
+        }
     }
 
     public void excluir() {
         Beneficio beneficioDto = tabela.getSelectionModel().getSelectedItem();
 
-        if (beneficioService.buscarBeneficioPorTipo(beneficioDto.getTipo()).getFuncionarios().isEmpty()) {
+        if (beneficioDto != null && beneficioService.buscarBeneficioPorTipo(beneficioDto.getTipo()).getFuncionarios().isEmpty()) {
             beneficioService.deletarPorTipo(beneficioDto.getTipo());
             beneficios.remove(beneficioDto);
         }

@@ -1,14 +1,10 @@
 package com.esand.gerenciamentorh.model.dao;
 
-import com.esand.gerenciamentorh.model.database.DataBase;
 import com.esand.gerenciamentorh.model.entidades.Beneficio;
 import com.esand.gerenciamentorh.model.entidades.Funcionario;
 import com.esand.gerenciamentorh.model.entidades.Login;
 import com.esand.gerenciamentorh.model.entidades.Pagamento;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -16,8 +12,14 @@ import java.util.List;
 
 public class Dao<T> {
 
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("gerenciamentoRh");
+
+    public static final EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
+
     public T salvar(T entity) {
-        EntityManager em = DataBase.getEntityManager();
+        EntityManager em = getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
@@ -36,7 +38,7 @@ public class Dao<T> {
     }
 
     public T atualizar(T entity) {
-        EntityManager em = DataBase.getEntityManager();
+        EntityManager em = getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
@@ -55,7 +57,7 @@ public class Dao<T> {
     }
 
     public void deletar(String tipo) {
-        EntityManager em = DataBase.getEntityManager();
+        EntityManager em = getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
         try {
@@ -80,7 +82,7 @@ public class Dao<T> {
     }
 
     public void deletar(Class<T> object, String cpf) {
-        EntityManager em = DataBase.getEntityManager();
+        EntityManager em = getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
         try {
@@ -95,6 +97,7 @@ public class Dao<T> {
                 transaction.commit();
             }
         } catch (NoResultException e) {
+            System.out.println("Não encontrado");
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -106,7 +109,7 @@ public class Dao<T> {
     }
 
     public void deletar(String cpf, YearMonth competencia) {
-        EntityManager em = DataBase.getEntityManager();
+        EntityManager em = getEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
         try {
@@ -138,7 +141,7 @@ public class Dao<T> {
     }
 
     public List<T> buscarTodos(Class<T> object) {
-        EntityManager em = DataBase.getEntityManager();
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<T> query = em.createQuery("SELECT t FROM " + object.getSimpleName() + " t", object);
             return query.getResultList();
@@ -148,7 +151,7 @@ public class Dao<T> {
     }
 
     public List<Funcionario> buscarTodos() {
-        EntityManager em = DataBase.getEntityManager();
+        EntityManager em = getEntityManager();
 
         List<Funcionario> funcionarios = new ArrayList<>();
 
@@ -167,8 +170,8 @@ public class Dao<T> {
         return funcionarios;
     }
 
-    public Login buscarPorLogin(String cpf, String email) {
-        EntityManager em = DataBase.getEntityManager();
+    public Login buscarPorCpfEEmail(String cpf, String email) {
+        EntityManager em = getEntityManager();
 
         Login objeto = null;
         String login = cpf != null ? cpf : email;
@@ -190,8 +193,8 @@ public class Dao<T> {
         return objeto;
     }
 
-    public Beneficio buscarBeneficioPorTipo(String tipo) {
-        EntityManager em = DataBase.getEntityManager();
+    public Beneficio buscarPorTipo(String tipo) {
+        EntityManager em = getEntityManager();
 
         Beneficio beneficio = null;
 
@@ -210,8 +213,8 @@ public class Dao<T> {
         return beneficio;
     }
 
-    public Funcionario buscarFuncionarioPorCpf(String cpf) {
-        EntityManager em = DataBase.getEntityManager();
+    public Funcionario buscarPorCpf(String cpf) {
+        EntityManager em = getEntityManager();
 
         Funcionario funcionario = null;
 
@@ -233,8 +236,8 @@ public class Dao<T> {
         return funcionario;
     }
 
-    public Pagamento buscarPorFuncionarioECompetencia(String cpf, YearMonth competencia) {
-        EntityManager em = DataBase.getEntityManager();
+    public Pagamento buscarPorCpfECompetencia(String cpf, YearMonth competencia) {
+        EntityManager em = getEntityManager();
 
         Pagamento pagamento = null;
 
@@ -257,8 +260,8 @@ public class Dao<T> {
         return pagamento;
     }
 
-    public List<Pagamento> buscarPagamentosPorCompetencia(YearMonth competencia) {
-        EntityManager em = DataBase.getEntityManager();
+    public List<Pagamento> buscarPorCompetencia(YearMonth competencia) {
+        EntityManager em = getEntityManager();
         List<Pagamento> pagamentos = new ArrayList<>();
 
         try {

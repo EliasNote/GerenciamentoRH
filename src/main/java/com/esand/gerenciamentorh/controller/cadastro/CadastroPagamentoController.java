@@ -1,7 +1,7 @@
 package com.esand.gerenciamentorh.controller.cadastro;
 
-import com.esand.gerenciamentorh.controller.cadastro.calculo.Calculadora;
-import com.esand.gerenciamentorh.controller.cadastro.calculo.CalculoEnum;
+import com.esand.gerenciamentorh.controller.util.calculo.Calculadora;
+import com.esand.gerenciamentorh.controller.util.calculo.CalculoEnum;
 import com.esand.gerenciamentorh.controller.service.FuncionarioService;
 import com.esand.gerenciamentorh.controller.service.PagamentoService;
 import com.esand.gerenciamentorh.model.dto.CalculoDto;
@@ -23,7 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.esand.gerenciamentorh.controller.util.Utils.*;
-import static com.esand.gerenciamentorh.controller.EnumView.*;
+import static com.esand.gerenciamentorh.controller.util.EnumView.*;
 
 public class CadastroPagamentoController {
 

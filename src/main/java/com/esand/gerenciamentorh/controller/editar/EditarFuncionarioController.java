@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditarFuncionarioController {
+    @FXML private DatePicker dataField;
     @FXML private TextField nomeField, sobrenomeField, cpfField, cargoField, salarioField;
     @FXML private Label errorLabel;
     @FXML private ListView<CheckBox> beneficios;
@@ -76,6 +77,7 @@ public class EditarFuncionarioController {
         cpfField.setText(funcionario.getCpf());
         cargoField.setText(funcionario.getCargo());
         salarioField.setText(funcionario.getSalario().toString());
+        dataField.setValue(funcionario.getDataAdmissao());
     }
 
     private void carregarBeneficios() {

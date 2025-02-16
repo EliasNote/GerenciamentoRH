@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
 import static com.esand.gerenciamentorh.controller.util.Utils.loadChildrenFXML;
-import static com.esand.gerenciamentorh.controller.EnumView.*;
+import static com.esand.gerenciamentorh.controller.util.EnumView.*;
 
 public class PrincipalController {
 

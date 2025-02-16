@@ -7,15 +7,15 @@ public class Login {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String login;
+    private String cpf;
     private String senha;
 
     public Login() {
     }
 
-    public Login(Long id, String login, String senha) {
+    public Login(Long id, String cpf, String senha) {
         this.id = id;
-        this.login = login;
+        this.cpf = cpf;
         this.senha = senha;
     }
 
@@ -27,12 +27,12 @@ public class Login {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getSenha() {

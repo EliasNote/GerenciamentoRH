@@ -1,6 +1,6 @@
-package com.esand.gerenciamentorh.controller.cadastro.calculo.impostos;
+package com.esand.gerenciamentorh.controller.util.calculo.impostos;
 
-import com.esand.gerenciamentorh.controller.cadastro.calculo.CalculoStrategy;
+import com.esand.gerenciamentorh.controller.util.calculo.CalculoStrategy;
 
 public class Irpf implements CalculoStrategy {
 

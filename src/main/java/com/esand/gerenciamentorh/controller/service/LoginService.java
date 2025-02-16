@@ -10,6 +10,7 @@ public class LoginService {
     private final Dao<Login> loginDao = new Dao();
 
     public void salvar(Login login) {
+        validarCpf(login.getCpf());
         login.setSenha(BCrypt.hashpw(login.getSenha(), BCrypt.gensalt()));
         loginDao.salvar(login);
     }
@@ -20,5 +21,29 @@ public class LoginService {
 
     public List<Login> buscarTodos() {
         return loginDao.buscarTodos(Login.class);
+    }
+
+    public boolean autenticar(String cpf, String senha) {
+        Login login = loginDao.buscarPorCpfEEmail(cpf, null);
+        if (login == null) {
+            return false;
+        }
+        return BCrypt.checkpw(senha, login.getSenha());
+    }
+
+    public boolean validarCpf(String cpf) {
+        String cpfFormatado = cpf.replaceAll("[.-]", "");
+
+        if (cpfFormatado.length() != 11) {
+            return false;
+        }
+
+        for (char x : cpfFormatado.toCharArray()) {
+            if (!Character.isDigit(x)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

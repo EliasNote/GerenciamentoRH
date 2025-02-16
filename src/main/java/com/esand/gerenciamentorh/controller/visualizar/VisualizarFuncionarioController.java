@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 
 import static com.esand.gerenciamentorh.controller.util.Utils.loadFXML;
-import static com.esand.gerenciamentorh.controller.EnumView.*;
+import static com.esand.gerenciamentorh.controller.util.EnumView.*;
 
 public class VisualizarFuncionarioController {
 
@@ -44,15 +44,22 @@ public class VisualizarFuncionarioController {
     }
 
     public void editar() {
-        EditarFuncionarioController.funcionario = tabela.getSelectionModel().getSelectedItem();
-        EditarFuncionarioController.visualizarFuncionarioController = this;
-        loadFXML(FUNCIONARIO_EDITAR.getPath(), new Stage());
+        Funcionario funcionario = tabela.getSelectionModel().getSelectedItem();
+
+        if (funcionario != null) {
+            EditarFuncionarioController.funcionario = funcionario;
+            EditarFuncionarioController.visualizarFuncionarioController = this;
+            loadFXML(FUNCIONARIO_EDITAR.getPath(), new Stage());
+        }
     }
 
     public void excluir() {
         Funcionario funcionario = tabela.getSelectionModel().getSelectedItem();
-        funcionarioService.deletar(funcionario.getCpf());
-        funcionarios.remove(funcionario);
+
+        if (funcionario != null) {
+            funcionarioService.deletar(funcionario.getCpf());
+            funcionarios.remove(funcionario);
+        }
     }
 
     public void cadastrar() {
