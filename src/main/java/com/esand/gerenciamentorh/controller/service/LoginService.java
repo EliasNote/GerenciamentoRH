@@ -6,6 +6,8 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 
+import static com.esand.gerenciamentorh.controller.util.Utils.validarCpf;
+
 public class LoginService {
     private final Dao<Login> loginDao = new Dao();
 
@@ -33,21 +35,5 @@ public class LoginService {
             return false;
         }
         return BCrypt.checkpw(senha, login.getSenha());
-    }
-
-    public boolean validarCpf(String cpf) {
-        String cpfFormatado = cpf.replaceAll("[.-]", "");
-
-        if (cpfFormatado.length() != 11) {
-            return false;
-        }
-
-        for (char x : cpfFormatado.toCharArray()) {
-            if (!Character.isDigit(x)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

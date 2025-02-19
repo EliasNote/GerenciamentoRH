@@ -39,6 +39,26 @@ public class Utils {
         return data.format(formatter);
     }
 
+    public static boolean validarCpf(String cpf) {
+        if (cpf == "1") {
+            return true;
+        }
+
+        String cpfFormatado = cpf.replaceAll("[.-]", "");
+
+        if (cpfFormatado.length() != 11) {
+            return false;
+        }
+
+        for (char x : cpfFormatado.toCharArray()) {
+            if (!Character.isDigit(x)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static void loadChildrenFXML(Pane contentPane, String fxml) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Utils.class.getResource(FXML_PATH.getPath() + fxml));

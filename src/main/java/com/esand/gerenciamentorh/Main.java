@@ -17,10 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.esand.gerenciamentorh.controller.util.EnumView.*;
 
@@ -29,14 +26,12 @@ public class Main extends Application {
     private final LoginService loginService = new LoginService();
     private final BeneficioService beneficioService = new BeneficioService();
     private final FuncionarioService funcionarioService = new FuncionarioService();
-    private final PagamentoService pagamentoService = new PagamentoService();
 
     @Override
     public void start(Stage stage) throws IOException {
         inicializarAdmin();
         inicializarBeneficios();
         inicializarFuncionarios();
-        inicializarPagamentos();
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(FXML_PATH.getPath() + LOGIN.getPath()));
         Scene scene = new Scene(fxmlLoader.load());
@@ -70,51 +65,45 @@ public class Main extends Application {
 
     private void inicializarBeneficios() {
         if (beneficioService.buscarTodos().isEmpty()) {
-            List<Beneficio> beneficios = List.of(
+            List<Beneficio> beneficios = Arrays.asList(
                     new Beneficio(null, "Vale Transporte", "Auxílio para transporte", 150.0, null),
                     new Beneficio(null, "Vale Refeição", "Auxílio para alimentação", 200.0, null),
                     new Beneficio(null, "Assistência Médica", "Plano de saúde", 500.0, null),
-                    new Beneficio(null, "Seguro de Vida", "Seguro de vida em grupo", 100.0, null)
+                    new Beneficio(null, "Seguro de Vida", "Seguro de vida em grupo", 100.0, null),
+                    new Beneficio(null, "Auxílio Creche", "Reembolso para despesas com creche", 250.0, null),
+                    new Beneficio(null, "Plano Odontológico", "Cobertura odontológica", 300.0, null)
             );
-
-            for (Beneficio beneficio : beneficios) {
-                beneficioService.salvar(beneficio);
-            }
+            beneficios.forEach(beneficioService::salvar);
         }
     }
 
     private void inicializarFuncionarios() {
         if (funcionarioService.buscarTodos().isEmpty()) {
-            List<Funcionario> funcionarios = List.of(
-                    new Funcionario(null, "João", "Silva", "12345678901", "Desenvolvedor", 5000.0, new ArrayList<>(), LocalDate.now(), new ArrayList<>()),
-                    new Funcionario(null, "Maria", "Oliveira", "10987654321", "Analista", 4500.0, new ArrayList<>(), LocalDate.now(), new ArrayList<>()),
-                    new Funcionario(null, "Carlos", "Santos", "11223344556", "Gerente", 7000.0, new ArrayList<>(), LocalDate.now(), new ArrayList<>()),
-                    new Funcionario(null, "Ana", "Costa", "22334455667", "Designer", 4000.0, new ArrayList<>(), LocalDate.now(), new ArrayList<>()),
-                    new Funcionario(null, "Pedro", "Almeida", "33445566778", "Tester", 3500.0, new ArrayList<>(), LocalDate.now(), new ArrayList<>()),
-                    new Funcionario(null, "Paula", "Souza", "44556677889", "Gerente de Projetos", 8000.0, new ArrayList<>(), LocalDate.now(), new ArrayList<>())
-            );
+            List<Beneficio> todosBeneficios = beneficioService.buscarTodos();
 
-            for (Funcionario funcionario : funcionarios) {
-                funcionarioService.salvar(funcionario);
-            }
+            Funcionario joao = criarFuncionario("João", "Silva", "12345678900", "Desenvolvedor", 5000.0, Arrays.asList(todosBeneficios.get(0), todosBeneficios.get(1)), LocalDate.of(2020, 1, 15));
+            Funcionario maria = criarFuncionario("Maria", "Oliveira", "98765432100", "Analista", 6000.0, todosBeneficios.subList(0, 4), LocalDate.of(2019, 5, 20));
+            Funcionario carlos = criarFuncionario("Carlos", "Santos", "45678912300", "Gerente", 8000.0, todosBeneficios, LocalDate.of(2018, 3, 10));
+            Funcionario ana = criarFuncionario("Ana", "Pereira", "78912345600", "Analista Sênior", 7000.0, new ArrayList<>(), LocalDate.of(2019, 8, 15));
+            Funcionario pedro = criarFuncionario("Pedro", "Gomes", "32165498700", "Estagiário", 2000.0, Collections.singletonList(todosBeneficios.get(0)), LocalDate.of(2022, 10, 1));
+            Funcionario lucas = criarFuncionario("Lucas", "Rodrigues", "65498732100", "Arquiteto", 9000.0, todosBeneficios.subList(2, 5), LocalDate.of(2017, 7, 12));
+            Funcionario patricia = criarFuncionario("Patricia", "Fernandes", "11223344550", "Desenvolvedora Júnior", 4000.0, Arrays.asList(todosBeneficios.get(1), todosBeneficios.get(3)), LocalDate.of(2023, 1, 10));
+            Funcionario roberto = criarFuncionario("Roberto", "Almeida", "99887766550", "Analista de Sistemas", 7500.0, todosBeneficios.subList(1, 5), LocalDate.of(2016, 9, 18));
+
+            List<Funcionario> funcionarios = Arrays.asList(joao, maria, carlos, ana, pedro, lucas, patricia, roberto);
+            funcionarios.forEach(funcionarioService::salvar);
         }
     }
 
-    private void inicializarPagamentos() {
-        if (pagamentoService.buscarTodos().isEmpty()) {
-            List<Funcionario> funcionarios = funcionarioService.buscarTodos();
-            for (Funcionario funcionario : funcionarios) {
-                Map<String, Double> proventos = new HashMap<>();
-                Map<String, Double> descontos = new HashMap<>();
-                Avaliacao avaliacao = null;
-
-                if (funcionario.getCpf().equals("12345678901") || funcionario.getCpf().equals("10987654321")) {
-                    avaliacao = new Avaliacao(null, 4.5, "Bom desempenho", null);
-                }
-
-                Pagamento pagamento = pagamentoService.criarPagamento(funcionario, YearMonth.now(), proventos, descontos, avaliacao);
-                pagamentoService.salvarPagamento(pagamento);
-            }
-        }
+    private Funcionario criarFuncionario(String nome, String sobrenome, String cpf, String cargo, Double salario, List<Beneficio> beneficios, LocalDate dataAdmissao) {
+        Funcionario funcionario = new Funcionario();
+        funcionario.setNome(nome);
+        funcionario.setSobrenome(sobrenome);
+        funcionario.setCpf(cpf);
+        funcionario.setCargo(cargo);
+        funcionario.setSalario(salario);
+        funcionario.setBeneficios(beneficios);
+        funcionario.setDataAdmissao(dataAdmissao);
+        return funcionario;
     }
 }

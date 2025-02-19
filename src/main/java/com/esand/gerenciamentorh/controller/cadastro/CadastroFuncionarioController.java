@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import java.util.List;
 
 import static com.esand.gerenciamentorh.controller.util.Utils.closeFxml;
+import static com.esand.gerenciamentorh.controller.util.Utils.validarCpf;
 
 public class CadastroFuncionarioController {
 
@@ -50,6 +51,11 @@ public class CadastroFuncionarioController {
 
         if (funcionarioService.buscarPorCpf(cpfField.getText()) != null) {
             errorLabel.setText("Funcionário com esse CPF já está cadastrado");
+            return;
+        }
+
+        if (!validarCpf(cpfField.getText())) {
+            errorLabel.setText("Cpf inválido");
             return;
         }
 
