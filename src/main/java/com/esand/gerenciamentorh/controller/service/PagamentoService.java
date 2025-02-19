@@ -22,6 +22,10 @@ public class PagamentoService {
         this.itens = itens;
     }
 
+    public List<Pagamento> buscarTodos() {
+        return pagamentoDao.buscarTodos(Pagamento.class);
+    }
+
     public Pagamento criarPagamento(Funcionario funcionario, YearMonth competencia,
                                     Map<String, Double> proventos, Map<String, Double> descontos,
                                     Avaliacao avaliacao) {

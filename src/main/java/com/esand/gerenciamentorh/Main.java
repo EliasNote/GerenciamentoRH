@@ -1,12 +1,13 @@
 package com.esand.gerenciamentorh;
 
+import com.esand.gerenciamentorh.controller.service.FuncionarioService;
+import com.esand.gerenciamentorh.controller.service.PagamentoService;
 import com.esand.gerenciamentorh.controller.util.calculo.impostos.Fgts;
 import com.esand.gerenciamentorh.controller.util.calculo.impostos.Inss;
 import com.esand.gerenciamentorh.controller.util.calculo.impostos.Irpf;
 import com.esand.gerenciamentorh.controller.service.BeneficioService;
 import com.esand.gerenciamentorh.controller.service.LoginService;
-import com.esand.gerenciamentorh.model.entidades.Beneficio;
-import com.esand.gerenciamentorh.model.entidades.Login;
+import com.esand.gerenciamentorh.model.entidades.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,7 +15,12 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.esand.gerenciamentorh.controller.util.EnumView.*;
 
@@ -22,11 +28,16 @@ public class Main extends Application {
 
     private final LoginService loginService = new LoginService();
     private final BeneficioService beneficioService = new BeneficioService();
+    private final FuncionarioService funcionarioService = new FuncionarioService();
+    private final PagamentoService pagamentoService = new PagamentoService();
 
     @Override
     public void start(Stage stage) throws IOException {
         inicializarAdmin();
         inicializarBeneficios();
+        inicializarFuncionarios();
+        inicializarPagamentos();
+
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(FXML_PATH.getPath() + LOGIN.getPath()));
         Scene scene = new Scene(fxmlLoader.load());
         String css = Main.class.getResource(FXML_PATH.getPath() + STYLE.getPath()).toExternalForm();
@@ -68,6 +79,41 @@ public class Main extends Application {
 
             for (Beneficio beneficio : beneficios) {
                 beneficioService.salvar(beneficio);
+            }
+        }
+    }
+
+    private void inicializarFuncionarios() {
+        if (funcionarioService.buscarTodos().isEmpty()) {
+            List<Funcionario> funcionarios = List.of(
+                    new Funcionario(null, "João", "Silva", "12345678901", "Desenvolvedor", 5000.0, new ArrayList<>(), LocalDate.now(), new ArrayList<>()),
+                    new Funcionario(null, "Maria", "Oliveira", "10987654321", "Analista", 4500.0, new ArrayList<>(), LocalDate.now(), new ArrayList<>()),
+                    new Funcionario(null, "Carlos", "Santos", "11223344556", "Gerente", 7000.0, new ArrayList<>(), LocalDate.now(), new ArrayList<>()),
+                    new Funcionario(null, "Ana", "Costa", "22334455667", "Designer", 4000.0, new ArrayList<>(), LocalDate.now(), new ArrayList<>()),
+                    new Funcionario(null, "Pedro", "Almeida", "33445566778", "Tester", 3500.0, new ArrayList<>(), LocalDate.now(), new ArrayList<>()),
+                    new Funcionario(null, "Paula", "Souza", "44556677889", "Gerente de Projetos", 8000.0, new ArrayList<>(), LocalDate.now(), new ArrayList<>())
+            );
+
+            for (Funcionario funcionario : funcionarios) {
+                funcionarioService.salvar(funcionario);
+            }
+        }
+    }
+
+    private void inicializarPagamentos() {
+        if (pagamentoService.buscarTodos().isEmpty()) {
+            List<Funcionario> funcionarios = funcionarioService.buscarTodos();
+            for (Funcionario funcionario : funcionarios) {
+                Map<String, Double> proventos = new HashMap<>();
+                Map<String, Double> descontos = new HashMap<>();
+                Avaliacao avaliacao = null;
+
+                if (funcionario.getCpf().equals("12345678901") || funcionario.getCpf().equals("10987654321")) {
+                    avaliacao = new Avaliacao(null, 4.5, "Bom desempenho", null);
+                }
+
+                Pagamento pagamento = pagamentoService.criarPagamento(funcionario, YearMonth.now(), proventos, descontos, avaliacao);
+                pagamentoService.salvarPagamento(pagamento);
             }
         }
     }
