@@ -37,5 +37,6 @@
       <Spinner fx:id="ano" layoutX="661.0" layoutY="53.0" prefHeight="26.0" prefWidth="72.0" />
       <Label layoutX="620.0" layoutY="33.0" text="Mês" />
       <Label layoutX="683.0" layoutY="33.0" text="Ano" />
+      <Pane layoutX="913.0" layoutY="110.0" prefHeight="39.0" prefWidth="23.0" style="-fx-background-color: white;" />
    </children>
 </AnchorPane>
