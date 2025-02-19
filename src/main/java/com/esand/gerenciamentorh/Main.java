@@ -57,7 +57,7 @@ public class Main extends Application {
 
     private void inicializarAdmin() {
         if (loginService.buscarTodos().isEmpty()) {
-            loginService.salvar(new Login(null, "1", "1"));
+            loginService.salvar(new Login(null, "12345678901", "123"));
         }
     }
 
