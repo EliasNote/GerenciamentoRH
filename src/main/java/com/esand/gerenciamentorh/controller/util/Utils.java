@@ -20,11 +20,12 @@ public class Utils {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
     private static final String TITULO = "Gerenciamento de Funcionários";
-    private static final String VALUE_FORMAT = "%,.2f";
     private static Stage stage = null;
 
     public static String setValorFormatado(double valor) {
-        return String.format(VALUE_FORMAT, valor);
+        nf.setMinimumFractionDigits(2);
+        nf.setMaximumFractionDigits(2);
+        return nf.format(valor);
     }
 
     public static double getValorFormatado(String textoFormatado) {
