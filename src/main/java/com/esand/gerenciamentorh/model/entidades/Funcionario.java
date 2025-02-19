@@ -13,10 +13,12 @@ public class Funcionario {
     private Long id;
     private String nome;
     private String sobrenome;
+
     @Column(unique = true)
     private String cpf;
     private String cargo;
     private Double salario = 0.00;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "funcionario_beneficio",
@@ -24,7 +26,8 @@ public class Funcionario {
             inverseJoinColumns = @JoinColumn(name = "beneficio_id")
     )
     private List<Beneficio> beneficios = new ArrayList<>();
-    private LocalDate dataAdmissao = LocalDate.now();
+    private LocalDate dataAdmissao;
+
     @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL)
     private List<Pagamento> pagamentos = new ArrayList<>();
 
