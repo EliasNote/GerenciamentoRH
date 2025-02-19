@@ -16,6 +16,7 @@ public class LoginService {
             return false;
         }
         login.setSenha(BCrypt.hashpw(login.getSenha(), BCrypt.gensalt()));
+        login.setCpf(login.getCpf().replaceAll("[.-]", ""));
         loginDao.salvar(login);
 
         return true;

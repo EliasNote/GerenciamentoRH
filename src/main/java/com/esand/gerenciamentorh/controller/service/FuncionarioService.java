@@ -41,6 +41,7 @@ public class FuncionarioService {
     }
 
     public void salvar(Funcionario funcionario) {
+        funcionario.setCpf(funcionario.getCpf().replaceAll("[.-]", ""));
         funcionarioDao.salvar(funcionario);
     }
 
