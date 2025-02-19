@@ -14,7 +14,7 @@ public class Dao<T> {
 
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("gerenciamentoRh");
 
-    private static final EntityManager getEntityManager() {
+    private static EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
