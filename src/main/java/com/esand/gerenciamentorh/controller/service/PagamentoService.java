@@ -1,6 +1,6 @@
 package com.esand.gerenciamentorh.controller.service;
 
-import com.esand.gerenciamentorh.controller.util.calculo.CalculoEnum;
+import com.esand.gerenciamentorh.controller.service.calculo.CalculoEnum;
 import com.esand.gerenciamentorh.model.dao.Dao;
 import com.esand.gerenciamentorh.model.dto.CalculoDto;
 import com.esand.gerenciamentorh.model.entidades.Avaliacao;

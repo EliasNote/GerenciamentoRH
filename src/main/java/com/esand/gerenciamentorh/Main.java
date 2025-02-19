@@ -1,10 +1,9 @@
 package com.esand.gerenciamentorh;
 
 import com.esand.gerenciamentorh.controller.service.FuncionarioService;
-import com.esand.gerenciamentorh.controller.service.PagamentoService;
-import com.esand.gerenciamentorh.controller.util.calculo.impostos.Fgts;
-import com.esand.gerenciamentorh.controller.util.calculo.impostos.Inss;
-import com.esand.gerenciamentorh.controller.util.calculo.impostos.Irpf;
+import com.esand.gerenciamentorh.controller.service.calculo.impostos.Fgts;
+import com.esand.gerenciamentorh.controller.service.calculo.impostos.Inss;
+import com.esand.gerenciamentorh.controller.service.calculo.impostos.Irpf;
 import com.esand.gerenciamentorh.controller.service.BeneficioService;
 import com.esand.gerenciamentorh.controller.service.LoginService;
 import com.esand.gerenciamentorh.model.entidades.*;
@@ -16,7 +15,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.*;
 
 import static com.esand.gerenciamentorh.controller.util.EnumView.*;

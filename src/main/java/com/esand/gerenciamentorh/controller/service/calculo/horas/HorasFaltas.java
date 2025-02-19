@@ -1,6 +1,6 @@
-package com.esand.gerenciamentorh.controller.util.calculo.horas;
+package com.esand.gerenciamentorh.controller.service.calculo.horas;
 
-import com.esand.gerenciamentorh.controller.util.calculo.CalculoStrategy;
+import com.esand.gerenciamentorh.controller.service.calculo.CalculoStrategy;
 
 public class HorasFaltas implements CalculoStrategy {
     @Override

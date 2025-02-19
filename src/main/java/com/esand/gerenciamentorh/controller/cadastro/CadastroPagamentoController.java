@@ -1,7 +1,7 @@
 package com.esand.gerenciamentorh.controller.cadastro;
 
-import com.esand.gerenciamentorh.controller.util.calculo.Calculadora;
-import com.esand.gerenciamentorh.controller.util.calculo.CalculoEnum;
+import com.esand.gerenciamentorh.controller.service.calculo.Calculadora;
+import com.esand.gerenciamentorh.controller.service.calculo.CalculoEnum;
 import com.esand.gerenciamentorh.controller.service.FuncionarioService;
 import com.esand.gerenciamentorh.controller.service.PagamentoService;
 import com.esand.gerenciamentorh.model.dto.CalculoDto;

@@ -1,6 +1,6 @@
-package com.esand.gerenciamentorh.controller.util.calculo.impostos;
+package com.esand.gerenciamentorh.controller.service.calculo.impostos;
 
-import com.esand.gerenciamentorh.controller.util.calculo.CalculoStrategy;
+import com.esand.gerenciamentorh.controller.service.calculo.CalculoStrategy;
 
 public class Fgts implements CalculoStrategy {
 
