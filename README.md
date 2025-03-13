@@ -50,3 +50,9 @@ GerenciamentoRH é um sistema para gerenciamento de funcionários com funcionali
 
 - Email: [elias.coder1@gmail.com](mailto:elias.coder1@gmail.com)
 - LinkedIn: [Elias Mathias Sand](https://www.linkedin.com/in/elias-mathias-sand-243398234/)
+
+---
+
+## 📄 Licença
+
+Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
