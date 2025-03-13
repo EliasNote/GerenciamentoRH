@@ -25,7 +25,7 @@ GerenciamentoRH é um sistema para gerenciamento de funcionários com funcionali
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seuusuario/GerenciamentoRH.git
+   git clone https://github.com/EliasNote/GerenciamentoRH.git
    ```
 2. Importe no seu IDE favorito.
 3. Execute o Maven para baixar as dependências:
@@ -48,11 +48,5 @@ GerenciamentoRH é um sistema para gerenciamento de funcionários com funcionali
 
 ## 📞 Contato
 
-- Email: [seuemail@exemplo.com](mailto:seuemail@exemplo.com)
-- LinkedIn: [Seu Perfil](https://www.linkedin.com/in/seuusuario)
-
----
-
-## 📄 Licença
-
-Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+- Email: [elias.coder1@gmail.com](mailto:elias.coder1@gmail.com)
+- LinkedIn: [Elias Mathias Sand](https://www.linkedin.com/in/elias-mathias-sand-243398234/)
